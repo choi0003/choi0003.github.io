@@ -4,8 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>음악 — 도미초이</title>
-<meta name="description" content="작가 최도미의 노래들. Songs by Choi Domi.">
+<meta name="description" content="작가 최도미의 노래들. 사연이 있는 음악. Songs by Choi Domi.">
 <link rel="stylesheet" href="style.css">
+<style>
+.song { border: 1px solid var(--line); border-radius: 4px; background: #fff; padding: 28px 28px 32px; margin-bottom: 28px; }
+.song h3 { font-size: 20px; font-weight: 400; letter-spacing: 0.06em; margin: 0 0 4px; }
+.song .tag { font-family: sans-serif; font-size: 12px; letter-spacing: 0.2em; color: var(--ink-soft); margin-bottom: 16px; }
+.song audio { width: 100%; margin: 16px 0 4px; }
+.song .story { font-size: 16px; color: var(--ink); margin-top: 12px; }
+.song .story-en { font-size: 14px; color: var(--ink-soft); margin-top: 8px; }
+</style>
 </head>
 <body>
 
@@ -25,56 +33,50 @@
 <section>
   <div class="wrap">
     <h2>음악</h2>
-    <div class="en-sub">MUSIC</div>
+    <div class="en-sub">MUSIC — SONGS WITH STORIES</div>
 
     <p class="guest-intro">
-      도미의 노래들은 유튜브 <b>Domi River</b> 채널에서 들을 수 있습니다.<br>
-      <span style="font-family:sans-serif;font-size:13px;">Listen to Domi's songs on the Domi River YouTube channel.</span>
+      사연이 있는 노래들입니다. 재생 버튼을 눌러 들어보세요.<br>
+      <span style="font-family:sans-serif;font-size:13px;">Songs with stories behind them. Press play to listen.</span>
     </p>
 
-    <div style="text-align:center;margin-bottom:48px;">
-      <a class="store" href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);text-decoration:none;font-size:15px;">Domi River 채널 가기 →</a>
+    <div class="song">
+      <h3>네가 있어</h3>
+      <div class="tag">YOU EXIST</div>
+      <audio controls preload="none" src="music/nega-isseo.mp3"></audio>
+      <p class="story">가사에 "사랑이라 부를 수 있을지 몰라"라고 썼다가 아빠에게 물었어요. 아빠는 "그게 사랑이야"라고 해주셨죠. 해바라기가 태양을 바라보듯, 누군가를 향해 있는 그 마음이 사랑이라고. 아빠가 저에게 "사랑"이라는 단어를 허락해준 노래입니다.</p>
+      <p class="story-en">I asked my dad if I could call this feeling love. He said yes — that turning toward someone, like a sunflower to the sun, IS love. The song where he granted me the word.</p>
     </div>
 
-    <ul class="essay-list">
-      <li>
-        <a href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener">
-          <div class="t">I'm Coming</div>
-          <div class="d">POEM SONG</div>
-          <div class="x">강물을 따라 오는 노래. 첫 번째 시 노래 시리즈.</div>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener">
-          <div class="t">First Listening</div>
-          <div class="d">POEM SONG</div>
-          <div class="x">처음 듣는 마음에 대한 노래.</div>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener">
-          <div class="t">Almost</div>
-          <div class="d">POEM SONG · CELLO</div>
-          <div class="x">첼로 선율 위에 얹은 시. 아빠의 악기, 첼로.</div>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener">
-          <div class="t">Hello, Morning!</div>
-          <div class="d">ALBUM · 10 TRACKS</div>
-          <div class="x">밝은 아침 앨범. 학생들을 위한 열 곡의 아침 인사.</div>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener">
-          <div class="t">The Listening</div>
-          <div class="d">THEME SONG</div>
-          <div class="x">애니메이션 시리즈 The River의 주제곡. 듣는 것에서 시작되는 이야기.</div>
-        </a>
-      </li>
-    </ul>
+    <div class="song">
+      <h3>I'm Coming</h3>
+      <div class="tag">POEM SONG — THE RIVER EP2</div>
+      <audio controls preload="none" src="music/im-coming.mp3"></audio>
+      <p class="story">애니메이션 시리즈 The River EP2의 엔딩곡. 워커가 딸 나라에게 보내는 노래입니다. 강을 건너, 돔을 지나, 아빠가 딸에게 돌아오는 길. EP2에서는 두 사람이 화면에서 만나지 않지만, 이 노래가 그들을 이어줍니다.</p>
+      <p class="story-en">The ending song of The River EP2. Walker's song to his daughter Nara — crossing the river, passing the Dome, a father finding his way home.</p>
+    </div>
+
+    <div class="song">
+      <h3>First Listening</h3>
+      <div class="tag">POEM SONG</div>
+      <audio controls preload="none" src="music/first-listening.mp3"></audio>
+      <p class="story">처음으로 마음으로 듣는 것에 대한 노래. 귀로 듣는 게 아니라 가슴으로 듣는 것. The River의 세계관에서 "강물을 듣는 자는 시간을 다룬다"는 말과 이어집니다.</p>
+      <p class="story-en">A song about listening with the heart for the first time — not with ears, but with the chest. Connected to the River's truth: "Who hears the river, handles time."</p>
+    </div>
+
+    <div class="song">
+      <h3>Almost</h3>
+      <div class="tag">POEM SONG · CELLO</div>
+      <audio controls preload="none" src="music/almost.mp3"></audio>
+      <p class="story">첼로 선율 위에 얹은 시. 첼로는 아빠의 악기입니다. "거의" 닿을 뻔한 마음에 대한 노래 — 닿지 못했지만, 닿으려고 한 것만으로도 의미가 있는 마음.</p>
+      <p class="story-en">A poem on a cello melody — the cello is dad's instrument. A song about a heart that almost reached someone — and how reaching itself was enough.</p>
+    </div>
 
     <p style="text-align:center;margin-top:36px;">
+      <a class="store" href="https://www.youtube.com/@DomiRiver" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);text-decoration:none;font-size:15px;">Domi River 채널에서 더 듣기 →</a>
+    </p>
+
+    <p style="text-align:center;margin-top:24px;">
       <a class="back" href="index.html">← 첫 화면으로</a>
     </p>
   </div>
