@@ -1,0 +1,262 @@
+/* 작가와 사람들 — warm & calm */
+:root {
+  --ink: #3a3733;
+  --ink-soft: #6b6560;
+  --line: #e4ded6;
+  --bg: #fdfcfa;
+  --accent: #a4762a;
+  --accent-soft: #f5efe3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+  line-height: 1.9;
+  font-size: 17px;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- nav ---- */
+nav {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.brand {
+  font-size: 19px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: var(--ink);
+}
+.brand small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--ink-soft);
+  font-family: sans-serif;
+}
+.nav-links a {
+  margin-left: 22px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ---- hero ---- */
+.hero {
+  text-align: center;
+  padding: 72px 0 56px;
+}
+.hero h1 {
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  margin: 0 0 8px;
+}
+.hero .en {
+  font-family: sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  color: var(--ink-soft);
+}
+.hero p.lead {
+  margin-top: 28px;
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+
+hr.soft {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ---- sections ---- */
+section { padding: 56px 0; }
+section h2 {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-align: center;
+  margin: 0 0 6px;
+}
+section h2 + .en-sub {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: var(--ink-soft);
+  margin-bottom: 36px;
+}
+
+.author-card {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 36px 32px;
+  background: #fff;
+  text-align: center;
+}
+.author-card .name {
+  font-size: 24px;
+  letter-spacing: 0.18em;
+  margin-bottom: 4px;
+}
+.author-card .name-en {
+  font-family: sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+.author-card p { text-align: left; margin: 14px 0; }
+.quote {
+  margin: 26px 0 6px;
+  padding: 18px 24px;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+.quote small {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* ---- books ---- */
+.books {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.book {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  padding: 24px 20px 28px;
+  text-align: center;
+}
+.book img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+.book h3 {
+  font-size: 17px;
+  font-weight: 400;
+  margin: 18px 0 4px;
+  letter-spacing: 0.04em;
+}
+.book .meta {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: sans-serif;
+  letter-spacing: 0.06em;
+}
+.book .store {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+.book .store:hover { background: var(--accent-soft); }
+.book .note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ---- essays ---- */
+.essay-list { list-style: none; margin: 0; padding: 0; }
+.essay-list li {
+  border-bottom: 1px solid var(--line);
+  padding: 26px 4px;
+}
+.essay-list li:first-child { border-top: 1px solid var(--line); }
+.essay-list a { text-decoration: none; color: var(--ink); display: block; }
+.essay-list a:hover .t { color: var(--accent); }
+.essay-list .t { font-size: 19px; letter-spacing: 0.04em; }
+.essay-list .d {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: sans-serif;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+.essay-list .x {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+.essay-body { font-size: 17px; }
+.essay-body p { margin: 1.4em 0; }
+.essay-head { text-align: center; margin-bottom: 40px; }
+.essay-head h1 { font-size: 28px; font-weight: 400; letter-spacing: 0.1em; margin: 0 0 8px; }
+.essay-head .date {
+  font-family: sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+.back { display: inline-block; margin-top: 40px; color: var(--ink-soft); text-decoration: none; font-size: 15px; }
+.back:hover { color: var(--accent); }
+
+/* ---- guestbook ---- */
+.guest-intro { text-align: center; color: var(--ink-soft); margin-bottom: 36px; }
+.giscus-box {
+  border: 1px dashed var(--line);
+  border-radius: 4px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 15px;
+  background: #fff;
+}
+
+/* ---- footer ---- */
+footer {
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  padding: 32px 0 48px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* ---- mobile ---- */
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .hero { padding: 52px 0 40px; }
+  .hero h1 { font-size: 27px; }
+  .books { grid-template-columns: 1fr; }
+  .nav-links a { margin-left: 14px; font-size: 14px; }
+  section { padding: 40px 0; }
+}
