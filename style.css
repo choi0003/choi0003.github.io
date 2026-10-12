@@ -260,3 +260,15 @@ footer {
   .nav-links a { margin-left: 14px; font-size: 14px; }
   section { padding: 40px 0; }
 }
+
+/* ---- comments (giscus) ---- */
+.comments {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.comments h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
