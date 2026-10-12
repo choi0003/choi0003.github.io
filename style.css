@@ -261,14 +261,48 @@ footer {
   section { padding: 40px 0; }
 }
 
-/* ---- comments (giscus) ---- */
-.comments {
-  margin-top: 48px;
-  padding-top: 32px;
+/* ---- 영속 미니 플레이어 ---- */
+#mini-player {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.97);
   border-top: 1px solid var(--line);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+  font-family: sans-serif;
 }
-.comments h2 {
-  font-size: 20px;
-  margin-bottom: 16px;
-  color: var(--ink);
+#mini-player.visible { display: flex; }
+#mp-toggle, #mp-close {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
+#mp-toggle:hover, #mp-close:hover { border-color: var(--accent); color: var(--accent); }
+#mp-info { flex: 1; min-width: 0; }
+#mp-title { font-size: 13px; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#mp-progress { height: 4px; background: #eee; border-radius: 2px; cursor: pointer; }
+#mp-bar { height: 100%; width: 0; background: var(--accent); border-radius: 2px; }
+/* 플레이어가 뜰 때 푸터가 가려지지 않도록 */
+#mini-player.visible ~ footer, body:has(#mini-player.visible) footer { padding-bottom: 76px; }
+
+/* ---- 곡 재생 버튼 ---- */
+.song-play {
+  display: inline-block;
+  margin: 16px 0 4px;
+  padding: 10px 24px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 15px;
+  cursor: pointer;
+}
+.song-play:hover { background: var(--accent); color: #fff; }
