@@ -236,6 +236,22 @@
   .stepper-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
   .stepper-row .lbl{font-weight:700;color:var(--navy);min-width:110px}
   @media print{ body.sheet-printing header.top,body.sheet-printing nav.bar,body.sheet-printing .wrap{display:none !important} body.sheet-printing #result-sheet{display:block !important} }
+  /* ---------- per-day views ---------- */
+  .view{display:none}
+  .view.on{display:block}
+  #bar-stack{position:sticky;top:0;z-index:45;background:#fff}
+  #bar-stack nav.bar{position:static}
+  .viewbar{background:#fff;border-bottom:1px solid var(--line)}
+  .viewbar-in{max-width:1060px;margin:0 auto;padding:8px 18px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .viewbar .spacer{flex:1}
+  .vchip{display:inline-flex;align-items:center;min-height:36px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-weight:700;font-size:.86rem;color:var(--navy);white-space:nowrap;cursor:pointer}
+  .vchip:hover{background:var(--navy-soft)}
+  .vchip.now{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .vprog{font-size:.82rem;font-weight:800;color:var(--navy);background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:999px;padding:5px 12px;font-variant-numeric:tabular-nums}
+  .view-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:30px 0 4px}
+  .view-head{margin-top:20px}
+  section.block,.card[id],.sec-title[id],.day-banner[id],.day-card[id],.grid2>[id]{scroll-margin-top:172px}
+  @media print{ .viewbar{display:none !important} }
 </style>
 </head>
 <body>
@@ -277,6 +293,24 @@
       <button type="button" id="lang-es" aria-pressed="false">ES</button>
     </span>
     <span class="mode-pill" id="mode-pill">Student mode</span>
+  </div>
+</nav>
+
+<nav class="viewbar" aria-label="Day views / Vistas por día">
+  <div class="viewbar-in">
+    <button type="button" class="vchip" data-view-link="home"><span data-i18n="nav.home">Home</span></button>
+    <button type="button" class="vchip" data-view-link="day2"><span data-i18n="nav.day">Day</span>&nbsp;2</button>
+    <button type="button" class="vchip" data-view-link="day3"><span data-i18n="nav.day">Day</span>&nbsp;3</button>
+    <button type="button" class="vchip" data-view-link="day4"><span data-i18n="nav.day">Day</span>&nbsp;4</button>
+    <button type="button" class="vchip" data-view-link="day5"><span data-i18n="nav.day">Day</span>&nbsp;5</button>
+    <button type="button" class="vchip" data-view-link="day6"><span data-i18n="nav.day">Day</span>&nbsp;6</button>
+    <button type="button" class="vchip" data-view-link="day7"><span data-i18n="nav.day">Day</span>&nbsp;7</button>
+    <button type="button" class="vchip" data-view-link="day8"><span data-i18n="nav.day">Day</span>&nbsp;8</button>
+    <button type="button" class="vchip" data-view-link="day9"><span data-i18n="nav.day">Day</span>&nbsp;9</button>
+    <button type="button" class="vchip" data-view-link="day10"><span data-i18n="nav.day">Day</span>&nbsp;10</button>
+    <button type="button" class="vchip" data-view-link="day11"><span data-i18n="nav.day">Day</span>&nbsp;11</button>
+    <span class="spacer"></span>
+    <span class="vprog" title="Questions correct / Preguntas correctas"><span id="nav-progress">0/41</span></span>
   </div>
 </nav>
 
@@ -2386,6 +2420,387 @@ document.addEventListener("click",function(e){
   }
 });
 if("speechSynthesis" in window){ try{ window.speechSynthesis.getVoices(); }catch(e){} }
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   PER-DAY VIEW ROUTER
+   Reorganizes the existing page into one-view-at-a-time day
+   screens. No content, question, grading, explorer, essay, or
+   storage code is changed — existing DOM nodes are moved into
+   view containers, and navigation switches which one shows.
+   Hashes: #home · #day-2 … #day-11 · #essay-plan · #essay-write.
+   Legacy in-page anchors (#explorer-jobs, #practice-11-qc, …)
+   are mapped to the view that now holds the target.
+   ============================================================ */
+(function(){
+  /* ---- Spanish/English labels for the new navigation ---- */
+  DICT.en["nav.home"]="Home"; DICT.es["nav.home"]="Inicio";
+  DICT.en["nav.day"]="Day"; DICT.es["nav.day"]="Día";
+  DICT.en["nav.prev"]="← Previous"; DICT.es["nav.prev"]="← Anterior";
+  DICT.en["nav.next"]="Next →"; DICT.es["nav.next"]="Siguiente →";
+  DICT.en["essay.writeH"]="Essay Writing — Draft your three paragraphs";
+  DICT.es["essay.writeH"]="Escritura del ensayo — Escribe tus tres párrafos";
+  DICT.en["essay.openPlan"]="Open Essay Planning — Steps 1–4 →";
+  DICT.es["essay.openPlan"]="Abrir la planificación del ensayo — Pasos 1–4 →";
+  DICT.en["essay.openWrite"]="Open Essay Writing — the draft editor →";
+  DICT.es["essay.openWrite"]="Abrir la escritura del ensayo — el editor del borrador →";
+  DICT.en["essay.goWrite"]="Continue to Essay Writing →";
+  DICT.es["essay.goWrite"]="Continuar a la escritura del ensayo →";
+  DICT.en["essay.goPlan"]="← Back to Essay Planning";
+  DICT.es["essay.goPlan"]="← Volver a la planificación del ensayo";
+  DICT.en["gym.open"]="Open the gym explorer →";
+  DICT.es["gym.open"]="Abrir el explorador del gimnasio →";
+  DICT.en["day10.jobs"]="Replay: Job explorer →";
+  DICT.es["day10.jobs"]="Repetir: explorador de trabajos →";
+  DICT.en["day10.gym"]="Replay: Gym explorer →";
+  DICT.es["day10.gym"]="Repetir: explorador del gimnasio →";
+
+  var ORDER=["home","day2","day3","day4","day5","day6","day7","day8","essay-plan","day9","essay-write","day10","day11"];
+  var HASH={home:"#home","essay-plan":"#essay-plan","essay-write":"#essay-write"};
+  ORDER.forEach(function(v){ if(v.indexOf("day")===0) HASH[v]="#day-"+v.slice(3); });
+
+  function byId(id){ return document.getElementById(id); }
+  var wrap=document.querySelector(".wrap");
+  var viewsHost=document.createElement("div"); viewsHost.id="views";
+  wrap.insertBefore(viewsHost, wrap.firstChild);
+  var VIEWS={};
+  ORDER.forEach(function(name){
+    var s=document.createElement("section");
+    s.className="view"; s.id="view-"+name; s.setAttribute("data-view",name);
+    viewsHost.appendChild(s); VIEWS[name]=s;
+  });
+  function mv(node, view){ if(node) VIEWS[view].appendChild(node); return node; }
+
+  /* day header for a day view = a copy of that day's home day-card (title + minute plan) */
+  function dayHead(n){
+    var src=byId("day-card-"+n); if(!src) return null;
+    var c=src.cloneNode(true);
+    c.removeAttribute("id"); c.classList.add("view-head");
+    var links=c.querySelector(".day-links"); if(links) links.remove();
+    c.querySelectorAll(".day-no, h3, .mins li span:first-child").forEach(function(elm){
+      var en=elm.getAttribute("data-en-text"); if(en) elm.textContent=en;
+    });
+    return c;
+  }
+
+  var exploreSec=byId("explore"), practiceSec=byId("practice"),
+      ideasSec=byId("ideas"), essaySec=byId("essay");
+
+  /* ---- split the shared Key Ideas grid: §1.1 cards stay, §1.2 cards get their own grid ---- */
+  var grid12=document.createElement("div");
+  grid12.className="grid2 bi-card"; grid12.id="ideas-grid-12"; grid12.setAttribute("data-mode","en");
+  var tools12=ideasSec.querySelector("[data-bi-for]").cloneNode(true);
+  tools12.setAttribute("data-bi-for","ideas-grid-12");
+  var lbtn=tools12.querySelector("[data-listen]"); if(lbtn) lbtn.setAttribute("data-listen","ideas-grid-12");
+  grid12.appendChild(byId("ideas-evaluating"));
+  grid12.appendChild(byId("ideas-order"));
+
+  /* ---- Day 4 gym Decision intro card (the interactive gym explorer itself lives on Day 5, as its tag and the Day 5 card specify) ---- */
+  var gymCard=document.createElement("div");
+  gymCard.className="card bi-card"; gymCard.id="gym-decision-card"; gymCard.setAttribute("data-mode","en");
+  gymCard.innerHTML='<span class="tag">Day 4 · §1.2 Teach · The Decision</span>'+
+    '<h3 style="margin-top:8px">Two gym memberships</h3>'+
+    '<div class="bi-tools"><span class="bi-switch" role="group" aria-label="Card language / Idioma de la tarjeta">'+
+    '<button type="button" data-setmode="en" aria-pressed="true">EN</button>'+
+    '<button type="button" data-setmode="es" aria-pressed="false">ES</button>'+
+    '<button type="button" data-setmode="both" aria-pressed="false">EN + ES</button></span>'+
+    '<button type="button" class="listen-btn" data-listen="gym-decision-card">🔊 <span data-i18n="btn.listen">Listen</span></button>'+
+    '<button type="button" class="listen-stop" data-stop>■ <span data-i18n="btn.stop">Stop</span></button></div>'+
+    '<p class="v-en"><strong>FitZone</strong> charges a $40 signup fee plus $25 per month. <strong>FlexGym</strong> charges a '+
+    '$10 signup fee plus $35 per month. Today you learn to <em>evaluate</em> expressions like 40 + 25m and 10 + 35m — '+
+    'substitute a stay length, then compute. The gym explorer itself lives with the §1.2 practice set on Day 5, where '+
+    'you will put those evaluations to work and hunt for the month where the two totals tie.</p>'+
+    '<p class="v-es"><strong>FitZone</strong> cobra una cuota de inscripción de $40 más $25 por mes. <strong>FlexGym</strong> cobra una '+
+    'cuota de inscripción de $10 más $35 por mes. Hoy aprendes a <em>evaluar</em> expresiones como 40 + 25m y 10 + 35m: '+
+    'sustituye una duración y luego calcula. El explorador del gimnasio está con el conjunto de práctica de §1.2 en el '+
+    'Día 5, donde pondrás esas evaluaciones a trabajar y buscarás el mes en que los dos totales empatan.</p>'+
+    '<p><button type="button" class="btn ghost small" data-view-link="day5" data-view-target="explorer-gym"><span data-i18n="gym.open">Open the gym explorer →</span></button></p>';
+
+  /* ---- AI Lab cards (the lab as the chapter describes it: four levels, ending at Level 4 · Decide) ---- */
+  function aiLabCard(tag, decEn, decEs){
+    var c=document.createElement("div"); c.className="card tint";
+    c.innerHTML='<span class="tag amber">AI Lab · '+tag+'</span>'+
+      '<h3 style="margin-top:8px">AI Lab — work the four levels</h3>'+
+      '<p>Climb the lab\u2019s four levels — <strong>Understand, Apply, Matter</strong> — and finish at '+
+      '<strong>Level 4 · Decide</strong>, which returns to this section\u2019s Decision ('+decEn+'). The AI works as a '+
+      'decision coach: it asks questions one at a time until you find the breakeven yourself. The lab rule, word for '+
+      'word: <em>\u201cDon\u2019t just give me the answer.\u201d</em> Debrief the reasoning you used — never a show of hands '+
+      'on the verdict; verdicts are defended in the essay.</p>'+
+      '<p class="frame-es">Sube los cuatro niveles del laboratorio — <strong>Entender, Aplicar, Importancia</strong> — '+
+      'y termina en el <strong>Nivel 4 · Decidir</strong>, que vuelve a la Decisión de esta sección ('+decEs+'). La IA '+
+      'trabaja como entrenadora de decisiones: hace preguntas de una en una hasta que encuentres el punto de '+
+      'equilibrio por tu cuenta. La regla del laboratorio, palabra por palabra: <em>«No me des la respuesta '+
+      'directamente»</em>. Comenta el razonamiento que usaste, nunca una votación sobre el veredicto: los veredictos '+
+      'se defienden en el ensayo.</p>';
+    return c;
+  }
+
+  /* ---- HOME: year strip, chapter day list, My Progress, glossary, Teacher Corner, hosting ---- */
+  mv(byId("year"),"home");
+  mv(byId("days"),"home");
+  mv(byId("progress"),"home");
+  mv(byId("glossary"),"home");
+  mv(byId("teacher"),"home");
+  mv(byId("hosting"),"home");
+
+  /* ---- DAY 2 · §1.1 Lesson ---- */
+  mv(dayHead(2),"day2");
+  mv(exploreSec.querySelector(".sec-head"),"day2");
+  mv(byId("explorer-jobs"),"day2");
+  mv(ideasSec.querySelector(".sec-head"),"day2");
+  mv(ideasSec.querySelector("[data-bi-for]"),"day2");
+  mv(byId("ideas-grid"),"day2");
+  mv(practiceSec.querySelector(".sec-head"),"day2");
+
+  /* ---- DAY 3 · §1.1 Practice + AI Lab (questions arrive in the group pass below) ---- */
+  mv(dayHead(3),"day3");
+
+  /* ---- DAY 4 · §1.2 Lesson ---- */
+  mv(dayHead(4),"day4");
+  mv(gymCard,"day4");
+  mv(tools12,"day4");
+  mv(grid12,"day4");
+
+  /* ---- DAY 5 · §1.2 Practice + AI Lab ---- */
+  mv(dayHead(5),"day5");
+  mv(byId("explorer-gym"),"day5");
+
+  /* ---- DAY 6 · Review ---- */
+  mv(dayHead(6),"day6");
+
+  /* ---- DAY 7 · Chapter Test ---- */
+  mv(dayHead(7),"day7");
+  mv(byId("day7-test"),"day7");
+  var d7card=document.createElement("div"); d7card.className="card";
+  d7card.innerHTML='<div class="day-links"><a class="go teacher-only" href="#builder-card" data-jump>Teacher: Assignment Builder ↓</a>'+
+    '<span style="font-size:.86rem;color:var(--muted)">No student site work today — test in class</span></div>';
+  mv(d7card,"day7");
+
+  /* ---- DAY 8 · Essay Planning guidance ---- */
+  mv(dayHead(8),"day8");
+  mv(byId("essay-planning"),"day8");
+  var openPlan=document.createElement("div"); openPlan.className="card";
+  openPlan.innerHTML='<button type="button" class="btn amber" data-view-link="essay-plan"><span data-i18n="essay.openPlan">Open Essay Planning — Steps 1–4 →</span></button>';
+  mv(openPlan,"day8");
+
+  /* ---- DAY 9 · Essay Writing guidance ---- */
+  mv(dayHead(9),"day9");
+  mv(byId("essay-writing"),"day9");
+  var openWrite=document.createElement("div"); openWrite.className="card";
+  openWrite.innerHTML='<button type="button" class="btn amber" data-view-link="essay-write"><span data-i18n="essay.openWrite">Open Essay Writing — the draft editor →</span></button>';
+  mv(openWrite,"day9");
+
+  /* ---- ESSAY-PLAN view: Steps 1–4 over the same stored essay state ---- */
+  mv(essaySec.querySelector(".sec-head"),"essay-plan");
+  var planNote=essaySec.querySelector("[data-i18n='essay.planNote']");
+  mv(planNote ? planNote.closest(".card") : null,"essay-plan");
+  mv(byId("essay-compute"),"essay-plan");
+  mv(essaySec.querySelector(".grid2"),"essay-plan");
+  mv(byId("essay-flip"),"essay-plan");
+  var goWrite=document.createElement("div"); goWrite.className="card tint";
+  goWrite.innerHTML='<button type="button" class="btn amber" data-view-link="essay-write"><span data-i18n="essay.goWrite">Continue to Essay Writing →</span></button>';
+  mv(goWrite,"essay-plan");
+
+  /* ---- ESSAY-WRITE view: the draft editor, same stored essay state ---- */
+  var writeHead=document.createElement("div"); writeHead.className="sec-head";
+  writeHead.innerHTML='<h2 data-i18n="essay.writeH">Essay Writing — Draft your three paragraphs</h2>';
+  mv(writeHead,"essay-write");
+  mv(byId("essay-editors"),"essay-write");
+  var goPlan=document.createElement("div"); goPlan.className="card tint";
+  goPlan.innerHTML='<button type="button" class="btn ghost" data-view-link="essay-plan"><span data-i18n="essay.goPlan">← Back to Essay Planning</span></button>';
+  mv(goPlan,"essay-write");
+
+  /* ---- DAY 10 · Decision Replay project ---- */
+  mv(dayHead(10),"day10");
+  var d10=document.createElement("div"); d10.className="card";
+  d10.innerHTML='<span class="tag">Day 10 · Project / Enrichment</span>'+
+    '<h3 style="margin-top:8px">Decision Replays</h3>'+
+    '<p>Replay both chapter decisions with fresh numbers — same explorers, new values. Change the hours, boxes, '+
+    'and months, and check whether the winner changes. Then compare with a partner: did your winner flip at the '+
+    'same point theirs did?</p>'+
+    '<p class="frame-es">Repite las dos decisiones del capítulo con números nuevos: los mismos exploradores, valores '+
+    'nuevos. Cambia las horas, las cajas y los meses, y revisa si cambia el ganador. Luego compara con un compañero: '+
+    '¿tu ganador cambió en el mismo punto que el suyo?</p>'+
+    '<div class="day-links"><a class="go" href="#explorer-jobs" data-jump><span data-i18n="day10.jobs">Replay: Job explorer →</span></a>'+
+    '<a class="go" href="#explorer-gym" data-jump><span data-i18n="day10.gym">Replay: Gym explorer →</span></a></div>';
+  mv(d10,"day10");
+
+  /* ---- DAY 11 · Reteach & Catch-up ---- */
+  mv(dayHead(11),"day11");
+  var d11=document.createElement("div"); d11.className="card";
+  d11.innerHTML='<span class="tag">Day 11 · Reteach / Buffer</span>'+
+    '<h3 style="margin-top:8px">Reteach &amp; Catch-up</h3>'+
+    '<p><strong>No new material planned.</strong> This day absorbs reteaching, unfinished essay or project work, '+
+    'absences, and schedule slips — so Chapter 2 still starts on Day 12. Jump back to any day that needs another pass:</p>'+
+    '<p class="frame-es"><strong>Sin material nuevo planeado.</strong> Este día absorbe la reenseñanza, el trabajo '+
+    'de ensayo o proyecto sin terminar, las ausencias y los cambios de horario, para que el Capítulo 2 empiece el '+
+    'Día 12. Vuelve a cualquier día que necesite otra pasada:</p>'+
+    '<div class="pick-row">'+
+    [2,3,4,5,6].map(function(n){ return '<button type="button" class="btn ghost small" data-view-link="day'+n+'"><span data-i18n="nav.day">Day</span> '+n+'</button>'; }).join("")+
+    '</div>'+
+    '<p class="attempts" style="margin-bottom:0">Next: Chapter 2 starts Day 12</p>';
+  mv(d11,"day11");
+
+  /* ---- practice question groups → their day views (Day 2: 8 · Day 3: 10 · Day 4: 8 · Day 5: 10 · Day 6: 5) ---- */
+  var SEC_VIEW={"practice-11-qf":"day2","practice-11-qc":"day3","practice-11-practice":"day3",
+    "practice-12-qf":"day4","practice-12-qc":"day5","practice-12-practice":"day5","practice-review":"day6"};
+  var ql=byId("question-list"), curView=null;
+  Array.prototype.slice.call(ql.childNodes).forEach(function(node){
+    if(node.nodeType!==1) return;
+    if(node.classList.contains("sec-title")) curView=SEC_VIEW[node.id]||"day2";
+    if(curView) VIEWS[curView].appendChild(node);
+  });
+
+  /* ---- AI Lab blocks land after each practice day's questions ---- */
+  mv(aiLabCard("§1.1 · Day 3","the two job offers","las dos ofertas de trabajo"),"day3");
+  mv(aiLabCard("§1.2 · Day 5","the two gym memberships","las dos membresías de gimnasio"),"day5");
+
+  /* ---- Previous / Next footer on every day & essay view ---- */
+  ORDER.forEach(function(name, i){
+    if(name==="home") return;
+    var nav=document.createElement("div"); nav.className="view-nav no-print";
+    var prev=ORDER[i-1], next=ORDER[i+1];
+    nav.innerHTML='<button type="button" class="btn ghost" data-view-link="'+prev+'"><span data-i18n="nav.prev">← Previous</span></button>'+
+      (next ? '<button type="button" class="btn" data-view-link="'+next+'"><span data-i18n="nav.next">Next →</span></button>' : '<span></span>');
+    VIEWS[name].appendChild(nav);
+  });
+
+  /* ---- remove the emptied single-page section shells ---- */
+  [exploreSec, practiceSec, ideasSec, essaySec].forEach(function(s){ if(s) s.remove(); });
+
+  /* ---- stack the language bar + view chip bar into one sticky unit ---- */
+  var bar=document.querySelector("nav.bar"), vb=document.querySelector(".viewbar");
+  var stack=document.createElement("div"); stack.id="bar-stack";
+  bar.parentNode.insertBefore(stack, bar);
+  stack.appendChild(bar); stack.appendChild(vb);
+  function fixDayNavTop(){
+    var dn=document.querySelector(".day-nav");
+    if(dn) dn.style.top=(stack.offsetHeight+6)+"px";
+  }
+  fixDayNavTop();
+  window.addEventListener("resize", fixDayNavTop);
+
+  /* ---- legacy anchor → view map ---- */
+  var ANCHOR_VIEW={
+    "explorer-jobs":["day2","explorer-jobs"],"explorer-gym":["day5","explorer-gym"],
+    "gym-decision-card":["day4","gym-decision-card"],
+    "practice-11-qf":["day2","practice-11-qf"],"practice-11-qc":["day3","practice-11-qc"],
+    "practice-11-practice":["day3","practice-11-practice"],"practice-12-qf":["day4","practice-12-qf"],
+    "practice-12-qc":["day5","practice-12-qc"],"practice-12-practice":["day5","practice-12-practice"],
+    "practice-review":["day6","practice-review"],
+    "ideas-evaluating":["day4","ideas-evaluating"],"ideas-order":["day4","ideas-order"],
+    "ideas-grid":["day2","ideas-grid"],"ideas-grid-12":["day4","ideas-grid-12"],
+    "ideas":["day2","ideas-grid"],"explore":["day2","explorer-jobs"],"practice":["day2","practice-11-qf"],
+    "essay":["essay-plan",null],"essay-planning":["day8","essay-planning"],
+    "essay-compute":["essay-plan","essay-compute"],"essay-thesis":["essay-plan","essay-thesis"],
+    "essay-evidence":["essay-plan","essay-evidence"],"essay-flip":["essay-plan","essay-flip"],
+    "essay-writing":["day9","essay-writing"],"essay-editors":["essay-write","essay-editors"],
+    "day7-test":["day7","day7-test"],"builder-card":["home","builder-card"],
+    "grader-card":["home","grader-card"],"result-codes-card":["home","result-codes-card"],
+    "teaching-decision-story":["home","teaching-decision-story"],
+    "days":["home","days"],"year":["home","year"],"glossary":["home","glossary"],
+    "progress":["home","progress"],"teacher":["home","teacher"],"teacher-zone":["home","teacher"],
+    "hosting":["home","hosting"]
+  };
+  for(var dn2=2; dn2<=11; dn2++) ANCHOR_VIEW["day-card-"+dn2]=["day"+dn2, null];
+  if(typeof GLOSS_IDS!=="undefined"){
+    Object.keys(GLOSS_IDS).forEach(function(k){ ANCHOR_VIEW[GLOSS_IDS[k]]=["home", GLOSS_IDS[k]]; });
+  }
+  if(typeof QUESTIONS!=="undefined" && typeof SECTIONS!=="undefined"){
+    var secAnchor={}; SECTIONS.forEach(function(s){ secAnchor[s.id]=s.anchor; });
+    QUESTIONS.forEach(function(q){
+      var av=ANCHOR_VIEW[secAnchor[q.sec]];
+      if(av) ANCHOR_VIEW["q-"+q.id]=[av[0], "q-"+q.id];
+    });
+  }
+
+  /* ---- the router itself ---- */
+  var current=null;
+  function showView(name, opts){
+    opts=opts||{};
+    if(!VIEWS[name]) name="home";
+    current=name;
+    ORDER.forEach(function(v){ VIEWS[v].classList.toggle("on", v===name); });
+    var chipFor = name==="essay-plan" ? "day8" : (name==="essay-write" ? "day9" : name);
+    document.querySelectorAll(".viewbar .vchip").forEach(function(ch){
+      var on=ch.getAttribute("data-view-link")===chipFor;
+      ch.classList.toggle("now", on);
+      if(on) ch.setAttribute("aria-current","page"); else ch.removeAttribute("aria-current");
+    });
+    if(opts.hash && location.hash!==opts.hash){
+      try{ history.pushState(null,"",opts.hash); }
+      catch(e){ try{ location.hash=opts.hash; }catch(e2){} }
+    }
+    if(opts.target){
+      var elm=byId(opts.target);
+      if(elm){
+        setTimeout(function(){
+          elm.scrollIntoView({behavior:"smooth", block:"start"});
+          setTimeout(function(){ flashTarget(elm); },380);
+        },60);
+        return;
+      }
+    }
+    window.scrollTo(0,0);
+  }
+  function routeHash(hash, push){
+    if(!hash || hash==="#"){ showView("home", push?{hash:"#home"}:null); return; }
+    var h=hash.slice(1);
+    if(h==="home"){ showView("home", push?{hash:"#home"}:null); return; }
+    var m=h.match(/^day-?(\d{1,2})$/);
+    if(m){ var v="day"+parseInt(m[1],10); if(VIEWS[v]){ showView(v, push?{hash:HASH[v]}:null); return; } }
+    if(h==="essay-plan"||h==="essay-write"){ showView(h, push?{hash:HASH[h]}:null); return; }
+    var av=ANCHOR_VIEW[h];
+    if(av){ showView(av[0], {target:av[1], hash:"#"+h}); return; }
+    if(byId(h)){ showView("home", {target:h, hash:"#"+h}); return; }
+    showView("home", push?{hash:"#home"}:null);
+  }
+
+  /* capture-phase interception: view links, glossary chips, and every in-page anchor */
+  document.addEventListener("click", function(e){
+    var t=e.target; if(!t || !t.closest) return;
+    var vl=t.closest("[data-view-link]");
+    if(vl){
+      e.preventDefault(); e.stopPropagation();
+      var v=vl.getAttribute("data-view-link");
+      showView(v, {target:vl.getAttribute("data-view-target"), hash:HASH[v]});
+      return;
+    }
+    var gt=t.closest("[data-goto]");
+    if(gt){
+      e.preventDefault(); e.stopPropagation();
+      var id=gt.getAttribute("data-goto");
+      var av=ANCHOR_VIEW[id];
+      showView(av?av[0]:"home", {target:id, hash:"#"+id});
+      return;
+    }
+    var a=t.closest('a[href^="#"]');
+    if(a){
+      var href=a.getAttribute("href");
+      if(href && href.length>1){ e.preventDefault(); e.stopPropagation(); routeHash(href, true); }
+    }
+  }, true);
+
+  window.addEventListener("hashchange", function(){ routeHash(location.hash, false); });
+
+  /* nav progress readout (x/41) follows the same paint as My Progress */
+  var _paintProgress=paintProgress;
+  paintProgress=function(){
+    _paintProgress();
+    var np=byId("nav-progress");
+    if(np){
+      var s=Object.keys(state.solved).filter(function(k){ return state.solved[k]; }).length;
+      np.textContent=s+"/41";
+    }
+  };
+  paintProgress();
+
+  /* initial view from the URL hash, then paint the new labels in the active language */
+  routeHash(location.hash, false);
+  applyLang();
+})();
 </script>
 </body>
 </html>
