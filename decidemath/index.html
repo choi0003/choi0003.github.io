@@ -200,6 +200,31 @@
   .lock-card{border:1px dashed #b9c8d8;border-radius:12px;padding:16px;background:var(--panel)}
   .lock-card h3{font-size:1rem}
   .lock-card p{font-size:.88rem;color:var(--muted);margin:.3rem 0 0}
+  /* ---------- ESL / bilingual scaffolding ---------- */
+  .lang-toggle{display:inline-flex;border:1px solid var(--navy);border-radius:999px;overflow:hidden}
+  .lang-toggle button{min-height:40px;padding:6px 14px;border:none;background:#fff;color:var(--navy);font-weight:800;font-size:.9rem}
+  .lang-toggle button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  .bi-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 4px}
+  .bi-switch{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .bi-switch button{min-height:38px;padding:5px 12px;border:none;background:var(--panel);color:var(--navy);font-weight:700;font-size:.85rem}
+  .bi-switch button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  .listen-btn,.listen-stop{min-height:38px;padding:5px 12px;border-radius:999px;border:1px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;font-size:.85rem}
+  .bi-card .v-es{display:none}
+  .bi-card[data-mode="es"] .v-en{display:none}
+  .bi-card[data-mode="es"] .v-es,.bi-card[data-mode="both"] .v-es{display:block}
+  .bi-card .v-es{background:#f2f7f2;border-left:4px solid #7fae7f;border-radius:0 8px 8px 0;padding:8px 12px}
+  .es-help{display:none;margin-top:10px;background:#f2f7f2;border:1px solid #cfe0cf;border-radius:10px;padding:10px 12px;font-size:.95rem}
+  .es-help.open{display:block}
+  .es-help-btn{min-height:36px;padding:4px 12px;border-radius:999px;border:1px solid #7fae7f;background:#fff;color:#2c5b2c;font-weight:700;font-size:.84rem;margin-top:10px}
+  .gterm-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .gterm-row .lbl{font-size:.84rem;font-weight:700;color:var(--muted)}
+  .gterm{border:1px solid var(--navy);background:var(--navy-soft);color:var(--navy);border-radius:999px;padding:4px 11px;min-height:34px;font-weight:700;font-size:.84rem}
+  table.gloss{border-collapse:collapse;width:100%;margin:10px 0;font-size:.94rem}
+  table.gloss th,table.gloss td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  table.gloss th{background:var(--navy-soft);color:var(--navy)}
+  .cog{display:inline-block;background:var(--good-bg);color:var(--good);border-radius:6px;padding:0 7px;font-size:.74rem;font-weight:800;margin-left:6px}
+  .frame-es{background:#f2f7f2;border-radius:8px;padding:8px 12px}
+  .step-es{display:block;font-size:.86rem;color:#2c5b2c;font-weight:700;margin-top:2px}
   footer{border-top:1px solid var(--line);margin-top:48px;padding:22px 0 8px;color:var(--muted);font-size:.9rem}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   @media(max-width:560px){ .top h1{font-size:1.7rem} .job .pay{font-size:1.55rem} }
@@ -230,15 +255,20 @@
 
 <nav class="bar" aria-label="Page sections">
   <div class="bar-in">
-    <a href="#days">Chapter 1 Days</a>
-    <a href="#year">Year at a Glance</a>
-    <a href="#explore">Explorers</a>
-    <a href="#practice">Practice</a>
-    <a href="#ideas">Key Ideas</a>
-    <a href="#essay">Essay Studio</a>
-    <a href="#progress">My Progress</a>
-    <a href="#teacher">Teacher Corner</a>
+    <a href="#days" data-i18n="nav.days">Chapter 1 Days</a>
+    <a href="#year" data-i18n="nav.year">Year at a Glance</a>
+    <a href="#explore" data-i18n="nav.explore">Explorers</a>
+    <a href="#practice" data-i18n="nav.practice">Practice</a>
+    <a href="#ideas" data-i18n="nav.ideas">Key Ideas</a>
+    <a href="#glossary" data-i18n="nav.glossary">Glossary</a>
+    <a href="#essay" data-i18n="nav.essay">Essay Studio</a>
+    <a href="#progress" data-i18n="nav.progress">My Progress</a>
+    <a href="#teacher" data-i18n="nav.teacher">Teacher Corner</a>
     <span class="spacer"></span>
+    <span class="lang-toggle" role="group" aria-label="Language / Idioma">
+      <button type="button" id="lang-en" aria-pressed="true">EN</button>
+      <button type="button" id="lang-es" aria-pressed="false">ES</button>
+    </span>
     <span class="mode-pill" id="mode-pill">Student mode</span>
   </div>
 </nav>
@@ -248,15 +278,15 @@
   <!-- ================= 180-DAY PACING: CHAPTER 1 DAYS ================= -->
   <section class="block" id="days">
     <div class="sec-head">
-      <h2>Chapter 1 in 10 Days — Days 2–11 of 180</h2>
-      <p>The full year is paced at <strong>one 50-minute period per day for 180 days</strong>, assessment days
+      <h2 data-i18n="days.h2">Chapter 1 in 10 Days — Days 2–11 of 180</h2>
+      <p data-i18n="days.intro">The full year is paced at <strong>one 50-minute period per day for 180 days</strong>, assessment days
         included. Each section gets two days — a Teach day, then a Practice + AI Lab day — and every chapter
         closes with review, a test, a two-day essay, a project day, and a buffer day. Chapter 1 is the only
         chapter with live material on this page; Chapters 2–9 open as they are released, on the days shown
         in the Year at a Glance below. <strong>Day 1</strong> is the course introduction, before Chapter 1 begins.</p>
     </div>
     <nav class="day-nav" aria-label="Jump to a Chapter 1 day">
-      <span class="day-nav-label">Jump to:</span>
+      <span class="day-nav-label" data-i18n="daynav.label">Jump to:</span>
       <a href="#explorer-jobs" data-jump>Day 2 · §1.1 Jobs</a>
       <a href="#practice-11-qc" data-jump>Day 3 · §1.1 Practice</a>
       <a href="#ideas-evaluating" data-jump>Day 4 · §1.2 Evaluating</a>
@@ -345,8 +375,8 @@
   <!-- ================= YEAR AT A GLANCE (STRIP) ================= -->
   <section class="block" id="year">
     <div class="sec-head">
-      <h2>Year at a Glance — 180 Days</h2>
-      <p>One school year, paced day by day. Chapter 1 (Days 2–11) is open now; each later chapter opens on its
+      <h2 data-i18n="year.h2">Year at a Glance — 180 Days</h2>
+      <p data-i18n="year.intro">One school year, paced day by day. Chapter 1 (Days 2–11) is open now; each later chapter opens on its
         start day as it is released. The full day-by-day table is in the Teacher Corner.</p>
     </div>
     <div class="year-strip" aria-label="180-day year map">
@@ -369,22 +399,34 @@
   <!-- ================= EXPLORERS ================= -->
   <section class="block" id="explore">
     <div class="sec-head">
-      <h2>Decision Explorers</h2>
-      <p>Every DecideMath chapter opens with a decision. Move the controls, watch the money change,
+      <h2 data-i18n="explore.h2">Decision Explorers</h2>
+      <p data-i18n="explore.intro">Every DecideMath chapter opens with a decision. Move the controls, watch the money change,
         and form your own verdict. The explorers show you the paychecks — deciding what they
         <em>mean</em> is your job.</p>
     </div>
 
-    <div class="card" id="explorer-jobs">
+    <div class="card bi-card" id="explorer-jobs" data-mode="en">
       <span class="tag">Day 2 · §1.1 Teach · The Decision</span> <span class="tag amber">Day 10 · Replay</span>
       <h3 style="margin-top:8px">Two summer job offers</h3>
-      <p><strong>Build-a-Box Warehouse</strong> pays $11.50 for every hour you work, <strong>plus</strong> a
+      <div class="bi-tools">
+        <span class="bi-switch" role="group" aria-label="Card language / Idioma de la tarjeta">
+          <button type="button" data-setmode="en" aria-pressed="true">EN</button>
+          <button type="button" data-setmode="es" aria-pressed="false">ES</button>
+          <button type="button" data-setmode="both" aria-pressed="false">EN + ES</button>
+        </span>
+        <button type="button" class="listen-btn" data-listen="explorer-jobs">🔊 <span data-i18n="btn.listen">Listen</span></button>
+        <button type="button" class="listen-stop" data-stop>■ <span data-i18n="btn.stop">Stop</span></button>
+      </div>
+      <p class="v-en"><strong>Build-a-Box Warehouse</strong> pays $11.50 for every hour you work, <strong>plus</strong> a
         $1.25 bonus for every box you pack. <strong>City Scoops Ice Cream</strong> pays a flat $14.00 per
         hour — no bonuses, no surprises. Drag the sliders and compare a week at each job.</p>
+      <p class="v-es"><strong>Build-a-Box Warehouse</strong> paga $11.50 por cada hora que trabajas, <strong>más</strong> un
+        bono de $1.25 por cada caja que empacas. <strong>City Scoops Ice Cream</strong> paga un pago fijo de $14.00 por
+        hora: sin bonos, sin sorpresas. Mueve los controles y compara una semana en cada trabajo.</p>
 
-      <label class="flabel" for="job-hours">Hours worked per week: <span class="slider-val num" id="job-hours-val">20</span></label>
+      <label class="flabel" for="job-hours"><span data-i18n="jobs.hours">Hours worked per week</span>: <span class="slider-val num" id="job-hours-val">20</span></label>
       <input type="range" id="job-hours" min="0" max="40" step="1" value="20" />
-      <label class="flabel" for="job-boxes">Boxes packed per week: <span class="slider-val num" id="job-boxes-val">60</span></label>
+      <label class="flabel" for="job-boxes"><span data-i18n="jobs.boxes">Boxes packed per week</span>: <span class="slider-val num" id="job-boxes-val">60</span></label>
       <input type="range" id="job-boxes" min="0" max="300" step="5" value="60" />
 
       <div class="grid2">
@@ -402,28 +444,49 @@
         </div>
       </div>
 
-      <p style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with fresh numbers — different hours and box counts — and check whether the winner changes.</p>
-      <p><strong>Try this:</strong> set the boxes to 60, then to 200. Then hunt with the
+      <p class="v-en" style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with fresh numbers — different hours and box counts — and check whether the winner changes.</p>
+      <p class="v-es"><strong>Nota para repetir el Día 10:</strong> el día del proyecto, repite esta misma decisión con números nuevos — otras horas y otras cantidades de cajas — y revisa si cambia el ganador.</p>
+      <p class="v-en"><strong>Try this:</strong> set the boxes to 60, then to 200. Then hunt with the
         slider: is there a number of boxes where the two paychecks come out exactly equal? What happens
         on either side of it?</p>
+      <p class="v-es"><strong>Inténtalo:</strong> pon las cajas en 60 y luego en 200. Después busca con el control: ¿hay un número de cajas en el que los dos pagos sean exactamente iguales? ¿Qué pasa a cada lado de ese número?</p>
       <div class="pick-row" role="group" aria-label="Your job verdict">
-        <button type="button" class="pick" id="pick-warehouse" aria-pressed="false">My pick: Build-a-Box Warehouse</button>
-        <button type="button" class="pick" id="pick-scoops" aria-pressed="false">My pick: City Scoops Ice Cream</button>
+        <button type="button" class="pick" id="pick-warehouse" aria-pressed="false"><span data-i18n="jobs.pickW">My pick: Build-a-Box Warehouse</span></button>
+        <button type="button" class="pick" id="pick-scoops" aria-pressed="false"><span data-i18n="jobs.pickS">My pick: City Scoops Ice Cream</span></button>
       </div>
       <p class="attempts" id="pick-note">Pick the job you would take. You will defend this choice in the essay at the end of the chapter.</p>
+      <div class="gterm-row"><span class="lbl" data-i18n="gloss.keywords">Key words:</span>
+        <button type="button" class="gterm" data-goto="gloss-variable">variable</button>
+        <button type="button" class="gterm" data-goto="gloss-bonus">bonus · bono</button>
+        <button type="button" class="gterm" data-goto="gloss-perhour">per hour · por hora</button>
+        <button type="button" class="gterm" data-goto="gloss-breakeven">breakeven point · punto de equilibrio</button>
+        <button type="button" class="gterm" data-goto="gloss-weekly">weekly · semanal</button>
+      </div>
     </div>
 
-    <div class="card" id="explorer-gym">
+    <div class="card bi-card" id="explorer-gym" data-mode="en">
       <span class="tag">Day 5 · §1.2 Practice · The Decision</span> <span class="tag amber">Day 10 · Replay</span>
       <h3 style="margin-top:8px">Two gym memberships</h3>
-      <p><strong>FitZone</strong> charges a $40 signup fee plus $25 per month. <strong>FlexGym</strong> charges a
+      <div class="bi-tools">
+        <span class="bi-switch" role="group" aria-label="Card language / Idioma de la tarjeta">
+          <button type="button" data-setmode="en" aria-pressed="true">EN</button>
+          <button type="button" data-setmode="es" aria-pressed="false">ES</button>
+          <button type="button" data-setmode="both" aria-pressed="false">EN + ES</button>
+        </span>
+        <button type="button" class="listen-btn" data-listen="explorer-gym">🔊 <span data-i18n="btn.listen">Listen</span></button>
+        <button type="button" class="listen-stop" data-stop>■ <span data-i18n="btn.stop">Stop</span></button>
+      </div>
+      <p class="v-en"><strong>FitZone</strong> charges a $40 signup fee plus $25 per month. <strong>FlexGym</strong> charges a
         $10 signup fee plus $35 per month. You are joining for the school year — about 9 months.
         Tap a stay length and compare the total cost.</p>
+      <p class="v-es"><strong>FitZone</strong> cobra una cuota de inscripción de $40 más $25 por mes. <strong>FlexGym</strong> cobra una
+        cuota de inscripción de $10 más $35 por mes. Te inscribes por el año escolar: unos 9 meses.
+        Toca una duración y compara el costo total.</p>
       <div class="month-btns" role="group" aria-label="Months">
-        <button type="button" data-months="2" aria-pressed="false">2 months</button>
-        <button type="button" data-months="3" aria-pressed="false">3 months</button>
-        <button type="button" data-months="9" aria-pressed="true">9 months</button>
-        <button type="button" data-months="12" aria-pressed="false">12 months</button>
+        <button type="button" data-months="2" aria-pressed="false"><span data-i18n="gym.m2">2 months</span></button>
+        <button type="button" data-months="3" aria-pressed="false"><span data-i18n="gym.m3">3 months</span></button>
+        <button type="button" data-months="9" aria-pressed="true"><span data-i18n="gym.m9">9 months</span></button>
+        <button type="button" data-months="12" aria-pressed="false"><span data-i18n="gym.m12">12 months</span></button>
       </div>
       <div class="grid2">
         <div class="job">
@@ -439,22 +502,30 @@
           <div class="bar-row"><div class="bar-fill amber" id="bar-flexgym" style="width:68%"></div></div>
         </div>
       </div>
-      <p style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with a fresh stay length and check whether the cheaper gym changes.</p>
-      <p><strong>Try this:</strong> check a short stay (2 months) and a long stay (12 months).
+      <p class="v-en" style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with a fresh stay length and check whether the cheaper gym changes.</p>
+      <p class="v-es"><strong>Nota para repetir el Día 10:</strong> el día del proyecto, repite esta misma decisión con una duración nueva y revisa si cambia el gimnasio más barato.</p>
+      <p class="v-en"><strong>Try this:</strong> check a short stay (2 months) and a long stay (12 months).
         Does the cheaper gym change? Somewhere between them the two totals cross — see if you can spot where.</p>
+      <p class="v-es"><strong>Inténtalo:</strong> revisa una estancia corta (2 meses) y una larga (12 meses). ¿Cambia el gimnasio más barato? En algún punto entre los dos, los totales se cruzan: trata de encontrar dónde.</p>
       <div class="pick-row" role="group" aria-label="Your gym verdict">
-        <button type="button" class="pick" id="pick-fitzone" aria-pressed="false">My pick for the school year: FitZone</button>
-        <button type="button" class="pick" id="pick-flexgym" aria-pressed="false">My pick for the school year: FlexGym</button>
+        <button type="button" class="pick" id="pick-fitzone" aria-pressed="false"><span data-i18n="gym.pickF">My pick for the school year: FitZone</span></button>
+        <button type="button" class="pick" id="pick-flexgym" aria-pressed="false"><span data-i18n="gym.pickX">My pick for the school year: FlexGym</span></button>
       </div>
       <p class="attempts" id="gym-pick-note">Pick the gym you would join for about 9 months.</p>
+      <div class="gterm-row"><span class="lbl" data-i18n="gloss.keywords">Key words:</span>
+        <button type="button" class="gterm" data-goto="gloss-fee">fee · cuota</button>
+        <button type="button" class="gterm" data-goto="gloss-cost">cost · costo</button>
+        <button type="button" class="gterm" data-goto="gloss-breakeven">breakeven point · punto de equilibrio</button>
+        <button type="button" class="gterm" data-goto="gloss-evaluate">evaluate · evaluar</button>
+      </div>
     </div>
   </section>
 
   <!-- ================= PRACTICE ================= -->
   <section class="block" id="practice">
     <div class="sec-head">
-      <h2>Practice — Chapter 1, by Day</h2>
-      <p>All 41 questions from the chapter, grouped by their pacing day: <strong>Day 2</strong> §1.1 Quick Fluency ·
+      <h2 data-i18n="practice.h2">Practice — Chapter 1, by Day</h2>
+      <p data-i18n="practice.intro">All 41 questions from the chapter, grouped by their pacing day: <strong>Day 2</strong> §1.1 Quick Fluency ·
         <strong>Day 3</strong> §1.1 Quick Check + Practice · <strong>Day 4</strong> §1.2 Quick Fluency ·
         <strong>Day 5</strong> §1.2 Quick Check + Practice · <strong>Day 6</strong> Chapter Review.
         Type your answer and press <strong>Check</strong>. Equivalent forms count —
@@ -467,61 +538,96 @@
   <!-- ================= KEY IDEAS ================= -->
   <section class="block" id="ideas">
     <div class="sec-head">
-      <h2>Key Ideas</h2>
-      <p>The handful of ideas this whole chapter stands on. If one of these feels shaky, the practice above will feel shaky too.</p>
+      <h2 data-i18n="ideas.h2">Key Ideas</h2>
+      <p data-i18n="ideas.intro">The handful of ideas this whole chapter stands on. If one of these feels shaky, the practice above will feel shaky too.</p>
     </div>
-    <div class="grid2">
+    <div class="bi-tools" data-bi-for="ideas-grid">
+      <span class="bi-switch" role="group" aria-label="Key ideas language / Idioma de las ideas clave">
+        <button type="button" data-setmode="en" aria-pressed="true">EN</button>
+        <button type="button" data-setmode="es" aria-pressed="false">ES</button>
+        <button type="button" data-setmode="both" aria-pressed="false">EN + ES</button>
+      </span>
+      <button type="button" class="listen-btn" data-listen="ideas-grid">🔊 <span data-i18n="btn.listen">Listen</span></button>
+      <button type="button" class="listen-stop" data-stop>■ <span data-i18n="btn.stop">Stop</span></button>
+    </div>
+    <div class="grid2 bi-card" id="ideas-grid" data-mode="en">
       <div class="card tint">
         <h3>A variable is a placeholder with a job</h3>
-        <p>A <strong>variable</strong> is a letter that stands for a quantity that can change or that you don't
+        <p class="v-en">A <strong>variable</strong> is a letter that stands for a quantity that can change or that you don't
           know yet. Priya doesn't write "number of cups sold" forty times — she writes <strong>n</strong> and lets
           n be whatever Saturday brings. One letter, every possible Saturday.</p>
+        <p class="v-es">Una <strong>variable</strong> es una letra que representa una cantidad que puede cambiar o que todavía no conoces. Priya no escribe «número de vasos vendidos» cuarenta veces: escribe <strong>n</strong> y deja que n sea lo que traiga el sábado. Una letra, todos los sábados posibles.</p>
       </div>
       <div class="card tint">
         <h3>Expressions describe; equations assert</h3>
-        <p>An <strong>algebraic expression</strong> combines variables, numbers, and operations — 3x + 5,
+        <p class="v-en">An <strong>algebraic expression</strong> combines variables, numbers, and operations — 3x + 5,
           2(n − 4), 11.50h + 1.25b — and has <em>no equals sign</em>. It describes a quantity. An equation
           (Chapter 2) asserts that two quantities are equal.</p>
+        <p class="v-es">Una <strong>expresión algebraica</strong> combina variables, números y operaciones — 3x + 5, 2(n − 4), 11.50h + 1.25b — y <em>no tiene signo de igual</em>. Describe una cantidad. Una ecuación (Capítulo 2) afirma que dos cantidades son iguales.</p>
       </div>
       <div class="card tint">
         <h3>Translation trap: "less than" flips</h3>
-        <p>"5 less than a number" is <strong>n − 5</strong>, not 5 − n. "Less than" starts from the number and
+        <p class="v-en">"5 less than a number" is <strong>n − 5</strong>, not 5 − n. "Less than" starts from the number and
           takes away. Test it with n = 20: 20 − 5 = 15 makes sense; 5 − 20 = −15 does not. The same care
           applies to "8 years younger than you": n − 8.</p>
+        <p class="v-es">«5 menos que un número» es <strong>n − 5</strong>, no 5 − n. «Menos que» parte del número y le quita. Pruébalo con n = 20: 20 − 5 = 15 tiene sentido; 5 − 20 = −15 no. El mismo cuidado aplica a «8 años menor que tú»: n − 8.</p>
       </div>
       <div class="card tint">
         <h3>Parts of an expression</h3>
-        <p>In Marcus's pay, 25l + 10h + 12: the <strong>terms</strong> are 25l, 10h, and 12. A <strong>coefficient</strong>
+        <p class="v-en">In Marcus's pay, 25l + 10h + 12: the <strong>terms</strong> are 25l, 10h, and 12. A <strong>coefficient</strong>
           is the number multiplying a variable — a rate, like $25 per lawn. A <strong>constant</strong> never
           changes: the flat $12. <strong>Like terms</strong> share the same variable and power — 25l + 25l
           combine into 50l; 25l and 10h never combine.</p>
+        <p class="v-es">En el pago de Marcus, 25l + 10h + 12: los <strong>términos</strong> son 25l, 10h y 12. Un <strong>coeficiente</strong> es el número que multiplica a una variable: una tarifa, como $25 por césped. Una <strong>constante</strong> nunca cambia: los $12 fijos. Los <strong>términos semejantes</strong> comparten la misma variable y la misma potencia: 25l + 25l se combinan en 50l; 25l y 10h nunca se combinan.</p>
       </div>
       <div class="card tint" id="ideas-evaluating">
         <h3>Evaluating = substitute, then compute</h3>
-        <p>To <strong>evaluate</strong> an expression, replace each variable with a number and compute.
+        <p class="v-en">To <strong>evaluate</strong> an expression, replace each variable with a number and compute.
           Devon's bill is 30 + 8g; at g = 3 extra gigabytes, 30 + 8(3) = 30 + 24 = $54. The expression is
           the machine; substitution feeds it.</p>
+        <p class="v-es">Para <strong>evaluar</strong> una expresión, reemplaza cada variable por un número y calcula. La cuenta de Devon es 30 + 8g; con g = 3 gigabytes extra, 30 + 8(3) = 30 + 24 = $54. La expresión es la máquina; la sustitución la alimenta.</p>
       </div>
       <div class="card tint" id="ideas-order">
         <h3>Order of operations — and why parentheses rule</h3>
-        <p>Parentheses first, then exponents, then multiply/divide left to right, then add/subtract left to
+        <p class="v-en">Parentheses first, then exponents, then multiply/divide left to right, then add/subtract left to
           right. Here's the question to sit with: a $48 dinner, a $10 coupon, and a 15% tip. Your friend says
           tip on the full $48, then subtract the coupon. You say coupon first, then tip on what's left.
           Work out <em>both</em> totals yourself — do they match? Which amount is the 15% actually tipping on
           in each method? Most restaurants tip on the discounted total.</p>
+        <p class="v-es">Primero los paréntesis, luego los exponentes, después multiplicar y dividir de izquierda a derecha, y al final sumar y restar de izquierda a derecha. Piensa en esta pregunta: una cena de $48, un cupón de $10 y una propina del 15%. Tu amigo dice: propina sobre los $48 completos y luego restar el cupón. Tú dices: primero el cupón y luego la propina sobre lo que queda. Calcula <em>los dos</em> totales tú mismo: ¿coinciden? ¿Sobre qué cantidad se calcula el 15% en cada método? La mayoría de los restaurantes calcula la propina sobre el total con descuento.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= BILINGUAL GLOSSARY ================= -->
+  <section class="block" id="glossary">
+    <div class="sec-head">
+      <h2 data-i18n="gloss.h2">Bilingual Glossary — Chapter 1 / Glosario bilingüe</h2>
+      <p data-i18n="gloss.intro">The key words of this chapter in English and Spanish. Words marked <span class="cog">cognate</span> look alike in both languages — they are your shortcut: learn to recognize them and half the chapter's vocabulary is already yours.</p>
+    </div>
+    <div class="card">
+      <div style="overflow-x:auto"><table class="gloss">
+        <thead><tr><th data-i18n="gloss.thEn">English</th><th data-i18n="gloss.thEs">Español</th><th data-i18n="gloss.thDef">What it means (simple English)</th></tr></thead>
+        <tbody id="glossary-body"></tbody>
+      </table></div>
+      <p class="attempts" data-i18n="gloss.note">Tap a highlighted key word in a Decision card to jump straight to its glossary entry.</p>
     </div>
   </section>
 
   <!-- ================= ESSAY STUDIO ================= -->
   <section class="block" id="essay">
     <div class="sec-head">
-      <h2>Essay Studio — The Decision Essay (Days 8–9)</h2>
+      <h2 data-i18n="essay.h2">Essay Studio — The Decision Essay (Days 8–9)</h2>
       <p><strong>The prompt.</strong> Your cousin got the same two summer job offers from §1.1: Build-a-Box Warehouse
         ($11.50/hour + $1.25 per box packed) and City Scoops ($14.00/hour flat). She will work 20 hours a week
         but has no idea how many boxes she'll pack — it could be 30 or 300. Write a 3-paragraph essay:
         which job should she take? Defend your recommendation with this chapter's math — and be honest
         about when your advice would change. <strong>Length: 200–300 words, exactly three paragraphs.</strong></p>
+    </div>
+
+    <div class="card tint">
+      <p style="margin:0"><strong data-i18n="essay.planNoteT">Planning in Spanish is welcome.</strong> <span data-i18n="essay.planNote">You may plan, compute, and take notes in Spanish — your Step 1 numbers, margin notes, and outline can all be in Spanish. The essay itself is written in English, because the essay is graded in English.</span></p>
+      <p class="frame-es" style="margin-bottom:0"><strong>Planear en español está bien.</strong> Puedes planear, calcular y tomar notas en español: tus números del Paso 1, tus notas al margen y tu esquema pueden estar en español. El ensayo en sí se escribe en inglés, porque el ensayo se califica en inglés.</p>
     </div>
 
     <div class="card amber" id="day7-test">
@@ -534,11 +640,12 @@
     <div class="day-banner" id="essay-planning"><strong>Day 8 — Essay Planning (50′)</strong><span>Steps 1–3 + flip test: compute first 20′ · thesis &amp; evidence plan 15′ · flip test &amp; exit check 10′ (after a 5′ prompt hook).</span></div>
 
     <div class="card" id="essay-compute">
-      <h3>Step 1 — Compute first</h3>
-      <p>Write both pay expressions (h = hours/week, b = boxes/week), evaluate them at two box counts,
+      <h3>Step 1 — Compute first<span class="step-es">Paso 1 — Calcula primero</span></h3>
+      <p class="v-en">Write both pay expressions (h = hours/week, b = boxes/week), evaluate them at two box counts,
         and find the breakeven. Enter your numbers below — the studio checks each one as
         <em>Match</em> or <em>No match yet</em> and never shows you the answers. If one doesn't match,
         recheck your arithmetic and try again.</p>
+      <p style="background:#f2f7f2;border-radius:8px;padding:8px 12px">Escribe las dos expresiones de pago (h = horas por semana, b = cajas por semana), evalúalas con dos cantidades de cajas y encuentra el punto de equilibrio. Escribe tus números abajo: el taller revisa cada uno como <em>Coincide</em> o <em>Todavía no coincide</em> y nunca te muestra las respuestas. Si uno no coincide, revisa tu aritmética e inténtalo otra vez.</p>
       <div class="match-row">
         <div>
           <label class="flabel" for="cf-w60">Warehouse pay at 20 hrs, 60 boxes ($)</label>
@@ -558,7 +665,7 @@
         </div>
       </div>
       <div class="row" style="display:flex;align-items:center;margin-top:12px;flex-wrap:wrap">
-        <button type="button" class="btn" id="cf-check">Check my numbers</button>
+        <button type="button" class="btn" id="cf-check" data-i18n="btn.cfCheck">Check my numbers</button>
         <span class="status" id="cf-status" role="status"></span>
       </div>
       <p class="attempts" id="cf-detail"></p>
@@ -566,26 +673,29 @@
 
     <div class="grid2">
       <div class="card tint" id="essay-thesis">
-        <h3>Step 2 — Thesis template</h3>
+        <h3>Step 2 — Thesis template<span class="step-es">Paso 2 — Plantilla de la tesis</span></h3>
         <p>Paragraph 1 needs one clear recommendation. Fill in this frame in your own words, then use it
           as your opening sentence:</p>
         <p><em>"My cousin should take the ____________ job, because the math shows that ____________."</em></p>
+        <p class="frame-es"><em>«Mi prima debería aceptar el trabajo de ____________, porque las matemáticas muestran que ____________».</em></p>
         <p>One strong ending names your breakeven: "…because the breakeven point is only ______ boxes a week" — your number, from your own computation in Step 1.</p>
+        <p class="frame-es">Un final fuerte nombra tu punto de equilibrio: «…porque el punto de equilibrio es solo ______ cajas por semana» — tu número, de tu propio cálculo en el Paso 1.</p>
       </div>
       <div class="card tint" id="essay-evidence">
-        <h3>Step 3 — Evidence checklist</h3>
+        <h3>Step 3 — Evidence checklist<span class="step-es">Paso 3 — Lista de evidencia</span></h3>
         <p>Paragraph 2 is only as strong as its numbers. Before you draft it, confirm you have all four ready:</p>
-        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Both pay expressions, written correctly.</span></div>
-        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Two evaluations at different box counts, with the paychecks side by side.</span></div>
-        <div class="checkline"><span class="box" aria-hidden="true"></span><span>The breakeven point, in boxes per week.</span></div>
-        <div class="checkline"><span class="box" aria-hidden="true"></span><span>One sentence saying what the breakeven means: above it one job wins, below it the other wins.</span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Both pay expressions, written correctly. <em>(Las dos expresiones de pago, escritas correctamente.)</em></span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Two evaluations at different box counts, with the paychecks side by side. <em>(Dos evaluaciones con cantidades de cajas diferentes, con los pagos lado a lado.)</em></span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>The breakeven point, in boxes per week. <em>(El punto de equilibrio, en cajas por semana.)</em></span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>One sentence saying what the breakeven means: above it one job wins, below it the other wins. <em>(Una oración que diga qué significa el punto de equilibrio: por encima gana un trabajo, por debajo gana el otro.)</em></span></div>
       </div>
     </div>
 
     <div class="card tint" id="essay-flip">
-      <h3>Step 4 — The flip test</h3>
+      <h3>Step 4 — The flip test<span class="step-es">Paso 4 — La prueba del cambio</span></h3>
       <p>Paragraph 3 must name one specific condition that would flip your recommendation. Write it here first:</p>
       <p><em>"My advice would change if ____________, because then ____________."</em></p>
+      <p class="frame-es"><em>«Mi consejo cambiaría si ____________, porque entonces ____________».</em></p>
       <p>Possible flips to consider: she packs fewer boxes than the breakeven each week; the warehouse caps
         the box bonus; her hours drop below 20 a week. Also name what your math doesn't capture at all —
         how tiring the work is, or which job she would simply enjoy.</p>
@@ -594,14 +704,14 @@
     <div class="day-banner" id="essay-writing"><strong>Day 9 — Essay Writing (50′)</strong><span>Reread your Day 8 plan 5′ · draft 30′ · word-count check &amp; revision 10′ · exit check 5′.</span></div>
 
     <div class="card" id="essay-editors">
-      <h3>Draft your three paragraphs</h3>
-      <p>Write your first draft entirely on your own. Paragraph 1: your decision and claim. Paragraph 2:
+      <h3 data-i18n="essay.draftH">Draft your three paragraphs</h3>
+      <p data-i18n="essay.draftP">Write your first draft entirely on your own. Paragraph 1: your decision and claim. Paragraph 2:
         the mathematical evidence. Paragraph 3: implications, limitations, and what would change your mind.</p>
-      <label class="flabel" for="para1">Paragraph 1 — Your decision and claim</label>
+      <label class="flabel" for="para1" data-i18n="essay.p1">Paragraph 1 — Your decision and claim</label>
       <textarea class="essay" id="para1" placeholder="My cousin should take the … job, because …"></textarea>
-      <label class="flabel" for="para2">Paragraph 2 — Mathematical evidence</label>
+      <label class="flabel" for="para2" data-i18n="essay.p2">Paragraph 2 — Mathematical evidence</label>
       <textarea class="essay" id="para2" placeholder="The warehouse pays 11.50h + 1.25b, while City Scoops pays …"></textarea>
-      <label class="flabel" for="para3">Paragraph 3 — Implications, limitations, and what would change your mind</label>
+      <label class="flabel" for="para3" data-i18n="essay.p3">Paragraph 3 — Implications, limitations, and what would change your mind</label>
       <textarea class="essay" id="para3" placeholder="My advice would change if …, because then …"></textarea>
       <p style="margin-top:14px">Total: <span class="wc num" id="essay-wc">0 words</span>
         <span class="wc-note out" id="essay-wc-note">— target is 200–300 words.</span></p>
@@ -612,16 +722,16 @@
   <!-- ================= PROGRESS ================= -->
   <section class="block" id="progress">
     <div class="sec-head">
-      <h2>My Progress</h2>
-      <p>Your practice record on this device. It is saved in this browser so you can pick up where you left off.</p>
+      <h2 data-i18n="progress.h2">My Progress</h2>
+      <p data-i18n="progress.intro">Your practice record on this device. It is saved in this browser so you can pick up where you left off.</p>
     </div>
     <div class="card">
-      <p style="margin:0"><strong class="num" id="prog-solved">0</strong> of <strong>41</strong> questions correct ·
-        <strong class="num" id="prog-attempts">0</strong> total attempts ·
-        Essay compute-first: <strong id="prog-essay">not checked yet</strong></p>
+      <p style="margin:0"><strong class="num" id="prog-solved">0</strong> <span data-i18n="progress.of">of</span> <strong>41</strong> <span data-i18n="progress.correct">questions correct</span> ·
+        <strong class="num" id="prog-attempts">0</strong> <span data-i18n="progress.attempts">total attempts</span> ·
+        <span data-i18n="progress.essay">Essay compute-first:</span> <strong id="prog-essay">not checked yet</strong></p>
       <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
       <div class="row no-print" style="display:flex;gap:10px;flex-wrap:wrap">
-        <button type="button" class="btn ghost small" id="prog-reset">Reset my progress</button>
+        <button type="button" class="btn ghost small" id="prog-reset" data-i18n="btn.reset">Reset my progress</button>
       </div>
     </div>
     <h3 style="margin:22px 0 8px">Coming later in Algebra 1 — on their pacing days</h3>
@@ -632,22 +742,22 @@
   <!-- ================= TEACHER ================= -->
   <section class="block" id="teacher">
     <div class="sec-head">
-      <h2>Teacher Corner</h2>
-      <p>The guide to <strong>teaching the Decision &amp; the Story</strong>, worked solutions, decision answers, the essay grading guide, the assignment builder, and the
+      <h2 data-i18n="teacher.h2">Teacher Corner</h2>
+      <p data-i18n="teacher.intro">The guide to <strong>teaching the Decision &amp; the Story</strong>, worked solutions, decision answers, the essay grading guide, the assignment builder, and the
         <strong>full 180-day year map table</strong> live here — behind the teacher passcode, so students
         working in Student mode never see them on screen. Students see only the Year at a Glance strip and
         their current chapter's day cards.</p>
     </div>
 
     <div class="card" id="teacher-login-card">
-      <h3>Teacher sign in</h3>
-      <p>Enter the teacher passcode to open the Teacher Corner on this device.</p>
+      <h3 data-i18n="teacher.signinH">Teacher sign in</h3>
+      <p data-i18n="teacher.signinP">Enter the teacher passcode to open the Teacher Corner on this device.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;max-width:520px">
         <div style="flex:1;min-width:220px">
           <label class="sr-only" for="passcode">Teacher passcode</label>
           <input type="password" id="passcode" autocomplete="off" placeholder="Passcode" />
         </div>
-        <button type="button" class="btn amber" id="teacher-login">Sign in</button>
+        <button type="button" class="btn amber" id="teacher-login" data-i18n="btn.signin">Sign in</button>
       </div>
       <p class="status" id="login-status" role="status"></p>
     </div>
@@ -892,6 +1002,51 @@ var QUESTIONS=[
   fields:[{label:"(a) Expression", check:E(["h"],"3+2.50h")},{label:"(b) Cost of a 6-hour ride ($)", check:N(18,0)}]}
 ];
 
+/* ---------- Spanish translations of the practice prompts (help only — checking is unchanged) ---------- */
+var ES_PROMPTS={
+ "11qf1":"Escribe «11 más que tres veces un número n» como una expresión.",
+ "11qf2":"Escribe «6 menos que un número y» como una expresión.",
+ "11qf3":"Un juego cuesta g dólares. Pagas con una tarjeta de regalo de $60. Escribe el saldo restante de la tarjeta como una expresión.",
+ "11qf4":"En la expresión 7k + 3, nombra los términos, el coeficiente de k y la constante.",
+ "11qf5":"En 9x + 4x − 2, ¿qué términos son semejantes? Combínalos en una sola expresión.",
+ "11qf6":"Dos sándwiches cuestan $9 cada uno, más una cuota de entrega de $3.50. Escribe el total como una expresión y evalúalo.",
+ "11qf7":"Escribe «el doble de la suma de n y 4» como una expresión.",
+ "11qf8":"Evalúa 4x + 7 cuando x = 5.",
+ "11qc1":"El costo de ingredientes de Priya sube a $2.00 por vaso, pero ella mantiene su precio de $5.50. Escribe su nueva expresión de ganancia del sábado (usa n para los vasos vendidos).",
+ "11qc2":"El plan de teléfono de Devon cuesta $30 más $8 por cada gigabyte extra. Escribe la expresión de su cuenta (usa g para los gigabytes extra) y nombra el coeficiente y la constante de tu expresión.",
+ "11qc3":"Pagas una entrada de cine de $12 con un billete de $20. Escribe tu cambio como una expresión usando m para el precio de la entrada.",
+ "11qc4":"Un estacionamiento cobra $3 por hora más una cuota de entrada de $2. Escribe la expresión para estacionar h horas.",
+ "11p1":"Cuatro entradas de concierto cuestan $t cada una, y el sitio de entradas agrega una cuota de servicio de $12 por pedido. Escribe una expresión algebraica para el costo total del pedido.",
+ "11p2":"Un par de zapatos cuesta p dólares, y la tienda tiene una oferta de «$5 de descuento». Escribe una expresión para el precio de oferta. Si los zapatos cuestan $45, ¿cuánto pagas?",
+ "11p3":"Una panadería vende panecillos a $2.50 cada uno y cobra una cuota de entrega de $5 por pedido. En la expresión 2.50m + 5, da el coeficiente de m y nombra la constante.",
+ "11p4":"Una niñera gana $12 por hora el sábado y $12 por hora el domingo, pero gasta $10 en gasolina para ir a los trabajos. Su pago neto se describe con 12s + 12s − 10, donde s son las horas trabajadas cada día. ¿Qué términos son semejantes y en qué término único se combinan?",
+ "11p5":"Tú tienes n años. Tu hermana tiene 8 años menos que tú. Escribe una expresión para su edad.",
+ "11p6":"Volvamos a las dos ofertas de trabajo. Escribe el pago semanal del trabajo del almacén como una expresión con h para las horas y b para las cajas. Luego sustituye h = 20 y simplifica todo lo posible sin usar una ecuación: esta es la expresión de la que depende la decisión.",
+ "12qf1":"Evalúa 6 + 2 × 3.",
+ "12qf2":"Evalúa (6 + 2) × 3.",
+ "12qf3":"Evalúa 20 − 8 ÷ 4.",
+ "12qf4":"Evalúa (20 − 8) ÷ 4.",
+ "12qf5":"Evalúa 2³ + 5.",
+ "12qf6":"Evalúa (−3)² − 10.",
+ "12qf7":"Evalúa 5 + 3(4).",
+ "12qf8":"Evalúa 2(5 − 2)².",
+ "12qc1":"La ganancia del sábado de Priya es 3.75n dólares por n vasos vendidos. Este sábado vende 48 vasos. ¿Cuál es su ganancia?",
+ "12qc2":"Compras 3 cuadernos a $2.50 cada uno y una pluma de $4. Escribe el total como una expresión y evalúalo.",
+ "12qc3":"El almacén de un dron está en (0, 0) y el punto de entrega está en (−5, 12). Evalúa la expresión de viaje al cuadrado x² + y² para esta entrega.",
+ "12qc4":"Tus calificaciones en exámenes cortos son 8, 9 y 7. Escribe tu promedio como una sola fracción y evalúalo.",
+ "12p1":"Un servicio de paseo de perros cobra $12 por visita más $3 por perro. Escribe una expresión para el costo de una visita con d perros y luego evalúala para 4 perros.",
+ "12p2":"Una pizzería ofrece dos pizzas de 12 pulgadas por el precio de una pizza de 18 pulgadas. ¿Qué oferta te da más pizza? Usa A = 3.14r², donde r es la mitad del diámetro, y compara las áreas totales.",
+ "12p3":"La fórmula C = (F − 32) × 5/9 convierte Fahrenheit a Celsius. ¿Cuánto es −13 °F en Celsius? (Escribe (−13) con sus paréntesis cuando sustituyas.)",
+ "12p4":"Las calificaciones de otoño de Maya: una A de 4 créditos (16 puntos), una B de 3 créditos (9 puntos) y una C de 2 créditos (4 puntos). Su promedio (GPA) es el total de puntos ÷ el total de créditos. Calcúlalo como una sola fracción y luego da el decimal.",
+ "12p5":"Pides césped para dos jardines cuadrados: uno de 10 pies por lado y otro de 6 pies por lado, a $1.50 por pie cuadrado. El costo es 1.50(10² + 6²). ¿Cuánto pagas?",
+ "12p6":"FitZone cuesta 40 + 25m y FlexGym cuesta 10 + 35m, donde m son los meses. Evalúa ambas expresiones para m = 4.",
+ "r1":"Una tienda vende manzanas a $1.20 por libra. Le das al cajero un billete de $10 y compras p libras de manzanas. Escribe una expresión algebraica para tu cambio.",
+ "r2":"Una empresa de banquetes cobra 8.75m + 150 dólares por un pedido, donde m es el número de invitados. Da el coeficiente de m y nombra la constante.",
+ "r3":"El puesto de batidos de Priya (de §1.1): su ganancia del sábado es 3.75n dólares, donde n es el número de vasos vendidos. El sábado pasado vendió 55 vasos. ¿Cuál fue su ganancia? Muestra el cálculo.",
+ "r4":"Un patio cuadrado con lado s metros se cubre con baldosas a $15 por metro cuadrado. El costo total es 15s² dólares. Evalúa el costo cuando s = 8. (Cuida el orden de las operaciones: el exponente va antes que la multiplicación.)",
+ "r5":"Una empresa de bicicletas compartidas cobra una cuota de desbloqueo de $3 más $2.50 por cada hora de uso. (a) Escribe una expresión para el costo total de un viaje de h horas. (b) Evalúa tu expresión para un viaje de 6 horas."
+};
+
 function checkField(field, raw){
   var c=field.check;
   if(raw==null || String(raw).trim()==="") return false;
@@ -913,6 +1068,181 @@ try{
   if(saved){ var parsed=JSON.parse(saved); if(parsed&&typeof parsed==="object") state=Object.assign(state,parsed); }
 }catch(e){}
 function saveState(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
+
+/* ---------- language: EN / ES interface toggle (English stays the main text; Spanish is the scaffold) ---------- */
+var LANG="en";
+try{ var savedLang=localStorage.getItem("decidemath-gh-lang"); if(savedLang==="es"||savedLang==="en") LANG=savedLang; }catch(e){}
+var STR={
+ en:{check:"Check",correct:"Correct ✓",notyet:"Not yet — try again",attempts:"Attempts: ",
+   choose:"Choose…",perWeek:"per week",totalWord:"total",
+   cfAll:"All four match ✓",cfAllDetail:"Your computation checks out. These numbers are the backbone of Paragraph 2.",
+   cfNo:"No match yet",
+   essayNotYet:"not checked yet",essayDone:"all numbers match ✓",essayPending:"not fully matched yet",
+   studentMode:"Student mode",teacherMode:"Teacher mode",
+   pickJobNote:"Pick the job you would take. You will defend this choice in the essay at the end of the chapter.",
+   pickGymNote:"Pick the gym you would join for about 9 months.",
+   yourPick:"Your pick: ",yourPickGym:"Your pick for the school year: ",
+   pickKeep:" Keep exploring — check whether your pick still holds when the numbers change.",
+   words:"words",wcTarget:"— target is 200–300 words.",wcIn:"— in the 200–300 word target. ✓",
+   wcUnder:"— under the 200-word minimum by ",wcOver:"— over the 300-word maximum by ",
+   esHelp:"ES · Ayuda en español",esHelpHide:"ES · Ocultar ayuda"},
+ es:{check:"Revisar",correct:"¡Correcto! ✓",notyet:"Todavía no: inténtalo otra vez",attempts:"Intentos: ",
+   choose:"Elige…",perWeek:"por semana",totalWord:"en total",
+   cfAll:"¡Los cuatro coinciden! ✓",cfAllDetail:"Tu cálculo está bien. Estos números son la base del Párrafo 2.",
+   cfNo:"Todavía no coinciden",
+   essayNotYet:"todavía no revisado",essayDone:"todos los números coinciden ✓",essayPending:"todavía no coinciden todos",
+   studentMode:"Modo estudiante",teacherMode:"Modo maestro",
+   pickJobNote:"Elige el trabajo que aceptarías. Defenderás esta elección en el ensayo al final del capítulo.",
+   pickGymNote:"Elige el gimnasio al que te inscribirías por unos 9 meses.",
+   yourPick:"Tu elección: ",yourPickGym:"Tu elección para el año escolar: ",
+   pickKeep:" Sigue explorando: revisa si tu elección sigue siendo buena cuando cambian los números.",
+   words:"palabras",wcTarget:"— la meta es de 200 a 300 palabras.",wcIn:"— dentro de la meta de 200 a 300 palabras. ✓",
+   wcUnder:"— faltan ",wcOver:"— sobran ",
+   esHelp:"ES · Ayuda en español",esHelpHide:"ES · Ocultar ayuda"}
+};
+function t(k){ return (STR[LANG]&&STR[LANG][k])||STR.en[k]||k; }
+function cfDetailText(matched){
+  if(LANG==="es") return matched+" de 4 entradas coinciden hasta ahora. Si alguna no coincide: revisa la sustitución — primero las horas, luego las cajas — e inténtalo otra vez. (El taller nunca revela los números; son tuyos para encontrarlos.)";
+  return matched+" of 4 entries match so far. For any that don't: recheck the substitution — hours first, then boxes — and try again. (The studio never reveals the numbers; they're yours to find.)";
+}
+var DICT={
+ en:{
+  "nav.days":"Chapter 1 Days","nav.year":"Year at a Glance","nav.explore":"Explorers","nav.practice":"Practice","nav.ideas":"Key Ideas","nav.glossary":"Glossary","nav.essay":"Essay Studio","nav.progress":"My Progress","nav.teacher":"Teacher Corner",
+  "days.h2":"Chapter 1 in 10 Days — Days 2–11 of 180",
+  "days.intro":"The full year is paced at <strong>one 50-minute period per day for 180 days</strong>, assessment days included. Each section gets two days — a Teach day, then a Practice + AI Lab day — and every chapter closes with review, a test, a two-day essay, a project day, and a buffer day. Chapter 1 is the only chapter with live material on this page; Chapters 2–9 open as they are released, on the days shown in the Year at a Glance below. <strong>Day 1</strong> is the course introduction, before Chapter 1 begins.",
+  "daynav.label":"Jump to:",
+  "year.h2":"Year at a Glance — 180 Days",
+  "year.intro":"One school year, paced day by day. Chapter 1 (Days 2–11) is open now; each later chapter opens on its start day as it is released. The full day-by-day table is in the Teacher Corner.",
+  "explore.h2":"Decision Explorers",
+  "explore.intro":"Every DecideMath chapter opens with a decision. Move the controls, watch the money change, and form your own verdict. The explorers show you the paychecks — deciding what they <em>mean</em> is your job.",
+  "practice.h2":"Practice — Chapter 1, by Day",
+  "practice.intro":"All 41 questions from the chapter, grouped by their pacing day: <strong>Day 2</strong> §1.1 Quick Fluency · <strong>Day 3</strong> §1.1 Quick Check + Practice · <strong>Day 4</strong> §1.2 Quick Fluency · <strong>Day 5</strong> §1.2 Quick Check + Practice · <strong>Day 6</strong> Chapter Review. Type your answer and press <strong>Check</strong>. Equivalent forms count — <span class=\"num\">11 + 3n</span> and <span class=\"num\">3n + 11</span> are the same expression — but order matters in subtraction. You will only be told <em>Correct</em> or <em>Not yet</em>: the working-out stays yours.",
+  "ideas.h2":"Key Ideas",
+  "ideas.intro":"The handful of ideas this whole chapter stands on. If one of these feels shaky, the practice above will feel shaky too.",
+  "gloss.h2":"Bilingual Glossary — Chapter 1 / Glosario bilingüe",
+  "gloss.intro":"The key words of this chapter in English and Spanish. Words marked <span class=\"cog\">cognate</span> look alike in both languages — they are your shortcut: learn to recognize them and half the chapter's vocabulary is already yours.",
+  "gloss.thEn":"English","gloss.thEs":"Español","gloss.thDef":"What it means (simple English)",
+  "gloss.note":"Tap a highlighted key word in a Decision card to jump straight to its glossary entry.",
+  "gloss.keywords":"Key words:",
+  "btn.listen":"Listen","btn.stop":"Stop","btn.cfCheck":"Check my numbers","btn.reset":"Reset my progress","btn.signin":"Sign in",
+  "jobs.hours":"Hours worked per week","jobs.boxes":"Boxes packed per week",
+  "jobs.pickW":"My pick: Build-a-Box Warehouse","jobs.pickS":"My pick: City Scoops Ice Cream",
+  "gym.m2":"2 months","gym.m3":"3 months","gym.m9":"9 months","gym.m12":"12 months",
+  "gym.pickF":"My pick for the school year: FitZone","gym.pickX":"My pick for the school year: FlexGym",
+  "essay.h2":"Essay Studio — The Decision Essay (Days 8–9)",
+  "essay.planNoteT":"Planning in Spanish is welcome.",
+  "essay.planNote":"You may plan, compute, and take notes in Spanish — your Step 1 numbers, margin notes, and outline can all be in Spanish. The essay itself is written in English, because the essay is graded in English.",
+  "essay.draftH":"Draft your three paragraphs",
+  "essay.draftP":"Write your first draft entirely on your own. Paragraph 1: your decision and claim. Paragraph 2: the mathematical evidence. Paragraph 3: implications, limitations, and what would change your mind.",
+  "essay.p1":"Paragraph 1 — Your decision and claim","essay.p2":"Paragraph 2 — Mathematical evidence","essay.p3":"Paragraph 3 — Implications, limitations, and what would change your mind",
+  "progress.h2":"My Progress",
+  "progress.intro":"Your practice record on this device. It is saved in this browser so you can pick up where you left off.",
+  "progress.of":"of","progress.correct":"questions correct","progress.attempts":"total attempts","progress.essay":"Essay compute-first:",
+  "teacher.h2":"Teacher Corner",
+  "teacher.intro":"The guide to <strong>teaching the Decision &amp; the Story</strong>, worked solutions, decision answers, the essay grading guide, the assignment builder, and the <strong>full 180-day year map table</strong> live here — behind the teacher passcode, so students working in Student mode never see them on screen. Students see only the Year at a Glance strip and their current chapter's day cards.",
+  "teacher.signinH":"Teacher sign in",
+  "teacher.signinP":"Enter the teacher passcode to open the Teacher Corner on this device."
+ },
+ es:{
+  "nav.days":"Días del Capítulo 1","nav.year":"El año de un vistazo","nav.explore":"Exploradores","nav.practice":"Práctica","nav.ideas":"Ideas clave","nav.glossary":"Glosario","nav.essay":"Taller de ensayo","nav.progress":"Mi progreso","nav.teacher":"Rincón del maestro",
+  "days.h2":"El Capítulo 1 en 10 días: días 2–11 de 180",
+  "days.intro":"El año completo está organizado a <strong>un período de 50 minutos por día durante 180 días</strong>, incluidos los días de evaluación. Cada sección tiene dos días — un día de enseñanza y luego un día de práctica + AI Lab — y cada capítulo cierra con repaso, una prueba, un ensayo de dos días, un día de proyecto y un día de reserva. El Capítulo 1 es el único capítulo con material activo en esta página; los Capítulos 2–9 se abren cuando se publican, en los días indicados en «El año de un vistazo». El <strong>Día 1</strong> es la introducción del curso, antes de que empiece el Capítulo 1.",
+  "daynav.label":"Ir a:",
+  "year.h2":"El año de un vistazo — 180 días",
+  "year.intro":"Un año escolar, organizado día por día. El Capítulo 1 (días 2–11) ya está abierto; cada capítulo siguiente se abre en su día de inicio cuando se publica. La tabla completa día por día está en el Rincón del maestro.",
+  "explore.h2":"Exploradores de decisiones",
+  "explore.intro":"Cada capítulo de DecideMath empieza con una decisión. Mueve los controles, mira cómo cambia el dinero y forma tu propio veredicto. Los exploradores te muestran los pagos: decidir qué <em>significan</em> es tu trabajo.",
+  "practice.h2":"Práctica — Capítulo 1, por día",
+  "practice.intro":"Las 41 preguntas del capítulo, agrupadas por su día: <strong>Día 2</strong> Fluidez rápida §1.1 · <strong>Día 3</strong> Revisión rápida + Práctica §1.1 · <strong>Día 4</strong> Fluidez rápida §1.2 · <strong>Día 5</strong> Revisión rápida + Práctica §1.2 · <strong>Día 6</strong> Repaso del capítulo. Escribe tu respuesta y presiona <strong>Revisar</strong>. Las formas equivalentes cuentan: <span class=\"num\">11 + 3n</span> y <span class=\"num\">3n + 11</span> son la misma expresión, pero el orden sí importa en la resta. Solo verás <em>¡Correcto!</em> o <em>Todavía no</em>: el procedimiento es tuyo.",
+  "ideas.h2":"Ideas clave",
+  "ideas.intro":"El pequeño grupo de ideas sobre el que se sostiene todo el capítulo. Si una de estas ideas se siente floja, la práctica de arriba también se sentirá floja.",
+  "gloss.h2":"Glosario bilingüe — Capítulo 1 / Bilingual Glossary",
+  "gloss.intro":"Las palabras clave de este capítulo en inglés y en español. Las palabras marcadas como <span class=\"cog\">cognate</span> (cognados) se parecen en los dos idiomas: son tu atajo. Aprende a reconocerlas y ya tienes la mitad del vocabulario del capítulo.",
+  "gloss.thEn":"Inglés","gloss.thEs":"Español","gloss.thDef":"Qué significa (en inglés sencillo)",
+  "gloss.note":"Toca una palabra clave en una tarjeta de Decisión para saltar directamente a su entrada en el glosario.",
+  "gloss.keywords":"Palabras clave:",
+  "btn.listen":"Escuchar","btn.stop":"Detener","btn.cfCheck":"Revisar mis números","btn.reset":"Borrar mi progreso","btn.signin":"Entrar",
+  "jobs.hours":"Horas trabajadas por semana","jobs.boxes":"Cajas empacadas por semana",
+  "jobs.pickW":"Mi elección: Build-a-Box Warehouse","jobs.pickS":"Mi elección: City Scoops Ice Cream",
+  "gym.m2":"2 meses","gym.m3":"3 meses","gym.m9":"9 meses","gym.m12":"12 meses",
+  "gym.pickF":"Mi elección para el año escolar: FitZone","gym.pickX":"Mi elección para el año escolar: FlexGym",
+  "essay.h2":"Taller de ensayo — El ensayo de decisión (días 8–9)",
+  "essay.planNoteT":"Planear en español está bien.",
+  "essay.planNote":"Puedes planear, calcular y tomar notas en español: tus números del Paso 1, tus notas al margen y tu esquema pueden estar en español. El ensayo en sí se escribe en inglés, porque el ensayo se califica en inglés.",
+  "essay.draftH":"Escribe tus tres párrafos",
+  "essay.draftP":"Escribe tu primer borrador completamente por tu cuenta. Párrafo 1: tu decisión y tu afirmación. Párrafo 2: la evidencia matemática. Párrafo 3: implicaciones, limitaciones y qué cambiaría tu opinión.",
+  "essay.p1":"Párrafo 1 — Tu decisión y tu afirmación","essay.p2":"Párrafo 2 — Evidencia matemática","essay.p3":"Párrafo 3 — Implicaciones, limitaciones y qué cambiaría tu opinión",
+  "progress.h2":"Mi progreso",
+  "progress.intro":"Tu registro de práctica en este dispositivo. Se guarda en este navegador para que puedas continuar donde ibas.",
+  "progress.of":"de","progress.correct":"preguntas correctas","progress.attempts":"intentos en total","progress.essay":"Ensayo, calcula primero:",
+  "teacher.h2":"Rincón del maestro",
+  "teacher.intro":"La guía para <strong>enseñar la Decisión y la Historia</strong>, las soluciones desarrolladas, las respuestas de las decisiones, la guía de calificación del ensayo, el creador de tareas y la <strong>tabla completa del año de 180 días</strong> están aquí, detrás del código de maestro, para que los estudiantes en modo estudiante nunca los vean en pantalla. Los estudiantes solo ven la franja de «El año de un vistazo» y las tarjetas de días de su capítulo actual.",
+  "teacher.signinH":"Acceso del maestro",
+  "teacher.signinP":"Escribe el código de maestro para abrir el Rincón del maestro en este dispositivo."
+ }
+};
+/* day-card labels (day numbers + minute-plan rows) translated by exact text */
+var TEXTMAP_ES={
+ "Day 2 · Teach":"Día 2 · Enseñanza","Day 3 · Practice + AI Lab":"Día 3 · Práctica + AI Lab","Day 4 · Teach":"Día 4 · Enseñanza",
+ "Day 5 · Practice + AI Lab":"Día 5 · Práctica + AI Lab","Day 6 · Review":"Día 6 · Repaso","Day 7 · Assessment":"Día 7 · Evaluación",
+ "Day 8 · Essay Planning":"Día 8 · Plan del ensayo","Day 9 · Essay Writing":"Día 9 · Escritura del ensayo",
+ "Day 10 · Project / Enrichment":"Día 10 · Proyecto / Ampliación","Day 11 · Reteach / Buffer":"Día 11 · Reenseñanza / Reserva",
+ "§1.1 — Two Job Offers":"§1.1 — Dos ofertas de trabajo","§1.1 — Practice Day":"§1.1 — Día de práctica",
+ "§1.2 — Evaluating Expressions":"§1.2 — Evaluar expresiones","§1.2 — Practice Day + Gym Decision":"§1.2 — Día de práctica + la decisión del gimnasio",
+ "Chapter 1 Review":"Repaso del Capítulo 1","Chapter 1 Test Day":"Día de la prueba del Capítulo 1",
+ "Decision Essay — Plan It":"Ensayo de decisión — Planéalo","Decision Essay — Write It":"Ensayo de decisión — Escríbelo",
+ "Decision Replays":"Repetición de decisiones","Reteach & Buffer Day":"Día de reenseñanza y reserva",
+ "Decision hook":"Inicio: la decisión","Story + worked examples":"Historia + ejemplos resueltos","Guided practice":"Práctica guiada",
+ "Exit check":"Revisión de salida","Warm-up":"Calentamiento","Problem set":"Conjunto de problemas","AI Lab":"AI Lab",
+ "Retrieval warm-up":"Calentamiento de recuperación","Review set":"Conjunto de repaso","Corrections + questions":"Correcciones + preguntas",
+ "Settle + instructions":"Preparación + instrucciones","Chapter 1 Test":"Prueba del Capítulo 1","Collect + quiet reflection":"Entrega + reflexión tranquila",
+ "Prompt hook":"Inicio: la consigna","Compute-first (Step 1)":"Calcula primero (Paso 1)","Thesis + evidence plan":"Plan de tesis + evidencia",
+ "Flip test + exit check":"Prueba del cambio + revisión de salida","Warm-up: reread your plan":"Calentamiento: relee tu plan",
+ "Drafting — three paragraphs":"Escritura: tres párrafos","Word-count check + revision":"Conteo de palabras + revisión",
+ "Replay hook":"Inicio: repetir","Replay both decisions":"Repite las dos decisiones","Compare with a partner":"Compara con un compañero",
+ "Reflection":"Reflexión","Diagnostic warm-up":"Calentamiento de diagnóstico","Reteach / catch-up stations":"Estaciones de reenseñanza / puesta al día",
+ "Re-check":"Revisión","Preview Chapter 2":"Vista previa del Capítulo 2","Total":"Total"
+};
+function applyTextMap(){
+  document.querySelectorAll(".day-no,.day-card h3,.mins li span:first-child").forEach(function(elm){
+    if(!elm.getAttribute("data-en-text")) elm.setAttribute("data-en-text",elm.textContent);
+    var en=elm.getAttribute("data-en-text");
+    elm.textContent = (LANG==="es" && TEXTMAP_ES[en]) ? TEXTMAP_ES[en] : en;
+  });
+}
+function paintModePill(){
+  var pill=document.getElementById("mode-pill");
+  pill.textContent = document.body.classList.contains("teacher-on") ? t("teacherMode") : t("studentMode");
+}
+function applyLang(){
+  document.documentElement.lang = (LANG==="es") ? "es" : "en";
+  try{ localStorage.setItem("decidemath-gh-lang",LANG); }catch(e){}
+  document.getElementById("lang-en").setAttribute("aria-pressed",String(LANG==="en"));
+  document.getElementById("lang-es").setAttribute("aria-pressed",String(LANG==="es"));
+  document.querySelectorAll("[data-i18n]").forEach(function(elm){
+    var key=elm.getAttribute("data-i18n");
+    if(DICT[LANG]&&DICT[LANG][key]!=null) elm.innerHTML=DICT[LANG][key];
+  });
+  applyTextMap();
+  paintModePill();
+  var pc=document.getElementById("passcode");
+  if(pc) pc.setAttribute("placeholder", LANG==="es" ? "Código de acceso" : "Passcode");
+  if(typeof paintJobs==="function"){ paintJobs(); paintGym(); }
+  if(typeof paintProgress==="function") paintProgress();
+  if(typeof paintEssayWC==="function") paintEssayWC();
+  if(typeof paintPickNotes==="function") paintPickNotes();
+  document.querySelectorAll(".q").forEach(function(card){
+    var st=card.querySelector(".status");
+    if(card.classList.contains("solved")&&st){ st.textContent=t("correct"); }
+    var btn=card.querySelector(".row .btn");
+    if(btn) btn.textContent=t("check");
+    var att=card.querySelector(".attempts");
+    var qid=card.id.replace("q-","");
+    var a=state.attempts[qid]||0;
+    if(att) att.textContent = a? (t("attempts")+a) : "";
+  });
+}
+
 
 /* ---------- render practice ---------- */
 function el(tag, cls, text){
@@ -936,6 +1266,20 @@ function renderQuestions(){
       p.appendChild(el("span","qn",q.n+"."));
       p.appendChild(document.createTextNode(q.prompt));
       card.appendChild(p);
+      if(ES_PROMPTS[q.id]){
+        var helpBtn=el("button","es-help-btn",t("esHelp")); helpBtn.type="button";
+        helpBtn.setAttribute("aria-expanded","false");
+        var helpDiv=el("div","es-help");
+        helpDiv.setAttribute("lang","es");
+        helpDiv.textContent=ES_PROMPTS[q.id];
+        helpBtn.addEventListener("click",function(){
+          var open=helpDiv.classList.toggle("open");
+          helpBtn.setAttribute("aria-expanded",String(open));
+          helpBtn.textContent = open? t("esHelpHide") : t("esHelp");
+        });
+        card.appendChild(helpBtn);
+        card.appendChild(helpDiv);
+      }
       var fields=el("div","fields");
       q.fields.forEach(function(f, fi){
         var wrap=el("div");
@@ -945,7 +1289,7 @@ function renderQuestions(){
         var input;
         if(f.check.type==="select"){
           input=document.createElement("select");
-          input.appendChild(el("option",null,"Choose…")); input.options[0].value="";
+          input.appendChild(el("option",null,t("choose"))); input.options[0].value="";
           f.check.options.forEach(function(o){ var op=el("option",null,o); op.value=o; input.appendChild(op); });
         }else{
           input=document.createElement("input");
@@ -959,13 +1303,13 @@ function renderQuestions(){
       });
       card.appendChild(fields);
       var row=el("div","row");
-      var btn=el("button","btn small","Check"); btn.type="button";
+      var btn=el("button","btn small",t("check")); btn.type="button";
       var status=el("span","status",""); status.setAttribute("role","status");
       var att=el("span","attempts","");
       function paintAtt(){
         var a=state.attempts[q.id]||0;
-        att.textContent = a? ("Attempts: "+a) : "";
-        if(state.solved[q.id]){ status.textContent="Correct ✓"; status.className="status ok"; }
+        att.textContent = a? (t("attempts")+a) : "";
+        if(state.solved[q.id]){ status.textContent=t("correct"); status.className="status ok"; }
       }
       btn.addEventListener("click",function(){
         state.attempts[q.id]=(state.attempts[q.id]||0)+1;
@@ -973,8 +1317,8 @@ function renderQuestions(){
           var inp=document.getElementById("in-"+q.id+"-"+fi);
           return checkField(f, inp.value);
         });
-        if(ok){ state.solved[q.id]=true; card.classList.add("solved"); status.textContent="Correct ✓"; status.className="status ok"; }
-        else{ status.textContent="Not yet — try again"; status.className="status no"; }
+        if(ok){ state.solved[q.id]=true; card.classList.add("solved"); status.textContent=t("correct"); status.className="status ok"; }
+        else{ status.textContent=t("notyet"); status.className="status no"; }
         paintAtt(); saveState(); paintProgress();
       });
       row.appendChild(btn); row.appendChild(status); row.appendChild(att);
@@ -993,8 +1337,8 @@ function paintJobs(){
   document.getElementById("job-hours-val").textContent=h;
   document.getElementById("job-boxes-val").textContent=b;
   var w=11.50*h+1.25*b, s=14*h;
-  document.getElementById("pay-warehouse").innerHTML=money(w)+" <small>per week</small>";
-  document.getElementById("pay-scoops").innerHTML=money(s)+" <small>per week</small>";
+  document.getElementById("pay-warehouse").innerHTML=money(w)+" <small>"+t("perWeek")+"</small>";
+  document.getElementById("pay-scoops").innerHTML=money(s)+" <small>"+t("perWeek")+"</small>";
   var scale=Math.max(w,s,1);
   /* scale bars against the larger paycheck, with headroom */
   var full=Math.max(600, scale*1.15);
@@ -1004,8 +1348,8 @@ function paintJobs(){
 var gymMonths=9;
 function paintGym(){
   var f=40+25*gymMonths, g=10+35*gymMonths;
-  document.getElementById("cost-fitzone").innerHTML=money(f)+" <small>total</small>";
-  document.getElementById("cost-flexgym").innerHTML=money(g)+" <small>total</small>";
+  document.getElementById("cost-fitzone").innerHTML=money(f)+" <small>"+t("totalWord")+"</small>";
+  document.getElementById("cost-flexgym").innerHTML=money(g)+" <small>"+t("totalWord")+"</small>";
   var full=Math.max(f,g,1)*1.15;
   document.getElementById("bar-fitzone").style.width=Math.max(2,(f/full*100))+"%";
   document.getElementById("bar-flexgym").style.width=Math.max(2,(g/full*100))+"%";
@@ -1019,8 +1363,8 @@ function wirePick(btnId, otherId, noteId, key, label){
     btn.setAttribute("aria-pressed", String(state[key]===label));
     other.setAttribute("aria-pressed", String(state[key]!==label && state[key]!==""));
     document.getElementById(noteId).textContent = state[key]
-      ? ("Your pick: "+state[key]+". Keep exploring — check whether your pick still holds when the numbers change.")
-      : document.getElementById(noteId).getAttribute("data-default");
+      ? (t("yourPick")+state[key]+"."+t("pickKeep"))
+      : t("pickJobNote");
   }
   btn.addEventListener("click",function(){ state[key]=label; saveState(); paint(); });
   other.addEventListener("click",function(){ /* handled by its own wirePick */ });
@@ -1039,12 +1383,12 @@ function checkComputeFirst(){
   var allOk=results.every(function(r){return r.ok;});
   var matched=results.filter(function(r){return r.ok;}).length;
   if(allOk){
-    status.textContent="All four match ✓"; status.className="status ok";
-    detail.textContent="Your computation checks out. These numbers are the backbone of Paragraph 2.";
+    status.textContent=t("cfAll"); status.className="status ok";
+    detail.textContent=t("cfAllDetail");
     state.essayCF=true;
   }else{
-    status.textContent="No match yet"; status.className="status no";
-    detail.textContent=matched+" of 4 entries match so far. For any that don't: recheck the substitution — hours first, then boxes — and try again. (The studio never reveals the numbers; they're yours to find.)";
+    status.textContent=t("cfNo"); status.className="status no";
+    detail.textContent=cfDetailText(matched);
     state.essayCF=false;
   }
   saveState(); paintProgress();
@@ -1052,12 +1396,12 @@ function checkComputeFirst(){
 function countWords(t){ var m=String(t).trim().match(/\S+/g); return m? m.length : 0; }
 function paintEssayWC(){
   var total=["para1","para2","para3"].reduce(function(sum,id){ return sum+countWords(document.getElementById(id).value); },0);
-  document.getElementById("essay-wc").textContent=total+" words";
+  document.getElementById("essay-wc").textContent=total+" "+t("words");
   var note=document.getElementById("essay-wc-note");
-  if(total>=200&&total<=300){ note.textContent="— in the 200–300 word target. ✓"; note.className="wc-note in"; }
-  else if(total<200){ note.textContent="— under the 200-word minimum by "+(200-total)+"."; note.className="wc-note out"; }
-  else{ note.textContent="— over the 300-word maximum by "+(total-300)+"."; note.className="wc-note out"; }
-  if(total===0) note.textContent="— target is 200–300 words.";
+  if(total>=200&&total<=300){ note.textContent=t("wcIn"); note.className="wc-note in"; }
+  else if(total<200){ note.textContent=t("wcUnder")+(LANG==="es"? (200-total)+" para llegar a las 200 palabras." : (200-total)+"."); note.className="wc-note out"; }
+  else{ note.textContent=t("wcOver")+(LANG==="es"? (total-300)+" por encima del máximo de 300 palabras." : (total-300)+"."); note.className="wc-note out"; }
+  if(total===0) note.textContent=t("wcTarget");
 }
 
 /* ---------- progress + locked chapters ---------- */
@@ -1076,7 +1420,7 @@ function paintProgress(){
   var attempts=Object.keys(state.attempts).reduce(function(s,k){return s+(state.attempts[k]||0);},0);
   document.getElementById("prog-solved").textContent=solved;
   document.getElementById("prog-attempts").textContent=attempts;
-  document.getElementById("prog-essay").textContent=state.essayCF? "all numbers match ✓" : "not fully matched yet";
+  document.getElementById("prog-essay").textContent=state.essayCF? t("essayDone") : t("essayPending");
   document.getElementById("prog-fill").style.width=(solved/QUESTIONS.length*100)+"%";
 }
 function renderLocked(){
@@ -1097,19 +1441,23 @@ document.getElementById("job-boxes").addEventListener("input",paintJobs);
 document.querySelectorAll(".month-btns button").forEach(function(btn){
   btn.addEventListener("click",function(){ gymMonths=parseInt(btn.getAttribute("data-months"),10); paintGym(); });
 });
-document.getElementById("pick-note").setAttribute("data-default","Pick the job you would take. You will defend this choice in the essay at the end of the chapter.");
-document.getElementById("gym-pick-note").setAttribute("data-default","Pick the gym you would join for about 9 months.");
 var paintJobPick=wirePick("pick-warehouse","pick-scoops","pick-note","jobPick","Build-a-Box Warehouse");
 document.getElementById("pick-scoops").addEventListener("click",function(){
   state.jobPick="City Scoops Ice Cream"; saveState(); paintJobPick();
-  document.getElementById("pick-note").textContent="Your pick: City Scoops Ice Cream. Keep exploring — check whether your pick still holds when the numbers change.";
 });
 document.getElementById("pick-warehouse").addEventListener("click",function(){ paintJobPick(); });
 var gymFitBtn=document.getElementById("pick-fitzone"), gymFlexBtn=document.getElementById("pick-flexgym");
 function paintGymPick(){
   gymFitBtn.setAttribute("aria-pressed",String(state.gymPick==="FitZone"));
   gymFlexBtn.setAttribute("aria-pressed",String(state.gymPick==="FlexGym"));
-  if(state.gymPick) document.getElementById("gym-pick-note").textContent="Your pick for the school year: "+state.gymPick+".";
+  document.getElementById("gym-pick-note").textContent = state.gymPick
+    ? (t("yourPickGym")+state.gymPick+".")
+    : t("pickGymNote");
+}
+function paintPickNotes(){
+  if(state.jobPick){ paintJobPick(); }
+  else{ document.getElementById("pick-note").textContent=t("pickJobNote"); }
+  paintGymPick();
 }
 gymFitBtn.addEventListener("click",function(){ state.gymPick="FitZone"; saveState(); paintGymPick(); });
 gymFlexBtn.addEventListener("click",function(){ state.gymPick="FlexGym"; saveState(); paintGymPick(); });
@@ -1125,7 +1473,8 @@ document.getElementById("prog-reset").addEventListener("click",function(){
   paintProgress(); paintGymPick();
   document.getElementById("pick-warehouse").setAttribute("aria-pressed","false");
   document.getElementById("pick-scoops").setAttribute("aria-pressed","false");
-  document.getElementById("pick-note").textContent=document.getElementById("pick-note").getAttribute("data-default");
+  document.getElementById("pick-note").textContent=t("pickJobNote");
+  document.getElementById("gym-pick-note").textContent=t("pickGymNote");
 });
 /* ---------- deep-link jump + highlight flash ---------- */
 function flashTarget(elm){
@@ -1160,6 +1509,11 @@ renderQuestions();
 renderLocked();
 paintJobs(); paintGym(); paintGymPick(); paintProgress(); paintEssayWC();
 if(state.jobPick){ paintJobPick(); }
+
+/* ---------- language toggle wiring ---------- */
+document.getElementById("lang-en").addEventListener("click",function(){ LANG="en"; applyLang(); });
+document.getElementById("lang-es").addEventListener("click",function(){ LANG="es"; applyLang(); });
+applyLang();
 </script>
 
 <script>
@@ -1316,8 +1670,8 @@ function renderTeacherZone(){
   document.getElementById("teacher-logout").addEventListener("click",function(){
     document.body.classList.remove("teacher-on");
     zone.style.display="none"; zone.innerHTML="";
-    document.getElementById("mode-pill").textContent="Student mode";
     document.getElementById("mode-pill").className="mode-pill";
+    if(typeof paintModePill==="function") paintModePill();
     document.getElementById("passcode").value="";
     document.getElementById("login-status").textContent="";
     document.getElementById("teacher-login-card").style.display="block";
@@ -1569,8 +1923,8 @@ document.getElementById("teacher-login").addEventListener("click",function(){
   var status=document.getElementById("login-status");
   if(entered===TEACHER_PASSCODE){
     status.textContent="Welcome — Teacher Corner is open below."; status.className="status ok";
-    document.getElementById("mode-pill").textContent="Teacher mode";
     document.getElementById("mode-pill").className="mode-pill teacher";
+    if(typeof paintModePill==="function") paintModePill();
     document.getElementById("teacher-login-card").style.display="none";
     graderScores=[null,null,null,null];
     renderTeacherZone();
@@ -1582,6 +1936,124 @@ document.getElementById("teacher-login").addEventListener("click",function(){
 document.getElementById("passcode").addEventListener("keydown",function(e){
   if(e.key==="Enter"){ e.preventDefault(); document.getElementById("teacher-login").click(); }
 });
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   ESL scaffolding: bilingual glossary, per-card EN/ES/Both
+   switches, read-aloud (speechSynthesis), glossary jumps.
+   ============================================================ */
+var GLOSSARY=[
+ ["variable","variable",true,"A letter that stands for a quantity that can change."],
+ ["expression","expresión",true,"Numbers, variables, and operations combined — with no equals sign."],
+ ["evaluate","evaluar",true,"To substitute numbers for the variables and compute the result."],
+ ["coefficient","coeficiente",true,"The number that multiplies a variable, like the 8 in 8g."],
+ ["constant","constante",true,"A value that never changes, like the 30 in 30 + 8g."],
+ ["term","término",true,"One part of an expression, separated by + or − signs."],
+ ["like terms","términos semejantes",false,"Terms with the same variable and the same power, like 9x and 4x."],
+ ["order of operations","el orden de las operaciones",false,"The agreed order: parentheses, exponents, multiply/divide, add/subtract."],
+ ["breakeven point","punto de equilibrio",false,"The point where two options cost or pay exactly the same."],
+ ["equation","ecuación",true,"A statement that two expressions are equal."],
+ ["value","valor",true,"The number an expression equals after you substitute and compute."],
+ ["sum","suma",false,"The result of adding."],
+ ["difference","diferencia",true,"The result of subtracting."],
+ ["product","producto",true,"The result of multiplying."],
+ ["quotient","cociente",false,"The result of dividing."],
+ ["substitute","sustituir",false,"To replace a variable with a number."],
+ ["per hour","por hora",false,"For each hour — a rate, like $14 per hour."],
+ ["wage","salario",false,"Pay for work, usually counted by the hour."],
+ ["bonus","bono",false,"Extra pay added on top of regular pay."],
+ ["fee","cuota",false,"A fixed charge for a service."],
+ ["profit","la ganancia",false,"Money left after costs are subtracted from money earned."],
+ ["cost","el costo",false,"The price — what you pay."],
+ ["weekly","semanal",false,"Happening once a week; per week."],
+ ["more than","más que",false,"Added to: “11 more than n” means n + 11."],
+ ["less than","menos que",false,"Subtracted from: “6 less than y” means y − 6."]
+];
+var GLOSS_IDS={"variable":"gloss-variable","breakeven point":"gloss-breakeven","bonus":"gloss-bonus","per hour":"gloss-perhour","weekly":"gloss-weekly","fee":"gloss-fee","cost":"gloss-cost","evaluate":"gloss-evaluate"};
+(function renderGlossary(){
+  var body=document.getElementById("glossary-body");
+  if(!body) return;
+  GLOSSARY.forEach(function(g){
+    var tr=document.createElement("tr");
+    if(GLOSS_IDS[g[0]]) tr.id=GLOSS_IDS[g[0]];
+    var tdEn=document.createElement("td");
+    var strong=document.createElement("strong"); strong.textContent=g[0]; tdEn.appendChild(strong);
+    if(g[2]){ var cog=document.createElement("span"); cog.className="cog"; cog.textContent="cognate"; tdEn.appendChild(cog); }
+    var tdEs=document.createElement("td"); tdEs.setAttribute("lang","es"); tdEs.textContent=g[1];
+    var tdDef=document.createElement("td"); tdDef.textContent=g[3];
+    tr.appendChild(tdEn); tr.appendChild(tdEs); tr.appendChild(tdDef);
+    body.appendChild(tr);
+  });
+})();
+
+/* per-card EN | ES | Both switches */
+function setBiMode(card, mode){
+  if(!card) return;
+  card.setAttribute("data-mode",mode);
+  var tools=card.querySelectorAll("[data-setmode]");
+  tools.forEach(function(b){ b.setAttribute("aria-pressed",String(b.getAttribute("data-setmode")===mode)); });
+  var wrap=document.querySelector("[data-bi-for='"+card.id+"']");
+  if(wrap){ wrap.querySelectorAll("[data-setmode]").forEach(function(b){ b.setAttribute("aria-pressed",String(b.getAttribute("data-setmode")===mode)); }); }
+}
+document.addEventListener("click",function(e){
+  var btn=e.target && e.target.closest ? e.target.closest("[data-setmode]") : null;
+  if(!btn) return;
+  var mode=btn.getAttribute("data-setmode");
+  var holder=btn.closest("[data-bi-for]");
+  var card=holder ? document.getElementById(holder.getAttribute("data-bi-for")) : btn.closest(".bi-card");
+  setBiMode(card, mode);
+});
+
+/* read-aloud: reads the text that is currently visible on the card */
+function pickVoice(langPrefix){
+  try{
+    var voices=window.speechSynthesis.getVoices()||[];
+    var prefs = langPrefix==="es" ? ["es-US","es-MX","es"] : ["en-US","en"];
+    for(var i=0;i<prefs.length;i++){
+      for(var j=0;j<voices.length;j++){
+        if(voices[j].lang && voices[j].lang.toLowerCase().indexOf(prefs[i].toLowerCase())===0) return voices[j];
+      }
+    }
+  }catch(e){}
+  return null;
+}
+function readCard(cardId){
+  var card=document.getElementById(cardId);
+  if(!card || !("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  var mode=card.getAttribute("data-mode")||"en";
+  function speak(selector, lang){
+    var parts=[];
+    card.querySelectorAll(selector).forEach(function(elm){ parts.push(elm.textContent.trim()); });
+    var text=parts.join(" ").replace(/\s+/g," ").trim();
+    if(!text) return;
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang = (lang==="es") ? "es-US" : "en-US";
+    var v=pickVoice(lang); if(v) u.voice=v;
+    window.speechSynthesis.speak(u);
+  }
+  if(mode==="en"||mode==="both") speak("h3, .v-en","en");
+  if(mode==="es"||mode==="both") speak(".v-es","es");
+}
+document.addEventListener("click",function(e){
+  var lb=e.target && e.target.closest ? e.target.closest("[data-listen]") : null;
+  if(lb){ readCard(lb.getAttribute("data-listen")); return; }
+  var sb=e.target && e.target.closest ? e.target.closest("[data-stop]") : null;
+  if(sb && "speechSynthesis" in window){ window.speechSynthesis.cancel(); return; }
+  var gt=e.target && e.target.closest ? e.target.closest("[data-goto]") : null;
+  if(gt){
+    var target=document.getElementById(gt.getAttribute("data-goto"));
+    if(target){
+      target.scrollIntoView({behavior:"smooth",block:"center"});
+      target.classList.remove("flash-target"); void target.offsetWidth;
+      target.classList.add("flash-target");
+      setTimeout(function(){ target.classList.remove("flash-target"); },1750);
+    }
+  }
+});
+if("speechSynthesis" in window){ try{ window.speechSynthesis.getVoices(); }catch(e){} }
 </script>
 </body>
 </html>
