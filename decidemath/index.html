@@ -229,6 +229,13 @@
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   @media(max-width:560px){ .top h1{font-size:1.7rem} .job .pay{font-size:1.55rem} }
   @media print{ nav.bar,header.top,.no-print{display:none !important} }
+  /* ---------- result codes & result sheet ---------- */
+  textarea.codebox{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;min-height:100px;background:var(--panel);word-break:break-all}
+  #result-sheet{display:none;max-width:1060px;margin:0 auto;padding:6px 18px 48px}
+  #result-sheet.open{display:block}
+  .stepper-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+  .stepper-row .lbl{font-weight:700;color:var(--navy);min-width:110px}
+  @media print{ body.sheet-printing header.top,body.sheet-printing nav.bar,body.sheet-printing .wrap{display:none !important} body.sheet-printing #result-sheet{display:block !important} }
 </style>
 </head>
 <body>
@@ -715,7 +722,7 @@
       <textarea class="essay" id="para3" placeholder="My advice would change if …, because then …"></textarea>
       <p style="margin-top:14px">Total: <span class="wc num" id="essay-wc">0 words</span>
         <span class="wc-note out" id="essay-wc-note">— target is 200–300 words.</span></p>
-      <p class="attempts">Drafts stay in this browser tab's memory on this page — copy your finished essay somewhere safe before you close it.</p>
+      <p class="attempts">Drafts are saved in this browser on this device as you type, and your finished essay is included in your result code in My Progress below.</p>
     </div>
   </section>
 
@@ -726,12 +733,34 @@
       <p data-i18n="progress.intro">Your practice record on this device. It is saved in this browser so you can pick up where you left off.</p>
     </div>
     <div class="card">
+      <div class="grid2" style="margin-bottom:4px">
+        <div>
+          <label class="flabel" for="stu-name" data-i18n="progress.name">Your name</label>
+          <input type="text" id="stu-name" autocomplete="name" placeholder="e.g. Maria Lopez" />
+        </div>
+        <div>
+          <label class="flabel" for="stu-period" data-i18n="progress.period">Class period</label>
+          <input type="text" id="stu-period" placeholder="e.g. Period 3" />
+        </div>
+      </div>
       <p style="margin:0"><strong class="num" id="prog-solved">0</strong> <span data-i18n="progress.of">of</span> <strong>41</strong> <span data-i18n="progress.correct">questions correct</span> ·
         <strong class="num" id="prog-attempts">0</strong> <span data-i18n="progress.attempts">total attempts</span> ·
         <span data-i18n="progress.essay">Essay compute-first:</span> <strong id="prog-essay">not checked yet</strong></p>
       <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
       <div class="row no-print" style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" class="btn small" id="btn-show-code" data-i18n="btn.showCode">Show my result code</button>
+        <button type="button" class="btn ghost small" id="btn-print-sheet" data-i18n="btn.printSheet">Print my result sheet</button>
         <button type="button" class="btn ghost small" id="prog-reset" data-i18n="btn.reset">Reset my progress</button>
+      </div>
+      <p class="attempts" style="margin-bottom:0" data-i18n="progress.resetNote">Reset clears your question scores, attempts, explorer picks, and the compute-first check. Your name, class period, and essay draft stay, so you can keep working.</p>
+      <div id="code-area" style="display:none;margin-top:14px">
+        <label class="flabel" for="result-code" data-i18n="code.yours">Your result code</label>
+        <textarea class="codebox" id="result-code" readonly rows="5" aria-describedby="code-give-note"></textarea>
+        <div class="row no-print" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px">
+          <button type="button" class="btn amber small" id="btn-copy-code" data-i18n="btn.copy">Copy code</button>
+          <span class="status" id="copy-status" role="status"></span>
+        </div>
+        <p style="margin-bottom:0" id="code-give-note" data-i18n="code.give">Give this code to your teacher — copy it and paste it where your teacher asks, or hand in your printed result sheet.</p>
       </div>
     </div>
     <h3 style="margin:22px 0 8px">Coming later in Algebra 1 — on their pacing days</h3>
@@ -790,6 +819,8 @@
     Student work is checked on this device only; nothing is sent anywhere.
   </footer>
 </div>
+
+<div id="result-sheet" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -1062,7 +1093,7 @@ function checkField(field, raw){
 
 /* ---------- progress state (this browser only) ---------- */
 var LS_KEY="decidemath-gh-ch1-progress";
-var state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:""};
+var state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:"", name:"", period:"", essay:{p1:"",p2:"",p3:""}};
 try{
   var saved=localStorage.getItem(LS_KEY);
   if(saved){ var parsed=JSON.parse(saved); if(parsed&&typeof parsed==="object") state=Object.assign(state,parsed); }
@@ -1100,6 +1131,24 @@ var STR={
    wcUnder:"— faltan ",wcOver:"— sobran ",
    esHelp:"ES · Ayuda en español",esHelpHide:"ES · Ocultar ayuda"}
 };
+Object.assign(STR.en,{
+ copied:"Copied ✓",copyManual:"Copy didn't work here — tap the code, select all, and copy.",
+ sheetTitle:"My Result Sheet — Chapter 1",sheetName:"Name",sheetPeriod:"Period",sheetDate:"Date",
+ dayWord:"Day",colQ:"Question",colR:"Result",attemptsWord:"Attempts",
+ correctShort:"Correct",notYetShort:"Not yet",notTried:"Not tried",
+ planCF:"Essay plan — compute-first (Step 1):",thesisLbl:"Recommendation (thesis):",
+ noneYet:"not chosen yet",doneYes:"done ✓",notDone:"not done yet",
+ essayWordsLbl:"Essay word count:",essayFullLbl:"My essay",noEssay:"No essay draft yet."
+});
+Object.assign(STR.es,{
+ copied:"¡Copiado! ✓",copyManual:"La copia no funcionó aquí: toca el código, selecciona todo y cópialo.",
+ sheetTitle:"Mi hoja de resultados — Capítulo 1",sheetName:"Nombre",sheetPeriod:"Período",sheetDate:"Fecha",
+ dayWord:"Día",colQ:"Pregunta",colR:"Resultado",attemptsWord:"Intentos",
+ correctShort:"Correcta",notYetShort:"Todavía no",notTried:"Sin intentar",
+ planCF:"Plan del ensayo — calcula primero (Paso 1):",thesisLbl:"Recomendación (tesis):",
+ noneYet:"todavía no elegida",doneYes:"hecho ✓",notDone:"todavía no hecho",
+ essayWordsLbl:"Palabras del ensayo:",essayFullLbl:"Mi ensayo",noEssay:"Todavía no hay borrador del ensayo."
+});
 function t(k){ return (STR[LANG]&&STR[LANG][k])||STR.en[k]||k; }
 function cfDetailText(matched){
   if(LANG==="es") return matched+" de 4 entradas coinciden hasta ahora. Si alguna no coincide: revisa la sustitución — primero las horas, luego las cajas — e inténtalo otra vez. (El taller nunca revela los números; son tuyos para encontrarlos.)";
@@ -1141,7 +1190,12 @@ var DICT={
   "teacher.h2":"Teacher Corner",
   "teacher.intro":"The guide to <strong>teaching the Decision &amp; the Story</strong>, worked solutions, decision answers, the essay grading guide, the assignment builder, and the <strong>full 180-day year map table</strong> live here — behind the teacher passcode, so students working in Student mode never see them on screen. Students see only the Year at a Glance strip and their current chapter's day cards.",
   "teacher.signinH":"Teacher sign in",
-  "teacher.signinP":"Enter the teacher passcode to open the Teacher Corner on this device."
+  "teacher.signinP":"Enter the teacher passcode to open the Teacher Corner on this device.",
+  "progress.name":"Your name","progress.period":"Class period",
+  "progress.resetNote":"Reset clears your question scores, attempts, explorer picks, and the compute-first check. Your name, class period, and essay draft stay, so you can keep working.",
+  "btn.showCode":"Show my result code","btn.printSheet":"Print my result sheet","btn.copy":"Copy code",
+  "code.yours":"Your result code",
+  "code.give":"Give this code to your teacher — copy it and paste it where your teacher asks, or hand in your printed result sheet."
  },
  es:{
   "nav.days":"Días del Capítulo 1","nav.year":"El año de un vistazo","nav.explore":"Exploradores","nav.practice":"Práctica","nav.ideas":"Ideas clave","nav.glossary":"Glosario","nav.essay":"Taller de ensayo","nav.progress":"Mi progreso","nav.teacher":"Rincón del maestro",
@@ -1178,7 +1232,12 @@ var DICT={
   "teacher.h2":"Rincón del maestro",
   "teacher.intro":"La guía para <strong>enseñar la Decisión y la Historia</strong>, las soluciones desarrolladas, las respuestas de las decisiones, la guía de calificación del ensayo, el creador de tareas y la <strong>tabla completa del año de 180 días</strong> están aquí, detrás del código de maestro, para que los estudiantes en modo estudiante nunca los vean en pantalla. Los estudiantes solo ven la franja de «El año de un vistazo» y las tarjetas de días de su capítulo actual.",
   "teacher.signinH":"Acceso del maestro",
-  "teacher.signinP":"Escribe el código de maestro para abrir el Rincón del maestro en este dispositivo."
+  "teacher.signinP":"Escribe el código de maestro para abrir el Rincón del maestro en este dispositivo.",
+  "progress.name":"Tu nombre","progress.period":"Período de clase",
+  "progress.resetNote":"Borrar elimina tus puntuaciones, intentos, elecciones de los exploradores y la revisión de «calcula primero». Tu nombre, tu período y tu borrador del ensayo se quedan, para que puedas seguir trabajando.",
+  "btn.showCode":"Ver mi código de resultado","btn.printSheet":"Imprimir mi hoja de resultados","btn.copy":"Copiar el código",
+  "code.yours":"Tu código de resultado",
+  "code.give":"Dale este código a tu maestro o maestra: cópialo y pégalo donde te lo pida, o entrega tu hoja de resultados impresa."
  }
 };
 /* day-card labels (day numbers + minute-plan rows) translated by exact text */
@@ -1227,6 +1286,10 @@ function applyLang(){
   paintModePill();
   var pc=document.getElementById("passcode");
   if(pc) pc.setAttribute("placeholder", LANG==="es" ? "Código de acceso" : "Passcode");
+  var snEl=document.getElementById("stu-name");
+  if(snEl) snEl.setAttribute("placeholder", LANG==="es" ? "ej. María López" : "e.g. Maria Lopez");
+  var spEl=document.getElementById("stu-period");
+  if(spEl) spEl.setAttribute("placeholder", LANG==="es" ? "ej. Período 3" : "e.g. Period 3");
   if(typeof paintJobs==="function"){ paintJobs(); paintGym(); }
   if(typeof paintProgress==="function") paintProgress();
   if(typeof paintEssayWC==="function") paintEssayWC();
@@ -1462,9 +1525,18 @@ function paintPickNotes(){
 gymFitBtn.addEventListener("click",function(){ state.gymPick="FitZone"; saveState(); paintGymPick(); });
 gymFlexBtn.addEventListener("click",function(){ state.gymPick="FlexGym"; saveState(); paintGymPick(); });
 document.getElementById("cf-check").addEventListener("click",checkComputeFirst);
-["para1","para2","para3"].forEach(function(id){ document.getElementById(id).addEventListener("input",paintEssayWC); });
+["para1","para2","para3"].forEach(function(id){
+  var ta=document.getElementById(id);
+  var key=id.replace("para","p");
+  if(state.essay && state.essay[key]) ta.value=state.essay[key];
+  ta.addEventListener("input",function(){
+    if(!state.essay) state.essay={p1:"",p2:"",p3:""};
+    state.essay[key]=ta.value;
+    saveState(); paintEssayWC();
+  });
+});
 document.getElementById("prog-reset").addEventListener("click",function(){
-  state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:""};
+  state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:"", name:state.name||"", period:state.period||"", essay:state.essay||{p1:"",p2:"",p3:""}};
   saveState();
   QUESTIONS.forEach(function(q){
     var c=document.getElementById("q-"+q.id);
@@ -1509,6 +1581,111 @@ renderQuestions();
 renderLocked();
 paintJobs(); paintGym(); paintGymPick(); paintProgress(); paintEssayWC();
 if(state.jobPick){ paintJobPick(); }
+
+/* ---------- result code: identity, code generation, print sheet ---------- */
+function escH(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function dmSecTitle(id){ var s=SECTIONS.filter(function(x){return x.id===id;})[0]; return s? s.title : id; }
+var DAY_GROUPS=[
+ {day:2, secs:["s11qf"]},
+ {day:3, secs:["s11qc","s11p"]},
+ {day:4, secs:["s12qf"]},
+ {day:5, secs:["s12qc","s12p"]},
+ {day:6, secs:["rev"]}
+];
+function currentEssayText(){
+  var es=state.essay||{p1:"",p2:"",p3:""};
+  return [es.p1,es.p2,es.p3].filter(function(x){ return x && String(x).trim(); }).join("\n\n");
+}
+function buildResultData(){
+  var q={};
+  QUESTIONS.forEach(function(item){
+    var a=state.attempts[item.id]||0, s=state.solved[item.id]?1:0;
+    if(a>0||s) q[item.id]=[a,s];
+  });
+  var txt=currentEssayText();
+  return {v:1, n:state.name||"", p:state.period||"", q:q,
+    e:{cf:state.essayCF?1:0, th:state.jobPick||"", t:txt, w:countWords(txt)},
+    d:new Date().toISOString().slice(0,10)};
+}
+function dmEncodeUTF8(str){
+  var bin;
+  if(window.TextEncoder){
+    var bytes=new TextEncoder().encode(str); bin="";
+    for(var i=0;i<bytes.length;i++) bin+=String.fromCharCode(bytes[i]);
+  }else{ bin=unescape(encodeURIComponent(str)); }
+  return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function makeResultCode(){ return "DM1-"+dmEncodeUTF8(JSON.stringify(buildResultData())); }
+
+var stuNameInput=document.getElementById("stu-name"), stuPeriodInput=document.getElementById("stu-period");
+stuNameInput.value=state.name||""; stuPeriodInput.value=state.period||"";
+stuNameInput.addEventListener("input",function(){ state.name=stuNameInput.value; saveState(); });
+stuPeriodInput.addEventListener("input",function(){ state.period=stuPeriodInput.value; saveState(); });
+
+document.getElementById("btn-show-code").addEventListener("click",function(){
+  var ta=document.getElementById("result-code");
+  ta.value=makeResultCode();
+  document.getElementById("code-area").style.display="block";
+  document.getElementById("copy-status").textContent="";
+  ta.scrollIntoView({behavior:"smooth",block:"center"});
+});
+document.getElementById("btn-copy-code").addEventListener("click",function(){
+  var ta=document.getElementById("result-code");
+  var st=document.getElementById("copy-status");
+  function done(){ st.textContent=t("copied"); st.className="status ok"; }
+  function fail(){ ta.focus(); try{ ta.select(); }catch(e){} st.textContent=t("copyManual"); st.className="status no"; }
+  function legacy(){
+    try{ ta.focus(); ta.select(); (document.execCommand&&document.execCommand("copy")) ? done() : fail(); }
+    catch(e){ fail(); }
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(done,legacy); }
+  else legacy();
+});
+function buildResultSheet(){
+  var essayText=currentEssayText();
+  var wc=countWords(essayText);
+  var solved=Object.keys(state.solved).filter(function(k){return state.solved[k];}).length;
+  var attempts=Object.keys(state.attempts).reduce(function(s,k){return s+(state.attempts[k]||0);},0);
+  var today=new Date().toLocaleDateString(LANG==="es"?"es-US":"en-US");
+  var h="<div class='sheet'><h3 style='margin-bottom:4px'>"+escH(t("sheetTitle"))+"</h3>"+
+    "<div class='lines'><span>"+escH(t("sheetName"))+": "+escH(state.name||"")+"</span><span>"+escH(t("sheetPeriod"))+": "+escH(state.period||"")+"</span><span>"+escH(t("sheetDate"))+": "+escH(today)+"</span></div>"+
+    "<p><strong class='num'>"+solved+" / "+QUESTIONS.length+"</strong> "+escH(t("correctShort"))+" · <strong class='num'>"+attempts+"</strong> "+escH(t("attemptsWord"))+"</p>";
+  h+="<table class='scores'><tr><th>"+escH(t("dayWord"))+"</th><th class='n'>"+escH(t("correctShort"))+"</th><th class='n'>"+escH(t("attemptsWord"))+"</th></tr>";
+  DAY_GROUPS.forEach(function(g){
+    var qs=QUESTIONS.filter(function(q){return g.secs.indexOf(q.sec)>=0;});
+    var c=0,a=0;
+    qs.forEach(function(q){ a+=(state.attempts[q.id]||0); if(state.solved[q.id]) c++; });
+    var label=qs.length? dmSecTitle(g.secs[0]).replace(/^Day \d+ · /,"") : "";
+    h+="<tr><td><strong>"+escH(t("dayWord"))+" "+g.day+"</strong> — "+escH(label)+"</td><td class='n'>"+c+" / "+qs.length+"</td><td class='n'>"+a+"</td></tr>";
+  });
+  h+="</table>";
+  h+="<table class='scores'><tr><th>"+escH(t("colQ"))+"</th><th class='n'>"+escH(t("colR"))+"</th><th class='n'>"+escH(t("attemptsWord"))+"</th></tr>";
+  QUESTIONS.forEach(function(q){
+    var a=state.attempts[q.id]||0;
+    var res=state.solved[q.id]? (t("correctShort")+" ✓") : (a>0? t("notYetShort") : t("notTried"));
+    h+="<tr><td><strong>"+escH(dmSecTitle(q.sec).replace(/^Day \d+ · /,""))+" — Q"+escH(q.n)+".</strong> "+escH(q.prompt)+"</td><td class='n'>"+escH(res)+"</td><td class='n'>"+a+"</td></tr>";
+  });
+  h+="</table>";
+  h+="<p>"+escH(t("planCF"))+" <strong>"+escH(state.essayCF? t("doneYes") : t("notDone"))+"</strong> · "+
+     escH(t("thesisLbl"))+" <strong>"+escH(state.jobPick||t("noneYet"))+"</strong> · "+
+     escH(t("essayWordsLbl"))+" <strong class='num'>"+wc+"</strong></p>";
+  h+="<h3 style='margin-top:14px'>"+escH(t("essayFullLbl"))+"</h3>";
+  h+= essayText
+    ? "<div style='white-space:pre-wrap;border:1px solid var(--line);border-radius:10px;padding:14px 16px'>"+escH(essayText)+"</div>"
+    : "<p>"+escH(t("noEssay"))+"</p>";
+  h+="</div>";
+  return h;
+}
+document.getElementById("btn-print-sheet").addEventListener("click",function(){
+  var sheet=document.getElementById("result-sheet");
+  sheet.innerHTML=buildResultSheet();
+  sheet.classList.add("open");
+  document.body.classList.add("sheet-printing");
+  sheet.scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(function(){ try{ window.print(); }catch(e){} },450);
+  setTimeout(function(){ document.body.classList.remove("sheet-printing"); },6000);
+});
+window.addEventListener("afterprint",function(){ document.body.classList.remove("sheet-printing"); });
 
 /* ---------- language toggle wiring ---------- */
 document.getElementById("lang-en").addEventListener("click",function(){ LANG="en"; applyLang(); });
@@ -1655,6 +1832,127 @@ var SAMPLES=[
 var graderScores=[null,null,null,null];
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
+/* ---------- student result codes (DM1-) ---------- */
+var decodedStudents=[];
+var DAY_GROUPS_T=[
+ {day:"Day 2", secs:["s11qf"]},
+ {day:"Day 3", secs:["s11qc","s11p"]},
+ {day:"Day 4", secs:["s12qf"]},
+ {day:"Day 5", secs:["s12qc","s12p"]},
+ {day:"Day 6", secs:["rev"]}
+];
+function tSecTitle(id){ var s=SECTIONS.filter(function(x){return x.id===id;})[0]; return s? s.title : id; }
+function recEntry(rec,qid){ var e=rec.q[qid]; if(!e) return {a:0,s:0}; return {a:e[0]||0, s:e[1]?1:0}; }
+function recTotals(rec){
+  var c=0,a=0;
+  QUESTIONS.forEach(function(q){ var e=recEntry(rec,q.id); a+=e.a; if(e.s) c++; });
+  return {correct:c, attempts:a};
+}
+function dmDecode(raw){
+  var s=String(raw||"").replace(/\s+/g,"");
+  var i=s.indexOf("DM1-");
+  if(i>=0) s=s.slice(i+4);
+  if(!s) throw new Error("empty code");
+  s=s.replace(/-/g,"+").replace(/_/g,"/");
+  while(s.length%4) s+="=";
+  var bin=atob(s);
+  var json;
+  if(window.TextDecoder){
+    var bytes=new Uint8Array(bin.length);
+    for(var k=0;k<bin.length;k++) bytes[k]=bin.charCodeAt(k);
+    json=new TextDecoder("utf-8").decode(bytes);
+  }else{ json=decodeURIComponent(escape(bin)); }
+  var data=JSON.parse(json);
+  if(!data||typeof data!=="object"||!data.q||typeof data.q!=="object") throw new Error("not a result code");
+  return data;
+}
+function essayStatusText(rec){
+  var w=(rec.essay&&rec.essay.w!=null)? rec.essay.w : countWords((rec.essay&&rec.essay.t)||"");
+  if(w>0) return "Draft · "+w+" words";
+  if(rec.essay&&rec.essay.cf) return "Planned · compute-first ✓";
+  return "Not started";
+}
+function gradeTotalText(rec){
+  var picked=rec.grade.filter(function(x){return x!==null&&x!==undefined;});
+  if(picked.length===3) return rec.grade.reduce(function(a,b){return a+b;},0)+" / 12";
+  return "— / 12 ("+picked.length+" of 3 scored)";
+}
+function renderRoster(){
+  var host=document.getElementById("src-roster");
+  if(!host) return;
+  if(!decodedStudents.length){
+    host.innerHTML="<p class='attempts'>No student codes decoded yet this session.</p>";
+    return;
+  }
+  var rows=decodedStudents.map(function(rec,i){
+    var tot=recTotals(rec);
+    var pct=Math.round(tot.correct/QUESTIONS.length*100);
+    return "<tr><td><strong>"+esc(rec.name)+"</strong></td><td>"+esc(rec.period||"—")+"</td>"+
+      "<td class='n'>"+tot.correct+" / "+QUESTIONS.length+"</td><td class='n'>"+pct+"%</td>"+
+      "<td>"+esc(essayStatusText(rec))+"</td>"+
+      "<td class='n'><button type='button' class='btn ghost small' data-view='"+i+"'>View</button></td></tr>";
+  }).join("");
+  host.innerHTML="<div style='overflow-x:auto'><table class='scores'><tr><th>Student</th><th>Period</th><th class='n'>Correct</th><th class='n'>Accuracy</th><th>Essay</th><th class='n'>Report</th></tr>"+rows+"</table></div>";
+  host.querySelectorAll("[data-view]").forEach(function(b){
+    b.addEventListener("click",function(){ renderStudentDetail(parseInt(b.getAttribute("data-view"),10)); });
+  });
+}
+function renderStudentDetail(idx){
+  var rec=decodedStudents[idx]; if(!rec) return;
+  var host=document.getElementById("src-detail"); if(!host) return;
+  var tot=recTotals(rec);
+  var pct=Math.round(tot.correct/QUESTIONS.length*100);
+  var h="<div style='border-top:2px solid var(--navy);margin-top:16px;padding-top:14px'>";
+  h+="<h3 style='margin-bottom:2px'>"+esc(rec.name)+(rec.period? " · Period "+esc(rec.period) : "")+"</h3>";
+  h+="<p style='margin-top:0'><strong>"+tot.correct+" of "+QUESTIONS.length+" correct ("+pct+"%)</strong> · "+tot.attempts+" total attempts"+(rec.date? " · code dated "+esc(rec.date) : "")+"</p>";
+  h+="<div style='overflow-x:auto'><table class='scores'><tr><th>Day group</th><th class='n'>Correct</th><th class='n'>Attempts</th></tr>";
+  DAY_GROUPS_T.forEach(function(g){
+    var qs=QUESTIONS.filter(function(q){ return g.secs.indexOf(q.sec)>=0; });
+    var c=0,a=0;
+    qs.forEach(function(q){ var e=recEntry(rec,q.id); a+=e.a; if(e.s) c++; });
+    var label=qs.length? tSecTitle(g.secs[0]).replace(/^Day \d+ · /,"") : "";
+    h+="<tr><td><strong>"+g.day+"</strong> — "+esc(label)+"</td><td class='n'>"+c+" / "+qs.length+"</td><td class='n'>"+a+"</td></tr>";
+  });
+  h+="</table></div>";
+  h+="<div style='overflow-x:auto'><table class='scores'><tr><th>Question</th><th class='n'>Result</th><th class='n'>Attempts</th></tr>";
+  QUESTIONS.forEach(function(q){
+    var e=recEntry(rec,q.id);
+    var res=e.s? "<span style='color:var(--good);font-weight:700'>Correct ✓</span>"
+      : (e.a>0? "<span style='color:#b4481f;font-weight:700'>Not yet</span>" : "<span style='color:var(--muted)'>Not tried</span>");
+    h+="<tr><td><strong>"+esc(tSecTitle(q.sec).replace(/^Day \d+ · /,""))+" — Q"+esc(q.n)+".</strong> "+esc(q.prompt)+"</td><td class='n'>"+res+"</td><td class='n'>"+e.a+"</td></tr>";
+  });
+  h+="</table></div>";
+  var ew=(rec.essay&&rec.essay.w!=null)? rec.essay.w : countWords((rec.essay&&rec.essay.t)||"");
+  h+="<h3 style='margin-top:16px'>Decision essay</h3>";
+  h+="<p><strong>Plan:</strong> compute-first "+((rec.essay&&rec.essay.cf)? "done ✓" : "not done")+
+     " · Recommendation (thesis): <strong>"+esc((rec.essay&&rec.essay.th)||"not chosen")+"</strong>"+
+     " · Word count: <strong class='num'>"+ew+"</strong> (target 200–300)</p>";
+  h+= (rec.essay&&rec.essay.t)
+    ? "<div style='border:1px solid var(--line);border-radius:10px;padding:14px 16px;white-space:pre-wrap'>"+esc(rec.essay.t)+"</div>"
+    : "<p class='attempts'>No essay draft in this code.</p>";
+  h+="<h3 style='margin-top:16px'>Grading helper — this essay</h3>"+
+     "<p style='color:var(--muted);margin-top:0'>Quick score for the three things this essay is built from. Full 0–3 rubric descriptors are in the Essay grader below.</p>";
+  ["Thesis","Evidence","Flip test"].forEach(function(cn,ci){
+    h+="<div class='stepper-row'><span class='lbl'>"+cn+" / 4</span><span class='rubric-btns' role='group' aria-label='"+cn+" score'>"+
+      [0,1,2,3,4].map(function(v){
+        return "<button type='button' data-grade='"+ci+"' data-val='"+v+"' aria-pressed='"+String(rec.grade[ci]===v)+"'>"+v+"</button>";
+      }).join("")+"</span></div>";
+  });
+  h+="<p style='font-size:1.1rem'>Grading total: <strong class='num' id='src-grade-total'>"+gradeTotalText(rec)+"</strong></p>";
+  h+="</div>";
+  host.innerHTML=h;
+  host.querySelectorAll("[data-grade]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var ci=parseInt(b.getAttribute("data-grade"),10), v=parseInt(b.getAttribute("data-val"),10);
+      rec.grade[ci]=v;
+      host.querySelectorAll("button[data-grade='"+ci+"']").forEach(function(x){ x.setAttribute("aria-pressed",String(x===b)); });
+      var gt=document.getElementById("src-grade-total");
+      if(gt) gt.textContent=gradeTotalText(rec);
+    });
+  });
+  host.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
 function renderTeacherZone(){
   var zone=document.getElementById("teacher-zone");
   zone.innerHTML="";
@@ -1675,6 +1973,40 @@ function renderTeacherZone(){
     document.getElementById("passcode").value="";
     document.getElementById("login-status").textContent="";
     document.getElementById("teacher-login-card").style.display="block";
+  });
+
+  /* student result codes */
+  var src=document.createElement("div"); src.className="card"; src.id="result-codes-card";
+  src.innerHTML="<h3>Student Result Codes</h3>"+
+    "<p style='color:var(--muted)'>Each student generates a result code in <strong>My Progress</strong> (or hands in a printed result sheet). Paste a code here to open that student's full report — Day-by-day progress, all 41 questions with attempts, and the essay — then score it with the grading helper. Decoded students stay in the session roster below until you sign out.</p>"+
+    "<label class='flabel' for='src-input'>Student result code</label>"+
+    "<textarea class='codebox' id='src-input' rows='4' placeholder='Paste a code — it starts with DM1-'></textarea>"+
+    "<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px'>"+
+    "<button type='button' class='btn amber' id='src-decode'>Decode student report</button>"+
+    "<span class='status' id='src-error' role='status'></span></div>"+
+    "<div id='src-roster' style='margin-top:14px'></div>"+
+    "<div id='src-detail'></div>";
+  zone.appendChild(src);
+  renderRoster();
+  document.getElementById("src-decode").addEventListener("click",function(){
+    var err=document.getElementById("src-error");
+    err.textContent=""; err.className="status";
+    var data;
+    try{ data=dmDecode(document.getElementById("src-input").value); }
+    catch(e){
+      err.textContent="That code could not be read. Check that the whole code was pasted (it starts with DM1-) and try again — nothing was added.";
+      err.className="status no";
+      return;
+    }
+    var rec={name:String(data.n||"").trim()||"(no name given)", period:String(data.p||""), date:String(data.d||""),
+      q:data.q||{}, essay:(data.e&&typeof data.e==="object")? data.e : {}, grade:[null,null,null]};
+    var existing=-1;
+    decodedStudents.forEach(function(r,i){ if(r.name===rec.name&&r.period===rec.period) existing=i; });
+    if(existing>=0){ rec.grade=decodedStudents[existing].grade; decodedStudents[existing]=rec; }
+    else decodedStudents.push(rec);
+    renderRoster();
+    renderStudentDetail(existing>=0? existing : decodedStudents.length-1);
+    err.textContent="Decoded: "+rec.name+"."; err.className="status ok";
   });
 
   /* key numbers */
