@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light" />
 <link rel="icon" href="data:," />
-<title>DecideMath Interactive — Algebra 1, Chapter 1</title>
+<title>DecideMath Interactive — Algebra 1 · 180-Day Pacing · Chapter 1 (Days 2–11)</title>
 <style>
   :root{
     --navy:#16324f; --navy-deep:#0d2136; --navy-soft:#eaf0f7;
@@ -149,6 +149,52 @@
   .keynum .big{font-size:1.5rem;font-weight:800;color:var(--navy)}
   .progress-track{background:#eef3f8;border-radius:999px;height:16px;overflow:hidden;margin:10px 0}
   .progress-fill{height:100%;background:var(--amber);width:0%;transition:width .3s ease}
+  /* ---------- 180-day pacing ---------- */
+  .day-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:14px}
+  .day-card{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:#fff;display:flex;flex-direction:column}
+  .day-card.assess{background:var(--amber-soft);border-color:#f0d9a8}
+  .day-card.buffer{background:var(--panel);border-style:dashed}
+  .day-card .day-no{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-deep)}
+  .day-card h3{margin:6px 0 4px;font-size:1.05rem}
+  .day-card p{font-size:.92rem;color:var(--muted);margin:.25rem 0}
+  .day-card p strong{color:var(--ink)}
+  .mins{list-style:none;margin:10px 0 12px;padding:10px 12px;background:var(--navy-soft);border-radius:10px;font-size:.86rem}
+  .mins li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px solid rgba(22,50,79,.08)}
+  .mins li:last-child{border-bottom:none}
+  .mins .m{font-weight:800;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .mins .total{font-weight:800;color:var(--navy)}
+  .day-card .go{margin-top:auto;font-weight:700;font-size:.92rem}
+  .day-links{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:auto;padding-top:8px}
+  .day-links .go{margin-top:0}
+  .day-links .go.teacher-only{display:none}
+  body.teacher-on .day-links .go.teacher-only{display:inline}
+  /* sticky day chip bar — top of Chapter 1 module */
+  .day-nav{position:sticky;top:58px;z-index:30;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:14px 0 4px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:0 2px 10px rgba(22,50,79,.06)}
+  .day-nav .day-nav-label{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--amber-deep);margin-right:2px}
+  .day-nav a{display:inline-flex;align-items:center;min-height:36px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--panel);text-decoration:none;font-weight:700;font-size:.86rem;color:var(--navy);white-space:nowrap}
+  .day-nav a:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .day-nav a:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  /* anchor targets: clear the sticky bars + brief flash on arrival */
+  section.block,.card[id],.sec-title[id],.day-banner[id],.day-card[id],.grid2>[id]{scroll-margin-top:126px}
+  @keyframes targetFlash{0%{box-shadow:0 0 0 0 rgba(232,147,12,0);background-color:var(--amber-soft)}25%{box-shadow:0 0 0 4px rgba(232,147,12,.55)}70%{box-shadow:0 0 0 4px rgba(232,147,12,.35)}100%{box-shadow:0 0 0 0 rgba(232,147,12,0)}}
+  .flash-target{animation:targetFlash 1.6s ease;outline:3px solid var(--amber);outline-offset:3px;border-radius:10px}
+  @media(prefers-reduced-motion:reduce){.flash-target{animation:none}}
+  .year-strip a{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 11px;font-size:.8rem;font-weight:700;color:var(--navy);text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
+  .year-strip a.now{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .year-strip a:hover{text-decoration:underline;text-underline-offset:3px}
+  table.yearmap .day-jumps{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:8px;font-size:.86rem}
+  table.yearmap .day-jumps a{font-weight:700;white-space:nowrap}
+  @media(max-width:560px){.day-nav{top:52px} section.block,.card[id],.sec-title[id],.day-banner[id],.day-card[id],.grid2>[id]{scroll-margin-top:118px}}
+  .year-strip{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .year-strip span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 11px;font-size:.8rem;font-weight:700;color:var(--navy)}
+  .year-strip span.now{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .year-strip span.exam{background:var(--amber-soft);border-color:#f0d9a8;color:var(--warn)}
+  .day-banner{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border:1px solid var(--line);background:var(--navy-soft);border-radius:10px;padding:10px 14px;margin:18px 0 4px;font-size:.92rem}
+  .day-banner strong{color:var(--navy)}
+  table.yearmap{border-collapse:collapse;width:100%;margin:10px 0;font-size:.93rem}
+  table.yearmap th,table.yearmap td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  table.yearmap th{background:var(--navy-soft);color:var(--navy)}
+  table.yearmap td.n,table.yearmap th.n{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
   .locked{opacity:.75}
   .lock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
   .lock-card{border:1px dashed #b9c8d8;border-radius:12px;padding:16px;background:var(--panel)}
@@ -167,9 +213,13 @@
     <div class="series">DecideMath Interactive · Algebra 1</div>
     <h1>Chapter 1 — The Language of Algebra</h1>
     <p class="sub">Variables and expressions, learned the DecideMath way: start with a real decision,
-      build the math yourself, then defend your choice. Work the explorers, check your practice,
+      build the math yourself, then defend your choice. This chapter is <strong>Days 2–11</strong> of the
+      confirmed <strong>180-day pacing plan</strong> — one 50-minute period per day, assessment days included —
+      so a teacher covers a set amount each day. Work the explorers, check your practice,
       and draft the decision essay — all in your browser.</p>
     <div class="chips">
+      <span class="chip">180-day pacing · 50-minute periods</span>
+      <span class="chip">Chapter 1: Days 2–11</span>
       <span class="chip">§1.1 Variables &amp; Expressions</span>
       <span class="chip">§1.2 Evaluating Expressions</span>
       <span class="chip">41 practice questions</span>
@@ -180,6 +230,8 @@
 
 <nav class="bar" aria-label="Page sections">
   <div class="bar-in">
+    <a href="#days">Chapter 1 Days</a>
+    <a href="#year">Year at a Glance</a>
     <a href="#explore">Explorers</a>
     <a href="#practice">Practice</a>
     <a href="#ideas">Key Ideas</a>
@@ -193,6 +245,127 @@
 
 <div class="wrap">
 
+  <!-- ================= 180-DAY PACING: CHAPTER 1 DAYS ================= -->
+  <section class="block" id="days">
+    <div class="sec-head">
+      <h2>Chapter 1 in 10 Days — Days 2–11 of 180</h2>
+      <p>The full year is paced at <strong>one 50-minute period per day for 180 days</strong>, assessment days
+        included. Each section gets two days — a Teach day, then a Practice + AI Lab day — and every chapter
+        closes with review, a test, a two-day essay, a project day, and a buffer day. Chapter 1 is the only
+        chapter with live material on this page; Chapters 2–9 open as they are released, on the days shown
+        in the Year at a Glance below. <strong>Day 1</strong> is the course introduction, before Chapter 1 begins.</p>
+    </div>
+    <nav class="day-nav" aria-label="Jump to a Chapter 1 day">
+      <span class="day-nav-label">Jump to:</span>
+      <a href="#explorer-jobs" data-jump>Day 2 · §1.1 Jobs</a>
+      <a href="#practice-11-qc" data-jump>Day 3 · §1.1 Practice</a>
+      <a href="#ideas-evaluating" data-jump>Day 4 · §1.2 Evaluating</a>
+      <a href="#explorer-gym" data-jump>Day 5 · §1.2 + Gym</a>
+      <a href="#practice-review" data-jump>Day 6 · Review</a>
+      <a href="#day7-test" data-jump>Day 7 · Test</a>
+      <a href="#essay-planning" data-jump>Day 8 · Essay Plan</a>
+      <a href="#essay-editors" data-jump>Day 9 · Essay Write</a>
+      <a href="#explorer-jobs" data-jump>Day 10 · Replays</a>
+      <a href="#day-card-11" data-jump>Day 11 · Reteach</a>
+    </nav>
+    <div class="day-grid">
+      <article class="day-card" id="day-card-2">
+        <div class="day-no">Day 2 · Teach</div>
+        <h3>§1.1 — Two Job Offers</h3>
+        <p><strong>Material:</strong> the job Decision explorer, translating words to expressions, and the §1.1 Quick Fluency set.</p>
+        <ul class="mins"><li><span>Decision hook</span><span class="m">5′</span></li><li><span>Story + worked examples</span><span class="m">20′</span></li><li><span>Guided practice</span><span class="m">15′</span></li><li><span>Exit check</span><span class="m">10′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#explorer-jobs" data-jump>Job explorer ↓</a><a class="go" href="#practice-11-qf" data-jump>§1.1 Quick Fluency ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-3">
+        <div class="day-no">Day 3 · Practice + AI Lab</div>
+        <h3>§1.1 — Practice Day</h3>
+        <p><strong>Material:</strong> §1.1 Quick Check and Practice Problems 1.1.</p>
+        <ul class="mins"><li><span>Warm-up</span><span class="m">10′</span></li><li><span>Problem set</span><span class="m">25′</span></li><li><span>AI Lab</span><span class="m">15′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#practice-11-qc" data-jump>§1.1 Quick Check ↓</a><a class="go" href="#practice-11-practice" data-jump>Practice Problems 1.1 ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-4">
+        <div class="day-no">Day 4 · Teach</div>
+        <h3>§1.2 — Evaluating Expressions</h3>
+        <p><strong>Material:</strong> evaluating expressions, order of operations, and the §1.2 Quick Fluency set.</p>
+        <ul class="mins"><li><span>Decision hook</span><span class="m">5′</span></li><li><span>Story + worked examples</span><span class="m">20′</span></li><li><span>Guided practice</span><span class="m">15′</span></li><li><span>Exit check</span><span class="m">10′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#ideas-evaluating" data-jump>Key Idea: Evaluating ↓</a><a class="go" href="#practice-12-qf" data-jump>§1.2 Quick Fluency ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-5">
+        <div class="day-no">Day 5 · Practice + AI Lab</div>
+        <h3>§1.2 — Practice Day + Gym Decision</h3>
+        <p><strong>Material:</strong> the gym membership explorer, §1.2 Quick Check, and Practice Problems 1.2.</p>
+        <ul class="mins"><li><span>Warm-up</span><span class="m">10′</span></li><li><span>Problem set</span><span class="m">25′</span></li><li><span>AI Lab</span><span class="m">15′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#explorer-gym" data-jump>Gym explorer ↓</a><a class="go" href="#practice-12-qc" data-jump>§1.2 Quick Check ↓</a><a class="go" href="#practice-12-practice" data-jump>Practice Problems 1.2 ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-6">
+        <div class="day-no">Day 6 · Review</div>
+        <h3>Chapter 1 Review</h3>
+        <p><strong>Material:</strong> the Chapter 1 Review problem set — all of §1.1 and §1.2 mixed together.</p>
+        <ul class="mins"><li><span>Retrieval warm-up</span><span class="m">10′</span></li><li><span>Review set</span><span class="m">25′</span></li><li><span>Corrections + questions</span><span class="m">10′</span></li><li><span>Exit check</span><span class="m">5′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#practice-review" data-jump>Open the Review set ↓</a></div>
+      </article>
+      <article class="day-card assess" id="day-card-7">
+        <div class="day-no">Day 7 · Assessment</div>
+        <h3>Chapter 1 Test Day</h3>
+        <p><strong>Test day — no new material.</strong> Students take the Chapter 1 test in class. Nothing new opens on the site today; use the time before the test only to settle and read the instructions.</p>
+        <ul class="mins"><li><span>Settle + instructions</span><span class="m">5′</span></li><li><span>Chapter 1 Test</span><span class="m">40′</span></li><li><span>Collect + quiet reflection</span><span class="m">5′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#day7-test" data-jump>Test-day card ↓</a><a class="go teacher-only" href="#builder-card" data-jump id="day7-builder-link">Teacher: Assignment Builder ↓</a><span style="font-size:.86rem;color:var(--muted)">No student site work today — test in class</span></div>
+      </article>
+      <article class="day-card" id="day-card-8">
+        <div class="day-no">Day 8 · Essay Planning</div>
+        <h3>Decision Essay — Plan It</h3>
+        <p><strong>Material:</strong> Essay Studio Steps 1–3 and the flip test — compute first, thesis frame, evidence checklist.</p>
+        <ul class="mins"><li><span>Prompt hook</span><span class="m">5′</span></li><li><span>Compute-first (Step 1)</span><span class="m">20′</span></li><li><span>Thesis + evidence plan</span><span class="m">15′</span></li><li><span>Flip test + exit check</span><span class="m">10′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#essay-planning" data-jump>Planning steps ↓</a><a class="go" href="#essay-compute" data-jump>Step 1 Compute ↓</a><a class="go" href="#essay-thesis" data-jump>Step 2 Thesis ↓</a><a class="go" href="#essay-evidence" data-jump>Step 3 Evidence ↓</a><a class="go" href="#essay-flip" data-jump>Step 4 Flip test ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-9">
+        <div class="day-no">Day 9 · Essay Writing</div>
+        <h3>Decision Essay — Write It</h3>
+        <p><strong>Material:</strong> the three paragraph editors in the Essay Studio — decision, evidence, implications.</p>
+        <ul class="mins"><li><span>Warm-up: reread your plan</span><span class="m">5′</span></li><li><span>Drafting — three paragraphs</span><span class="m">30′</span></li><li><span>Word-count check + revision</span><span class="m">10′</span></li><li><span>Exit check</span><span class="m">5′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#essay-editors" data-jump>Open the paragraph editors ↓</a></div>
+      </article>
+      <article class="day-card" id="day-card-10">
+        <div class="day-no">Day 10 · Project / Enrichment</div>
+        <h3>Decision Replays</h3>
+        <p><strong>Material:</strong> replay both chapter decisions with fresh numbers — same explorers, new values. Change the hours, boxes, and months, and check whether the winner changes.</p>
+        <ul class="mins"><li><span>Replay hook</span><span class="m">5′</span></li><li><span>Replay both decisions</span><span class="m">25′</span></li><li><span>Compare with a partner</span><span class="m">15′</span></li><li><span>Reflection</span><span class="m">5′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#explorer-jobs" data-jump>Replay: Job explorer ↓</a><a class="go" href="#explorer-gym" data-jump>Replay: Gym explorer ↓</a></div>
+      </article>
+      <article class="day-card buffer" id="day-card-11">
+        <div class="day-no">Day 11 · Reteach / Buffer</div>
+        <h3>Reteach &amp; Buffer Day</h3>
+        <p><strong>No new material planned.</strong> This day absorbs reteaching, unfinished essay or project work, absences, and schedule slips — so Chapter 2 still starts on Day 12.</p>
+        <ul class="mins"><li><span>Diagnostic warm-up</span><span class="m">10′</span></li><li><span>Reteach / catch-up stations</span><span class="m">25′</span></li><li><span>Re-check</span><span class="m">10′</span></li><li><span>Preview Chapter 2</span><span class="m">5′</span></li><li><span class="total">Total</span><span class="m">50′</span></li></ul>
+        <div class="day-links"><a class="go" href="#day-card-11" data-jump>This reteach / buffer card ↓</a><span style="font-size:.86rem;color:var(--muted)">Next: Chapter 2 starts Day 12</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= YEAR AT A GLANCE (STRIP) ================= -->
+  <section class="block" id="year">
+    <div class="sec-head">
+      <h2>Year at a Glance — 180 Days</h2>
+      <p>One school year, paced day by day. Chapter 1 (Days 2–11) is open now; each later chapter opens on its
+        start day as it is released. The full day-by-day table is in the Teacher Corner.</p>
+    </div>
+    <div class="year-strip" aria-label="180-day year map">
+      <span>Day 1 · Course intro</span>
+      <a class="now" href="#days" data-jump title="Jump to the Chapter 1 day list (Days 2–11)">Ch. 1 · Days 2–11 · open now ↓</a>
+      <span>Ch. 2 · Days 12–32</span>
+      <span>Ch. 3 · Days 33–51</span>
+      <span>Ch. 4 · Days 52–70</span>
+      <span>Ch. 5 · Days 71–89</span>
+      <span class="exam">Midterm · Days 90–92</span>
+      <span>Ch. 6 · Days 93–111</span>
+      <span>Ch. 7 · Days 112–129</span>
+      <span>Ch. 8 · Days 130–148</span>
+      <span>Ch. 9 · Days 149–168</span>
+      <span class="exam">Final · Days 169–172</span>
+      <span>Flex · Days 173–180</span>
+    </div>
+  </section>
+
   <!-- ================= EXPLORERS ================= -->
   <section class="block" id="explore">
     <div class="sec-head">
@@ -202,8 +375,8 @@
         <em>mean</em> is your job.</p>
     </div>
 
-    <div class="card">
-      <span class="tag">§1.1 · The Decision</span>
+    <div class="card" id="explorer-jobs">
+      <span class="tag">Day 2 · §1.1 Teach · The Decision</span> <span class="tag amber">Day 10 · Replay</span>
       <h3 style="margin-top:8px">Two summer job offers</h3>
       <p><strong>Build-a-Box Warehouse</strong> pays $11.50 for every hour you work, <strong>plus</strong> a
         $1.25 bonus for every box you pack. <strong>City Scoops Ice Cream</strong> pays a flat $14.00 per
@@ -229,7 +402,8 @@
         </div>
       </div>
 
-      <p style="margin-top:16px"><strong>Try this:</strong> set the boxes to 60, then to 200. Then hunt with the
+      <p style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with fresh numbers — different hours and box counts — and check whether the winner changes.</p>
+      <p><strong>Try this:</strong> set the boxes to 60, then to 200. Then hunt with the
         slider: is there a number of boxes where the two paychecks come out exactly equal? What happens
         on either side of it?</p>
       <div class="pick-row" role="group" aria-label="Your job verdict">
@@ -239,8 +413,8 @@
       <p class="attempts" id="pick-note">Pick the job you would take. You will defend this choice in the essay at the end of the chapter.</p>
     </div>
 
-    <div class="card">
-      <span class="tag">§1.2 · The Decision</span>
+    <div class="card" id="explorer-gym">
+      <span class="tag">Day 5 · §1.2 Practice · The Decision</span> <span class="tag amber">Day 10 · Replay</span>
       <h3 style="margin-top:8px">Two gym memberships</h3>
       <p><strong>FitZone</strong> charges a $40 signup fee plus $25 per month. <strong>FlexGym</strong> charges a
         $10 signup fee plus $35 per month. You are joining for the school year — about 9 months.
@@ -265,7 +439,8 @@
           <div class="bar-row"><div class="bar-fill amber" id="bar-flexgym" style="width:68%"></div></div>
         </div>
       </div>
-      <p style="margin-top:16px"><strong>Try this:</strong> check a short stay (2 months) and a long stay (12 months).
+      <p style="margin-top:16px"><strong>Day 10 replay note:</strong> on the project day, replay this same decision with a fresh stay length and check whether the cheaper gym changes.</p>
+      <p><strong>Try this:</strong> check a short stay (2 months) and a long stay (12 months).
         Does the cheaper gym change? Somewhere between them the two totals cross — see if you can spot where.</p>
       <div class="pick-row" role="group" aria-label="Your gym verdict">
         <button type="button" class="pick" id="pick-fitzone" aria-pressed="false">My pick for the school year: FitZone</button>
@@ -278,9 +453,11 @@
   <!-- ================= PRACTICE ================= -->
   <section class="block" id="practice">
     <div class="sec-head">
-      <h2>Practice — Chapter 1</h2>
-      <p>All 41 questions from the chapter: the §1.1 and §1.2 Quick Fluency, Quick Check, and Practice sets,
-        plus the Chapter Review. Type your answer and press <strong>Check</strong>. Equivalent forms count —
+      <h2>Practice — Chapter 1, by Day</h2>
+      <p>All 41 questions from the chapter, grouped by their pacing day: <strong>Day 2</strong> §1.1 Quick Fluency ·
+        <strong>Day 3</strong> §1.1 Quick Check + Practice · <strong>Day 4</strong> §1.2 Quick Fluency ·
+        <strong>Day 5</strong> §1.2 Quick Check + Practice · <strong>Day 6</strong> Chapter Review.
+        Type your answer and press <strong>Check</strong>. Equivalent forms count —
         <span class="num">11 + 3n</span> and <span class="num">3n + 11</span> are the same expression — but order
         matters in subtraction. You will only be told <em>Correct</em> or <em>Not yet</em>: the working-out stays yours.</p>
     </div>
@@ -319,13 +496,13 @@
           changes: the flat $12. <strong>Like terms</strong> share the same variable and power — 25l + 25l
           combine into 50l; 25l and 10h never combine.</p>
       </div>
-      <div class="card tint">
+      <div class="card tint" id="ideas-evaluating">
         <h3>Evaluating = substitute, then compute</h3>
         <p>To <strong>evaluate</strong> an expression, replace each variable with a number and compute.
           Devon's bill is 30 + 8g; at g = 3 extra gigabytes, 30 + 8(3) = 30 + 24 = $54. The expression is
           the machine; substitution feeds it.</p>
       </div>
-      <div class="card tint">
+      <div class="card tint" id="ideas-order">
         <h3>Order of operations — and why parentheses rule</h3>
         <p>Parentheses first, then exponents, then multiply/divide left to right, then add/subtract left to
           right. Here's the question to sit with: a $48 dinner, a $10 coupon, and a 15% tip. Your friend says
@@ -339,7 +516,7 @@
   <!-- ================= ESSAY STUDIO ================= -->
   <section class="block" id="essay">
     <div class="sec-head">
-      <h2>Essay Studio — The Decision Essay</h2>
+      <h2>Essay Studio — The Decision Essay (Days 8–9)</h2>
       <p><strong>The prompt.</strong> Your cousin got the same two summer job offers from §1.1: Build-a-Box Warehouse
         ($11.50/hour + $1.25 per box packed) and City Scoops ($14.00/hour flat). She will work 20 hours a week
         but has no idea how many boxes she'll pack — it could be 30 or 300. Write a 3-paragraph essay:
@@ -347,7 +524,16 @@
         about when your advice would change. <strong>Length: 200–300 words, exactly three paragraphs.</strong></p>
     </div>
 
-    <div class="card">
+    <div class="card amber" id="day7-test">
+      <span class="tag amber">Day 7 · Assessment</span>
+      <h3 style="margin-top:8px">Before the essay: Chapter 1 Test Day</h3>
+      <p>Day 7 is a test day — no new material, and no essay work. The Essay Studio below is for
+        <strong>Day 8 (planning)</strong> and <strong>Day 9 (writing)</strong>, after the test.</p>
+    </div>
+
+    <div class="day-banner" id="essay-planning"><strong>Day 8 — Essay Planning (50′)</strong><span>Steps 1–3 + flip test: compute first 20′ · thesis &amp; evidence plan 15′ · flip test &amp; exit check 10′ (after a 5′ prompt hook).</span></div>
+
+    <div class="card" id="essay-compute">
       <h3>Step 1 — Compute first</h3>
       <p>Write both pay expressions (h = hours/week, b = boxes/week), evaluate them at two box counts,
         and find the breakeven. Enter your numbers below — the studio checks each one as
@@ -379,14 +565,14 @@
     </div>
 
     <div class="grid2">
-      <div class="card tint">
+      <div class="card tint" id="essay-thesis">
         <h3>Step 2 — Thesis template</h3>
         <p>Paragraph 1 needs one clear recommendation. Fill in this frame in your own words, then use it
           as your opening sentence:</p>
         <p><em>"My cousin should take the ____________ job, because the math shows that ____________."</em></p>
         <p>One strong ending names your breakeven: "…because the breakeven point is only ______ boxes a week" — your number, from your own computation in Step 1.</p>
       </div>
-      <div class="card tint">
+      <div class="card tint" id="essay-evidence">
         <h3>Step 3 — Evidence checklist</h3>
         <p>Paragraph 2 is only as strong as its numbers. Before you draft it, confirm you have all four ready:</p>
         <div class="checkline"><span class="box" aria-hidden="true"></span><span>Both pay expressions, written correctly.</span></div>
@@ -396,7 +582,7 @@
       </div>
     </div>
 
-    <div class="card tint">
+    <div class="card tint" id="essay-flip">
       <h3>Step 4 — The flip test</h3>
       <p>Paragraph 3 must name one specific condition that would flip your recommendation. Write it here first:</p>
       <p><em>"My advice would change if ____________, because then ____________."</em></p>
@@ -405,7 +591,9 @@
         how tiring the work is, or which job she would simply enjoy.</p>
     </div>
 
-    <div class="card">
+    <div class="day-banner" id="essay-writing"><strong>Day 9 — Essay Writing (50′)</strong><span>Reread your Day 8 plan 5′ · draft 30′ · word-count check &amp; revision 10′ · exit check 5′.</span></div>
+
+    <div class="card" id="essay-editors">
       <h3>Draft your three paragraphs</h3>
       <p>Write your first draft entirely on your own. Paragraph 1: your decision and claim. Paragraph 2:
         the mathematical evidence. Paragraph 3: implications, limitations, and what would change your mind.</p>
@@ -436,8 +624,8 @@
         <button type="button" class="btn ghost small" id="prog-reset">Reset my progress</button>
       </div>
     </div>
-    <h3 style="margin:22px 0 8px">Coming later in Algebra 1</h3>
-    <p style="color:var(--muted);margin-top:0">Chapter 1 is fully open. The rest of the book unlocks as each chapter is released.</p>
+    <h3 style="margin:22px 0 8px">Coming later in Algebra 1 — on their pacing days</h3>
+    <p style="color:var(--muted);margin-top:0">Chapter 1 (Days 2–11) is fully open. The rest of the book unlocks on the day ranges shown, as each chapter is released — with the Midterm on Days 90–92, the Final on Days 169–172, and Flex days 173–180 at the end of the year.</p>
     <div class="lock-grid" id="lock-grid"></div>
   </section>
 
@@ -445,8 +633,10 @@
   <section class="block" id="teacher">
     <div class="sec-head">
       <h2>Teacher Corner</h2>
-      <p>Worked solutions, decision answers, the essay grading guide, and the assignment builder live here —
-        behind the teacher passcode, so students working in Student mode never see them on screen.</p>
+      <p>The guide to <strong>teaching the Decision &amp; the Story</strong>, worked solutions, decision answers, the essay grading guide, the assignment builder, and the
+        <strong>full 180-day year map table</strong> live here — behind the teacher passcode, so students
+        working in Student mode never see them on screen. Students see only the Year at a Glance strip and
+        their current chapter's day cards.</p>
     </div>
 
     <div class="card" id="teacher-login-card">
@@ -485,7 +675,8 @@
   </section>
 
   <footer>
-    DecideMath Interactive · Algebra 1, Chapter 1: The Language of Algebra — Variables and Expressions.
+    DecideMath Interactive · Algebra 1, Chapter 1: The Language of Algebra — Variables and Expressions ·
+    Days 2–11 of the 180-day pacing plan (50-minute periods, assessment days included).
     Student work is checked on this device only; nothing is sent anywhere.
   </footer>
 </div>
@@ -605,13 +796,13 @@ function parseNumber(s){
 /* ---------- practice question data (student-safe: prompts + checkers) ----------
    Field types: expr (vars, expected), num (value, tol), terms (tokens).        */
 var SECTIONS=[
-  {id:"s11qf", title:"§1.1 Quick Fluency", note:"Warm up your computation before the decision."},
-  {id:"s11qc", title:"§1.1 Quick Check", note:""},
-  {id:"s11p",  title:"Practice Problems 1.1", note:""},
-  {id:"s12qf", title:"§1.2 Quick Fluency", note:"Warm up your computation before the decision."},
-  {id:"s12qc", title:"§1.2 Quick Check", note:""},
-  {id:"s12p",  title:"Practice Problems 1.2", note:""},
-  {id:"rev",   title:"Review Problems — Chapter 1", note:""}
+  {id:"s11qf", anchor:"practice-11-qf", title:"Day 2 · §1.1 Quick Fluency", note:"Teach day — warm up your computation before the decision."},
+  {id:"s11qc", anchor:"practice-11-qc", title:"Day 3 · §1.1 Quick Check", note:"Practice + AI Lab day."},
+  {id:"s11p",  anchor:"practice-11-practice", title:"Day 3 · Practice Problems 1.1", note:"Practice + AI Lab day."},
+  {id:"s12qf", anchor:"practice-12-qf", title:"Day 4 · §1.2 Quick Fluency", note:"Teach day — warm up your computation before the decision."},
+  {id:"s12qc", anchor:"practice-12-qc", title:"Day 5 · §1.2 Quick Check", note:"Practice + AI Lab day."},
+  {id:"s12p",  anchor:"practice-12-practice", title:"Day 5 · Practice Problems 1.2", note:"Practice + AI Lab day."},
+  {id:"rev",   anchor:"practice-review", title:"Day 6 · Review Problems — Chapter 1", note:"Review day — the day before the Day 7 test."}
 ];
 function E(vars, expected){ return {type:"expr", vars:vars, expected:expected}; }
 function N(value, tol){ return {type:"num", value:value, tol:(tol==null?0.011:tol)}; }
@@ -734,6 +925,7 @@ function renderQuestions(){
   var host=document.getElementById("question-list");
   SECTIONS.forEach(function(sec){
     var head=el("div","sec-title");
+    if(sec.anchor) head.id=sec.anchor;
     head.appendChild(el("h3",null,sec.title));
     if(sec.note) head.appendChild(el("span",null,sec.note));
     host.appendChild(head);
@@ -870,14 +1062,14 @@ function paintEssayWC(){
 
 /* ---------- progress + locked chapters ---------- */
 var LATER_CHAPTERS=[
-  ["Chapter 2","Solving Linear Equations and Inequalities","One-variable equations, literal equations, and compound and absolute-value inequalities."],
-  ["Chapter 3","Functions: Domain, Range, and Notation","What makes a relation a function, function notation f(x), and domain and range."],
-  ["Chapter 4","Linear Functions: Slope, Graphs, and Models","Slope-intercept and standard form, graphing lines, and modeling real data."],
-  ["Chapter 5","Systems of Equations and Inequalities","Graphing, substitution, and elimination; systems of inequalities and feasible regions."],
-  ["Chapter 6","Exponentials: Growth, Decay, and Sequences","Exponent rules, geometric sequences, and exponential functions."],
-  ["Chapter 7","Polynomials and Factoring","Operations on polynomials; GCF, trinomials, and special products."],
-  ["Chapter 8","Quadratics: Graphs, Solving, and Modeling","Parabolas; factoring, completing the square, and the quadratic formula."],
-  ["Chapter 9","Data and Association","Statistics, box plots, two-way tables, scatter plots, and correlation."]
+  ["Chapter 2","Solving Linear Equations and Inequalities","One-variable equations, literal equations, and compound and absolute-value inequalities.","Days 12–32 · 21 days"],
+  ["Chapter 3","Functions: Domain, Range, and Notation","What makes a relation a function, function notation f(x), and domain and range.","Days 33–51 · 19 days"],
+  ["Chapter 4","Linear Functions: Slope, Graphs, and Models","Slope-intercept and standard form, graphing lines, and modeling real data.","Days 52–70 · 19 days"],
+  ["Chapter 5","Systems of Equations and Inequalities","Graphing, substitution, and elimination; systems of inequalities and feasible regions.","Days 71–89 · 19 days"],
+  ["Chapter 6","Exponentials: Growth, Decay, and Sequences","Exponent rules, geometric sequences, and exponential functions.","Days 93–111 · 19 days · after the Midterm (Days 90–92)"],
+  ["Chapter 7","Polynomials and Factoring","Operations on polynomials; GCF, trinomials, and special products.","Days 112–129 · 18 days"],
+  ["Chapter 8","Quadratics: Graphs, Solving, and Modeling","Parabolas; factoring, completing the square, and the quadratic formula.","Days 130–148 · 19 days"],
+  ["Chapter 9","Data and Association","Statistics, box plots, two-way tables, scatter plots, and correlation.","Days 149–168 · 20 days · then the Final (Days 169–172) and Flex days (173–180)"]
 ];
 function paintProgress(){
   var solved=Object.keys(state.solved).filter(function(k){return state.solved[k];}).length;
@@ -892,6 +1084,7 @@ function renderLocked(){
   LATER_CHAPTERS.forEach(function(c){
     var card=el("div","lock-card locked");
     card.appendChild(el("h3",null,c[0]+" — "+c[1]));
+    if(c[3]){ var range=el("p",null,c[3]); range.style.fontWeight="800"; range.style.color="var(--navy)"; card.appendChild(range); }
     card.appendChild(el("p",null,c[2]));
     card.appendChild(el("p",null,"🔒 Opens when the chapter is released."));
     grid.appendChild(card);
@@ -934,6 +1127,35 @@ document.getElementById("prog-reset").addEventListener("click",function(){
   document.getElementById("pick-scoops").setAttribute("aria-pressed","false");
   document.getElementById("pick-note").textContent=document.getElementById("pick-note").getAttribute("data-default");
 });
+/* ---------- deep-link jump + highlight flash ---------- */
+function flashTarget(elm){
+  if(!elm) return;
+  elm.classList.remove("flash-target");
+  void elm.offsetWidth;
+  elm.classList.add("flash-target");
+  setTimeout(function(){ elm.classList.remove("flash-target"); },1750);
+}
+function jumpToHash(hash){
+  if(!hash||hash.charAt(0)!=="#") return false;
+  var elm=document.getElementById(hash.slice(1));
+  if(!elm) return false;
+  elm.scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(function(){ flashTarget(elm); },380);
+  try{ history.replaceState(null,"",hash); }catch(e){}
+  return true;
+}
+document.addEventListener("click",function(e){
+  var a=e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if(!a) return;
+  var href=a.getAttribute("href");
+  if(!href||href==="#") return;
+  var elm=document.getElementById(href.slice(1));
+  if(!elm) return; /* e.g. #builder-card before teacher sign-in: let default happen / no-op */
+  e.preventDefault();
+  jumpToHash(href);
+});
+if(location.hash){ setTimeout(function(){ jumpToHash(location.hash); },350); }
+
 renderQuestions();
 renderLocked();
 paintJobs(); paintGym(); paintGymPick(); paintProgress(); paintEssayWC();
@@ -1083,6 +1305,7 @@ function renderTeacherZone(){
   var zone=document.getElementById("teacher-zone");
   zone.innerHTML="";
   zone.style.display="block";
+  document.body.classList.add("teacher-on");
 
   /* sign-out row */
   var topBar=document.createElement("div");
@@ -1091,6 +1314,7 @@ function renderTeacherZone(){
     "<button type='button' class='btn ghost small' id='teacher-logout' style='margin-left:10px'>Sign out</button>";
   zone.appendChild(topBar);
   document.getElementById("teacher-logout").addEventListener("click",function(){
+    document.body.classList.remove("teacher-on");
     zone.style.display="none"; zone.innerHTML="";
     document.getElementById("mode-pill").textContent="Student mode";
     document.getElementById("mode-pill").className="mode-pill";
@@ -1108,6 +1332,82 @@ function renderTeacherZone(){
     "<div class='keynum'><div>Gym, school year (§1.2)</div><div class='big'>$265 vs. $325</div><div>At 9 months FitZone wins by $60. At 2 months FlexGym wins ($80 vs. $90); at 12 months FitZone wins ($340 vs. $430).</div></div>"+
     "</div>";
   zone.appendChild(kn);
+
+  /* Teaching the Decision & the Story — teacher pedagogy panel */
+  var teach=document.createElement("div"); teach.className="card"; teach.id="teaching-decision-story";
+  teach.innerHTML="<h3>Teaching the Decision &amp; the Story — how Chapter 1 is built to be taught</h3>"+
+    "<p style='color:var(--muted)'>Every DecideMath section runs on the same two engines: a <strong>Decision</strong> that opens the section and stays open, and <strong>Stories</strong> that teach the math inside real situations. This panel is the teaching guide for both — what each one is, how to run it in class, and what to watch for in §1.1 and §1.2.</p>";
+
+  var teachSections=[
+   ["The Decision — hold the question open",
+    "<p><strong>What it is.</strong> The box at the top of each section — <em>[THE DECISION]</em> — poses <strong>one real question with all its numbers</strong> and then deliberately leaves it unanswered: <em>“Hold that question: the math you need comes next.”</em> The verdict belongs to the student. It is not settled in discussion, not settled by the worked examples, and not settled by you — it is settled only in the <strong>summative decision essay</strong>, where each student must defend a choice with the chapter's math and name when it would flip.</p>"+
+    "<p><strong>Running the 5-minute opener (the Teach-day hook).</strong></p>"+
+    "<ul class='clean'><li><strong>Read the scenario together</strong> — out loud or projected — so every student starts from the same numbers.</li>"+
+    "<li><strong>Name the two options out loud.</strong> Two job offers, two gyms. If the class cannot name both options and what each one charges, they are not ready to move on.</li>"+
+    "<li><strong>Ask: “What would you need to know?”</strong> Take two or three answers. You are collecting the <em>ingredients</em> of the math (a rate, a fee, a breakeven), not verdicts.</li>"+
+    "<li><strong>Keep the question posted</strong> — on the board or the wall — for the whole section. Point back to it whenever a story or example quietly supplies one of its pieces.</li>"+
+    "<li><strong>Park early answers.</strong> When a student announces a pick in minute two, the move is: <em>“Hold that thought until the essay — you'll have to prove it there.”</em> Write the name, not the verdict, on a “parked picks” corner of the board if you like.</li>"+
+    "<li><strong>Never let the class settle it during the lesson.</strong> No show-of-hands final vote, no “so we all agree it's the warehouse.” A settled class stops doing the math, because the math was only ever a means to the verdict.</li></ul>"],
+   ["The Story — two reads, situation first",
+    "<p><strong>What it is.</strong> Between the Decision and the practice sets, short vignettes with named characters — Priya at her smoothie stand, Marcus mowing lawns, Devon and his phone bill — carry the actual teaching. A story is not an illustration pasted onto a rule: <strong>the rule is discovered inside the story's numbers.</strong> A story may compute freely with numbers near the decision's — Priya's profit, Devon's bill — but it <strong>never states the decision itself</strong>. No story tells the student which job or which gym to pick; that silence is what keeps the essay honest.</p>"+
+    "<p><strong>The teaching routine — two reads.</strong></p>"+
+    "<ul class='clean'><li><strong>First read: the situation.</strong> Who is this, what is happening, what do they want? No pencils, no translating yet. If students cannot retell the situation in plain words, the math built on it will be fragile.</li>"+
+    "<li><strong>Second read: the math.</strong> Now hunt the quantities. Ask the chapter's master question: <strong>“What is changing, and what stays fixed?”</strong> What changes becomes the <em>variable</em> (cups sold, gigabytes, months); what stays fixed becomes the <em>constant</em> or the <em>rate</em> (the $30 plan charge, the $8 per gigabyte). Every expression in this chapter is that one distinction, written down.</li>"+
+    "<li><strong>Close on the story's own question.</strong> Most stories end with a small italic question — a price rise, a fourth pizza, a week of lawns. Answer that one together; it is the rehearsal for the practice set, and it still does not touch the Decision.</li></ul>"],
+   ["§1.1 — Two job offers: variables & expressions (Days 2–3)",
+    "<p><strong>The Decision.</strong> Build-a-Box Warehouse pays <strong>11.50h + 1.25b</strong> (h = hours/week, b = boxes/week); City Scoops pays a flat <strong>14h</strong>. The plan is 20 hours a week, so the decision comes down to <strong>230 + 1.25b vs. a flat $280</strong>. At 60 boxes the warehouse pays $305 (ahead by $25); at 200 boxes, $480 (ahead by $200). The <strong>breakeven is 40 boxes a week</strong>: below it Scoops wins, above it the warehouse wins. Students should <em>feel</em> the gap growing $1.25 at a time long before anyone names 40 — and nobody names 40 as “the answer” in class.</p>"+
+    "<p><strong>What each story teaches — and what students must notice.</strong></p>"+
+    "<ul class='clean'><li><strong>Priya's Smoothie Stand</strong> — where variables come from. Profit per cup is 5.50 − 1.75 = 3.75, so profit is <strong>3.75n</strong>. Students must notice: <em>one expression replaces a whole paragraph of arithmetic</em>, and it still works next Saturday — just drop in the new n. The follow-up (price rises to $6.00 → 4.25n) checks that they can rebuild the expression, not just recall it.</li>"+
+    "<li><strong>The Study-Group Pizza Order</strong> — translation, piece by piece. 3(12) + 4.99 − 6 = $34.99. Students must notice each phrase becoming one piece of the expression — and the classic trap nearby: <em>“5 less than a number” is n − 5, not 5 − n</em> (test it at n = 20). The 4-pizza follow-up ($46.99) shows only one piece changes.</li>"+
+    "<li><strong>Marcus's Lawn-Mowing Business</strong> — the parts of an expression have meanings. In <strong>25l + 10h + 12</strong>: terms 25l, 10h, 12; coefficients are <em>rates</em> ($25 per lawn, $10 per hedge); the constant 12 is the flat blade charge that never changes; 25l + 25l are like terms, 25l and 10h are not — lawns and hedges are different things. Students must notice the vocabulary is just the story, named. (Marcus's week at l = 6, h = 4: $202.)</li>"+
+    "<li><strong>Devon's phone plan (worked example)</strong> — 30 + 8g previews §1.2: the expression is written here and evaluated there. Plant it and move on.</li></ul>"+
+    "<p><strong>The §1.1 HINTS sequence</strong> walks the decision in order — write both expressions, lock in h = 20, try b = 60, try b = 200, find the tipping point, then answer with the condition attached. If a student is stuck on the essay later, send them back to the hint they skipped, not to the answer.</p>"],
+   ["§1.2 — Two gyms & the tip-vs-coupon story: evaluating expressions (Days 4–5)",
+    "<p><strong>The Decision.</strong> FitZone charges <strong>40 + 25m</strong>; FlexGym charges <strong>10 + 35m</strong> (m = months), for a school year of about 9 months. Evaluating both at several stays is the whole lesson: at 2 months, $90 vs. $80 — FlexGym; at <strong>m = 3 the two tie at $115 each</strong> — that tie <em>is</em> the breakeven; at 9 months, $265 vs. $325 — FitZone by $60; at 12 months, $340 vs. $430. Students must notice the pattern the evaluations reveal: <em>the cheaper gym depends on how long you stay</em>, because the low signup fee wins early and the low monthly rate wins late. Same structure as the jobs — a fixed part and a per-unit part, compared by substitution.</p>"+
+    "<p><strong>What each story teaches — and what students must notice.</strong></p>"+
+    "<ul class='clean'><li><strong>The Phone Bill</strong> — substitution, in both directions. Devon's 30 + 8g at g = 3 gives $54; run it backward and a $62 bill means g = 4. Students must notice an expression is a machine that works both ways: feed it usage to predict the bill, or feed it the bill to recover the usage. The closing question (stay under $50 → at most 2 extra GB, a $46 bill) quietly previews inequalities.</li>"+
+    "<li><strong>Tip First or Coupon First?</strong> — the order-of-operations story, and the one to teach slowly. A $48 dinner, a $10 coupon, a 15% tip. Coupon first: (48 − 10) × 1.15 = 38 × 1.15 = <strong>$43.70</strong>. Tip first: 48 × 1.15 − 10 = 55.20 − 10 = <strong>$45.20</strong>. Same numbers, different order, $1.50 apart — and the $1.50 is exactly the tip on the $10 the coupon removed. Students must notice: <em>parentheses are not decoration — they decide what the 15% applies to.</em> Most restaurants tip on the discounted total, which is the coupon-first way. Let the class argue the two methods before you compute either one; the argument is the lesson.</li></ul>"],
+   ["HINTS & the AI Lab — scaffolding that never gives the verdict",
+    "<p><strong>HINTS.</strong> Each Decision box is followed by a <em>[HINTS]</em> sequence, and its job is narrow: <strong>scaffold the student toward the decision without answering it.</strong> The hints name the order of operations for the <em>thinking</em> — write the expressions, substitute the known value, test two cases, hunt for the tipping point — but every number in them is one the student computes. Teach students to use them like rungs: attempt the step, peek only when stuck, then close the hints and finish the computation yourself. In class, when a student asks “am I right?”, the honest redirect is to the next hint, not to your confirmation.</p>"+
+    "<p><strong>The AI Lab.</strong> Each section's lab climbs four levels — Understand, Apply, Matter — and its <strong>last level, Level 4 · Decide, returns to the section's Decision</strong>. Read that level for what it is: the AI is instructed to act as a <em>decision coach</em> — asking questions one at a time until the student figures out the breakeven for themselves, explicitly <em>“Don't just give me the answer.”</em> It is a <strong>discussion prompt, not an announcement</strong>: the lab does not declare a winner, and neither should the debrief. Debrief the <em>reasoning</em> students brought back (“what did you have to compute before you could choose?”), never a show of hands on the verdict — the verdicts are graded in the essay, where they must be defended.</p>"]
+  ];
+  teachSections.forEach(function(sec){
+    var d=document.createElement("details"); d.className="sol";
+    var s=document.createElement("summary"); s.textContent=sec[0]; d.appendChild(s);
+    var body=document.createElement("div"); body.className="body"; body.innerHTML=sec[1];
+    d.appendChild(body); teach.appendChild(d);
+  });
+  var mistakes=document.createElement("div");
+  mistakes.style.marginTop="14px";
+  mistakes.innerHTML="<p style='margin-bottom:6px'><strong>Three teacher mistakes that quietly break the design</strong></p>"+
+    "<div class='checkline'><span class='box' aria-hidden='true'></span><span><strong>Resolving the decision mid-lesson.</strong> Computing the breakeven on the board “to wrap up” spends the essay's whole point in one minute. Students who have been handed 40 boxes (or the m = 3 tie) write essays that recite, not decide. Keep the question posted and open until the summative essay closes it.</span></div>"+
+    "<div class='checkline'><span class='box' aria-hidden='true'></span><span><strong>Teaching the rule first and using the story as decoration.</strong> If “variable, coefficient, constant” go on the board before Priya and Marcus appear, the stories become word problems with names. Read the story first, ask what changes and what stays fixed, and let the vocabulary name what students have already seen.</span></div>"+
+    "<div class='checkline'><span class='box' aria-hidden='true'></span><span><strong>Confirming one student's verdict as “the answer.”</strong> A quick “exactly right!” to the first student who picks the warehouse tells the other half of the room their essay is already wrong — and it isn't: either job can earn full credit when the claim is qualified and the math defends it. Confirm <em>computations</em> freely (“yes, $305 at 60 boxes”); never confirm <em>verdicts</em> before the essay.</span></div>";
+  teach.appendChild(mistakes);
+  zone.appendChild(teach);
+
+  /* 180-day year map — teacher only */
+  var ym=document.createElement("div"); ym.className="card";
+  ym.innerHTML="<h3>180-day year map — full pacing table (teacher)</h3>"+
+    "<p style='color:var(--muted)'>Confirmed pacing: 50-minute periods, assessment days included. Each section gets a Teach day plus a Practice + AI Lab day; each chapter closes with review, a test day, a two-day essay (plan, then write), a project/enrichment day, and a reteach/buffer day. Students see the Year at a Glance strip and their current chapter's day cards — this full table is teacher-only.</p>"+
+    "<div style='overflow-x:auto'><table class='yearmap'><tr><th>Segment</th><th class='n'>Days</th><th class='n'>Count</th><th>Notes</th></tr>"+
+    "<tr><td><strong>Course introduction</strong></td><td class='n'>Day 1</td><td class='n'>1</td><td>Course intro, before Chapter 1 begins.</td></tr>"+
+    "<tr><td><strong><a href='#days' data-jump>Chapter 1 — The Language of Algebra</a></strong></td><td class='n'>2–11</td><td class='n'>10</td><td>Live on this page — tap a day to jump straight to its material:<div class='day-jumps'><a href='#explorer-jobs' data-jump>Day 2 · Jobs + §1.1 Fluency</a><a href='#practice-11-qf' data-jump>§1.1 Quick Fluency</a><a href='#practice-11-qc' data-jump>Day 3 · §1.1 Check + Practice</a><a href='#ideas-evaluating' data-jump>Day 4 · Evaluating</a><a href='#practice-12-qf' data-jump>§1.2 Quick Fluency</a><a href='#explorer-gym' data-jump>Day 5 · Gym + §1.2 Practice</a><a href='#practice-review' data-jump>Day 6 · Review</a><a href='#day7-test' data-jump>Day 7 · Test</a><a href='#builder-card' data-jump>Day 7 · Assignment Builder</a><a href='#essay-planning' data-jump>Day 8 · Essay planning</a><a href='#essay-editors' data-jump>Day 9 · Essay writing</a><a href='#explorer-jobs' data-jump>Day 10 · Replays</a><a href='#day-card-11' data-jump>Day 11 · Reteach / buffer</a></div></td></tr>"+
+    "<tr><td><strong>Chapter 2 — Solving Linear Equations and Inequalities</strong></td><td class='n'>12–32</td><td class='n'>21</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 3 — Functions: Domain, Range, and Notation</strong></td><td class='n'>33–51</td><td class='n'>19</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 4 — Linear Functions: Slope, Graphs, and Models</strong></td><td class='n'>52–70</td><td class='n'>19</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 5 — Systems of Equations and Inequalities</strong></td><td class='n'>71–89</td><td class='n'>19</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Midterm — review &amp; exam</strong></td><td class='n'>90–92</td><td class='n'>3</td><td>Assessment block between Chapters 5 and 6.</td></tr>"+
+    "<tr><td><strong>Chapter 6 — Exponentials: Growth, Decay, and Sequences</strong></td><td class='n'>93–111</td><td class='n'>19</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 7 — Polynomials and Factoring</strong></td><td class='n'>112–129</td><td class='n'>18</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 8 — Quadratics: Graphs, Solving, and Modeling</strong></td><td class='n'>130–148</td><td class='n'>19</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Chapter 9 — Data and Association</strong></td><td class='n'>149–168</td><td class='n'>20</td><td>Opens as the chapter is released.</td></tr>"+
+    "<tr><td><strong>Final — review &amp; exam</strong></td><td class='n'>169–172</td><td class='n'>4</td><td>Assessment block after Chapter 9.</td></tr>"+
+    "<tr><td><strong>Flex days</strong></td><td class='n'>173–180</td><td class='n'>8</td><td>Reteach, enrichment, and schedule buffer to close the year.</td></tr>"+
+    "<tr><td><strong>Total</strong></td><td class='n'>1–180</td><td class='n'><strong>180</strong></td><td>Every day is one 50-minute period.</td></tr>"+
+    "</table></div>"+
+    "<p><strong>Chapter 1 daily structures (50′ each):</strong> Teach days — hook 5′ / story + examples 20′ / guided 15′ / exit check 10′. Practice + AI Lab days — warm-up 10′ / problem set 25′ / AI Lab 15′. Review (Day 6) — warm-up 10′ / review set 25′ / corrections 10′ / exit check 5′. Test (Day 7) — settle 5′ / test 40′ / collect 5′. Essay planning (Day 8) and writing (Day 9), project replays (Day 10), and reteach/buffer (Day 11) follow the breakdowns on their day cards.</p>";
+  zone.appendChild(ym);
 
   /* worked solutions */
   var solCard=document.createElement("div"); solCard.className="card";
