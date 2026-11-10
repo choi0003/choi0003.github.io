@@ -1,0 +1,1287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<link rel="icon" href="data:," />
+<title>DecideMath Interactive — Algebra 1, Chapter 1</title>
+<style>
+  :root{
+    --navy:#16324f; --navy-deep:#0d2136; --navy-soft:#eaf0f7;
+    --amber:#e8930c; --amber-deep:#b96f00; --amber-soft:#fdf3e0;
+    --ink:#1d2937; --muted:#5a6b7d; --line:#d9e2ec; --panel:#f7fafc;
+    --good:#14713f; --good-bg:#e7f5ec; --warn:#a34d00; --warn-bg:#fdf3e0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#fff;color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.55}
+  h1,h2,h3{color:var(--navy);line-height:1.2;margin:0}
+  h2{font-size:1.55rem;letter-spacing:-.01em}
+  h3{font-size:1.12rem}
+  p{margin:.5rem 0}
+  a{color:var(--navy);text-decoration-color:var(--amber);text-underline-offset:3px}
+  button,input,select,textarea{font:inherit;color:inherit}
+  button{min-height:44px;cursor:pointer}
+  input:not([type=checkbox]),select,textarea{min-height:44px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+
+  /* ---------- header ---------- */
+  header.top{background:var(--navy);color:#fff;padding:30px 18px 26px}
+  .top-in{max-width:1060px;margin:0 auto}
+  .top .series{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:#f5c169;font-weight:700}
+  .top h1{color:#fff;font-size:2.15rem;margin:.35rem 0 .3rem;letter-spacing:-.015em}
+  .top .sub{color:#cfdeee;max-width:44rem;margin:0}
+  .top .chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);color:#eaf1f8;
+    border-radius:999px;padding:5px 12px;font-size:.82rem}
+
+  /* ---------- sticky nav ---------- */
+  nav.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);
+    box-shadow:0 1px 0 rgba(22,50,79,.04)}
+  .bar-in{max-width:1060px;margin:0 auto;padding:8px 18px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .bar a{display:inline-flex;align-items:center;min-height:40px;padding:6px 12px;border-radius:9px;
+    text-decoration:none;font-weight:600;font-size:.93rem;color:var(--navy)}
+  .bar a:hover{background:var(--navy-soft)}
+  .bar .spacer{flex:1}
+  .mode-pill{font-size:.82rem;font-weight:700;border-radius:999px;padding:6px 12px;background:var(--navy-soft);color:var(--navy)}
+  .mode-pill.teacher{background:var(--amber-soft);color:var(--warn)}
+
+  /* ---------- generic ---------- */
+  section.block{padding:38px 0 6px}
+  .sec-head{margin-bottom:14px}
+  .sec-head p{color:var(--muted);max-width:46rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0}
+  .card.tint{background:var(--panel)}
+  .card.amber{background:var(--amber-soft);border-color:#f0d9a8}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .btn{background:var(--navy);color:#fff;border:1px solid var(--navy);border-radius:10px;
+    padding:9px 18px;font-weight:700}
+  .btn:hover{background:var(--navy-deep)}
+  .btn.amber{background:var(--amber);border-color:var(--amber);color:#231600}
+  .btn.amber:hover{background:#d07f00}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+  .btn.small{min-height:38px;padding:5px 13px;font-size:.9rem}
+  .btn:disabled{opacity:.45;cursor:default}
+  input[type=text],input[type=number],input[type=password],select,textarea{
+    border:1px solid #b9c8d8;border-radius:10px;padding:9px 12px;background:#fff;width:100%}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber)}
+  label.flabel{display:block;font-size:.86rem;font-weight:700;color:var(--navy);margin:10px 0 4px}
+  .status{font-weight:700;font-size:.93rem;margin-left:10px}
+  .status.ok{color:var(--good)} .status.no{color:#b4481f}
+  .attempts{font-size:.82rem;color:var(--muted);margin-left:8px}
+  .tag{display:inline-block;background:var(--navy-soft);color:var(--navy);border-radius:6px;
+    padding:1px 8px;font-size:.76rem;font-weight:700;letter-spacing:.03em}
+  .tag.amber{background:var(--amber-soft);color:var(--warn)}
+  details.sol{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff}
+  details.sol summary{padding:12px 16px;font-weight:700;color:var(--navy);cursor:pointer;min-height:44px}
+  details.sol .body{padding:2px 16px 14px}
+  details.sol p{margin:.35rem 0}
+  ul.clean{margin:.4rem 0 .4rem 1.15rem;padding:0}
+  ul.clean li{margin:.3rem 0}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- explorers ---------- */
+  .job{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+  .job h3{margin-bottom:2px}
+  .job .expr{font-size:1.25rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+  .job .pay{font-size:1.9rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;margin-top:6px}
+  .job .pay small{font-size:.85rem;color:var(--muted);font-weight:600}
+  .bar-row{margin-top:10px;background:#eef3f8;border-radius:8px;height:22px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--navy);border-radius:8px;transition:width .25s ease}
+  .bar-fill.amber{background:var(--amber)}
+  input[type=range]{width:100%;accent-color:var(--navy);min-height:36px;padding:0;border:none}
+  .slider-val{font-weight:800;color:var(--navy)}
+  .pick-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .pick{flex:1;min-width:200px;border:2px solid var(--line);background:#fff;border-radius:12px;
+    padding:12px 14px;text-align:left;font-weight:700;color:var(--navy)}
+  .pick[aria-pressed="true"]{border-color:var(--amber);background:var(--amber-soft)}
+  .month-btns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+  .month-btns button{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:10px;
+    padding:8px 18px;font-weight:700}
+  .month-btns button[aria-pressed="true"]{background:var(--navy);color:#fff}
+
+  /* ---------- questions ---------- */
+  .q{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;background:#fff}
+  .q.solved{border-color:#9fd3ae;background:#fbfefc}
+  .q .prompt{font-weight:600}
+  .q .prompt .qn{color:var(--amber-deep);font-weight:800;margin-right:6px}
+  .q .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:8px}
+  .q .row{display:flex;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .sec-title{margin:26px 0 4px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .sec-title h3{font-size:1.2rem}
+  .sec-title span{color:var(--muted);font-size:.9rem}
+
+  /* ---------- essay ---------- */
+  .wc{font-weight:800;font-variant-numeric:tabular-nums}
+  .wc-note{font-size:.88rem;font-weight:700}
+  .wc-note.in{color:var(--good)} .wc-note.out{color:var(--warn)}
+  textarea.essay{min-height:130px;resize:vertical}
+  .checkline{display:flex;gap:10px;align-items:flex-start;margin:.45rem 0}
+  .checkline .box{flex:none;width:20px;height:20px;border:2px solid var(--navy);border-radius:5px;margin-top:2px}
+  .match-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+
+  /* ---------- teacher ---------- */
+  #teacher-zone{display:none}
+  .rubric-btns{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}
+  .rubric-btns button{width:46px;border:1px solid var(--navy);background:#fff;color:var(--navy);
+    border-radius:9px;font-weight:800}
+  .rubric-btns button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  table.scores{border-collapse:collapse;width:100%;margin:10px 0;font-size:.94rem}
+  table.scores th,table.scores td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  table.scores th{background:var(--navy-soft);color:var(--navy)}
+  table.scores td.n,table.scores th.n{text-align:center;font-variant-numeric:tabular-nums}
+  .builder-item{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px solid #edf2f7}
+  .builder-item label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;min-height:36px}
+  .builder-item input[type=checkbox]{width:22px;height:22px;flex:none;margin-top:1px;accent-color:var(--navy)}
+  .sheet{border:1.5px solid var(--navy);border-radius:6px;padding:26px;background:#fff}
+  .sheet .lines{display:flex;gap:22px;flex-wrap:wrap;border-bottom:2px solid var(--navy);padding-bottom:12px;margin-bottom:14px}
+  .sheet .lines span{flex:1;min-width:150px;border-bottom:1px solid #93a7bb;padding-bottom:3px;font-size:.88rem;color:var(--muted)}
+  .sheet ol{margin:.4rem 0 0 1.2rem;padding:0}
+  .sheet li{margin:0 0 20px}
+  .keynums{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .keynum{background:var(--amber-soft);border:1px solid #f0d9a8;border-radius:12px;padding:14px 16px}
+  .keynum .big{font-size:1.5rem;font-weight:800;color:var(--navy)}
+  .progress-track{background:#eef3f8;border-radius:999px;height:16px;overflow:hidden;margin:10px 0}
+  .progress-fill{height:100%;background:var(--amber);width:0%;transition:width .3s ease}
+  .locked{opacity:.75}
+  .lock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .lock-card{border:1px dashed #b9c8d8;border-radius:12px;padding:16px;background:var(--panel)}
+  .lock-card h3{font-size:1rem}
+  .lock-card p{font-size:.88rem;color:var(--muted);margin:.3rem 0 0}
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:22px 0 8px;color:var(--muted);font-size:.9rem}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media(max-width:560px){ .top h1{font-size:1.7rem} .job .pay{font-size:1.55rem} }
+  @media print{ nav.bar,header.top,.no-print{display:none !important} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="series">DecideMath Interactive · Algebra 1</div>
+    <h1>Chapter 1 — The Language of Algebra</h1>
+    <p class="sub">Variables and expressions, learned the DecideMath way: start with a real decision,
+      build the math yourself, then defend your choice. Work the explorers, check your practice,
+      and draft the decision essay — all in your browser.</p>
+    <div class="chips">
+      <span class="chip">§1.1 Variables &amp; Expressions</span>
+      <span class="chip">§1.2 Evaluating Expressions</span>
+      <span class="chip">41 practice questions</span>
+      <span class="chip">Decision essay studio</span>
+    </div>
+  </div>
+</header>
+
+<nav class="bar" aria-label="Page sections">
+  <div class="bar-in">
+    <a href="#explore">Explorers</a>
+    <a href="#practice">Practice</a>
+    <a href="#ideas">Key Ideas</a>
+    <a href="#essay">Essay Studio</a>
+    <a href="#progress">My Progress</a>
+    <a href="#teacher">Teacher Corner</a>
+    <span class="spacer"></span>
+    <span class="mode-pill" id="mode-pill">Student mode</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= EXPLORERS ================= -->
+  <section class="block" id="explore">
+    <div class="sec-head">
+      <h2>Decision Explorers</h2>
+      <p>Every DecideMath chapter opens with a decision. Move the controls, watch the money change,
+        and form your own verdict. The explorers show you the paychecks — deciding what they
+        <em>mean</em> is your job.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">§1.1 · The Decision</span>
+      <h3 style="margin-top:8px">Two summer job offers</h3>
+      <p><strong>Build-a-Box Warehouse</strong> pays $11.50 for every hour you work, <strong>plus</strong> a
+        $1.25 bonus for every box you pack. <strong>City Scoops Ice Cream</strong> pays a flat $14.00 per
+        hour — no bonuses, no surprises. Drag the sliders and compare a week at each job.</p>
+
+      <label class="flabel" for="job-hours">Hours worked per week: <span class="slider-val num" id="job-hours-val">20</span></label>
+      <input type="range" id="job-hours" min="0" max="40" step="1" value="20" />
+      <label class="flabel" for="job-boxes">Boxes packed per week: <span class="slider-val num" id="job-boxes-val">60</span></label>
+      <input type="range" id="job-boxes" min="0" max="300" step="5" value="60" />
+
+      <div class="grid2">
+        <div class="job">
+          <h3>Build-a-Box Warehouse</h3>
+          <div class="expr">11.50h + 1.25b</div>
+          <div class="pay num" id="pay-warehouse">$305.00 <small>per week</small></div>
+          <div class="bar-row"><div class="bar-fill" id="bar-warehouse" style="width:60%"></div></div>
+        </div>
+        <div class="job">
+          <h3>City Scoops Ice Cream</h3>
+          <div class="expr">14h</div>
+          <div class="pay num" id="pay-scoops">$280.00 <small>per week</small></div>
+          <div class="bar-row"><div class="bar-fill amber" id="bar-scoops" style="width:55%"></div></div>
+        </div>
+      </div>
+
+      <p style="margin-top:16px"><strong>Try this:</strong> set the boxes to 60, then to 200. Then hunt with the
+        slider: is there a number of boxes where the two paychecks come out exactly equal? What happens
+        on either side of it?</p>
+      <div class="pick-row" role="group" aria-label="Your job verdict">
+        <button type="button" class="pick" id="pick-warehouse" aria-pressed="false">My pick: Build-a-Box Warehouse</button>
+        <button type="button" class="pick" id="pick-scoops" aria-pressed="false">My pick: City Scoops Ice Cream</button>
+      </div>
+      <p class="attempts" id="pick-note">Pick the job you would take. You will defend this choice in the essay at the end of the chapter.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">§1.2 · The Decision</span>
+      <h3 style="margin-top:8px">Two gym memberships</h3>
+      <p><strong>FitZone</strong> charges a $40 signup fee plus $25 per month. <strong>FlexGym</strong> charges a
+        $10 signup fee plus $35 per month. You are joining for the school year — about 9 months.
+        Tap a stay length and compare the total cost.</p>
+      <div class="month-btns" role="group" aria-label="Months">
+        <button type="button" data-months="2" aria-pressed="false">2 months</button>
+        <button type="button" data-months="3" aria-pressed="false">3 months</button>
+        <button type="button" data-months="9" aria-pressed="true">9 months</button>
+        <button type="button" data-months="12" aria-pressed="false">12 months</button>
+      </div>
+      <div class="grid2">
+        <div class="job">
+          <h3>FitZone</h3>
+          <div class="expr">40 + 25m</div>
+          <div class="pay num" id="cost-fitzone">$265.00 <small>total</small></div>
+          <div class="bar-row"><div class="bar-fill" id="bar-fitzone" style="width:55%"></div></div>
+        </div>
+        <div class="job">
+          <h3>FlexGym</h3>
+          <div class="expr">10 + 35m</div>
+          <div class="pay num" id="cost-flexgym">$325.00 <small>total</small></div>
+          <div class="bar-row"><div class="bar-fill amber" id="bar-flexgym" style="width:68%"></div></div>
+        </div>
+      </div>
+      <p style="margin-top:16px"><strong>Try this:</strong> check a short stay (2 months) and a long stay (12 months).
+        Does the cheaper gym change? Somewhere between them the two totals cross — see if you can spot where.</p>
+      <div class="pick-row" role="group" aria-label="Your gym verdict">
+        <button type="button" class="pick" id="pick-fitzone" aria-pressed="false">My pick for the school year: FitZone</button>
+        <button type="button" class="pick" id="pick-flexgym" aria-pressed="false">My pick for the school year: FlexGym</button>
+      </div>
+      <p class="attempts" id="gym-pick-note">Pick the gym you would join for about 9 months.</p>
+    </div>
+  </section>
+
+  <!-- ================= PRACTICE ================= -->
+  <section class="block" id="practice">
+    <div class="sec-head">
+      <h2>Practice — Chapter 1</h2>
+      <p>All 41 questions from the chapter: the §1.1 and §1.2 Quick Fluency, Quick Check, and Practice sets,
+        plus the Chapter Review. Type your answer and press <strong>Check</strong>. Equivalent forms count —
+        <span class="num">11 + 3n</span> and <span class="num">3n + 11</span> are the same expression — but order
+        matters in subtraction. You will only be told <em>Correct</em> or <em>Not yet</em>: the working-out stays yours.</p>
+    </div>
+    <div id="question-list"></div>
+  </section>
+
+  <!-- ================= KEY IDEAS ================= -->
+  <section class="block" id="ideas">
+    <div class="sec-head">
+      <h2>Key Ideas</h2>
+      <p>The handful of ideas this whole chapter stands on. If one of these feels shaky, the practice above will feel shaky too.</p>
+    </div>
+    <div class="grid2">
+      <div class="card tint">
+        <h3>A variable is a placeholder with a job</h3>
+        <p>A <strong>variable</strong> is a letter that stands for a quantity that can change or that you don't
+          know yet. Priya doesn't write "number of cups sold" forty times — she writes <strong>n</strong> and lets
+          n be whatever Saturday brings. One letter, every possible Saturday.</p>
+      </div>
+      <div class="card tint">
+        <h3>Expressions describe; equations assert</h3>
+        <p>An <strong>algebraic expression</strong> combines variables, numbers, and operations — 3x + 5,
+          2(n − 4), 11.50h + 1.25b — and has <em>no equals sign</em>. It describes a quantity. An equation
+          (Chapter 2) asserts that two quantities are equal.</p>
+      </div>
+      <div class="card tint">
+        <h3>Translation trap: "less than" flips</h3>
+        <p>"5 less than a number" is <strong>n − 5</strong>, not 5 − n. "Less than" starts from the number and
+          takes away. Test it with n = 20: 20 − 5 = 15 makes sense; 5 − 20 = −15 does not. The same care
+          applies to "8 years younger than you": n − 8.</p>
+      </div>
+      <div class="card tint">
+        <h3>Parts of an expression</h3>
+        <p>In Marcus's pay, 25l + 10h + 12: the <strong>terms</strong> are 25l, 10h, and 12. A <strong>coefficient</strong>
+          is the number multiplying a variable — a rate, like $25 per lawn. A <strong>constant</strong> never
+          changes: the flat $12. <strong>Like terms</strong> share the same variable and power — 25l + 25l
+          combine into 50l; 25l and 10h never combine.</p>
+      </div>
+      <div class="card tint">
+        <h3>Evaluating = substitute, then compute</h3>
+        <p>To <strong>evaluate</strong> an expression, replace each variable with a number and compute.
+          Devon's bill is 30 + 8g; at g = 3 extra gigabytes, 30 + 8(3) = 30 + 24 = $54. The expression is
+          the machine; substitution feeds it.</p>
+      </div>
+      <div class="card tint">
+        <h3>Order of operations — and why parentheses rule</h3>
+        <p>Parentheses first, then exponents, then multiply/divide left to right, then add/subtract left to
+          right. Here's the question to sit with: a $48 dinner, a $10 coupon, and a 15% tip. Your friend says
+          tip on the full $48, then subtract the coupon. You say coupon first, then tip on what's left.
+          Work out <em>both</em> totals yourself — do they match? Which amount is the 15% actually tipping on
+          in each method? Most restaurants tip on the discounted total.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ESSAY STUDIO ================= -->
+  <section class="block" id="essay">
+    <div class="sec-head">
+      <h2>Essay Studio — The Decision Essay</h2>
+      <p><strong>The prompt.</strong> Your cousin got the same two summer job offers from §1.1: Build-a-Box Warehouse
+        ($11.50/hour + $1.25 per box packed) and City Scoops ($14.00/hour flat). She will work 20 hours a week
+        but has no idea how many boxes she'll pack — it could be 30 or 300. Write a 3-paragraph essay:
+        which job should she take? Defend your recommendation with this chapter's math — and be honest
+        about when your advice would change. <strong>Length: 200–300 words, exactly three paragraphs.</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>Step 1 — Compute first</h3>
+      <p>Write both pay expressions (h = hours/week, b = boxes/week), evaluate them at two box counts,
+        and find the breakeven. Enter your numbers below — the studio checks each one as
+        <em>Match</em> or <em>No match yet</em> and never shows you the answers. If one doesn't match,
+        recheck your arithmetic and try again.</p>
+      <div class="match-row">
+        <div>
+          <label class="flabel" for="cf-w60">Warehouse pay at 20 hrs, 60 boxes ($)</label>
+          <input type="number" id="cf-w60" step="any" inputmode="decimal" />
+        </div>
+        <div>
+          <label class="flabel" for="cf-s60">City Scoops pay at 20 hrs ($)</label>
+          <input type="number" id="cf-s60" step="any" inputmode="decimal" />
+        </div>
+        <div>
+          <label class="flabel" for="cf-w200">Warehouse pay at 20 hrs, 200 boxes ($)</label>
+          <input type="number" id="cf-w200" step="any" inputmode="decimal" />
+        </div>
+        <div>
+          <label class="flabel" for="cf-be">Breakeven (boxes per week)</label>
+          <input type="number" id="cf-be" step="any" inputmode="decimal" />
+        </div>
+      </div>
+      <div class="row" style="display:flex;align-items:center;margin-top:12px;flex-wrap:wrap">
+        <button type="button" class="btn" id="cf-check">Check my numbers</button>
+        <span class="status" id="cf-status" role="status"></span>
+      </div>
+      <p class="attempts" id="cf-detail"></p>
+    </div>
+
+    <div class="grid2">
+      <div class="card tint">
+        <h3>Step 2 — Thesis template</h3>
+        <p>Paragraph 1 needs one clear recommendation. Fill in this frame in your own words, then use it
+          as your opening sentence:</p>
+        <p><em>"My cousin should take the ____________ job, because the math shows that ____________."</em></p>
+        <p>One strong ending names your breakeven: "…because the breakeven point is only ______ boxes a week" — your number, from your own computation in Step 1.</p>
+      </div>
+      <div class="card tint">
+        <h3>Step 3 — Evidence checklist</h3>
+        <p>Paragraph 2 is only as strong as its numbers. Before you draft it, confirm you have all four ready:</p>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Both pay expressions, written correctly.</span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>Two evaluations at different box counts, with the paychecks side by side.</span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>The breakeven point, in boxes per week.</span></div>
+        <div class="checkline"><span class="box" aria-hidden="true"></span><span>One sentence saying what the breakeven means: above it one job wins, below it the other wins.</span></div>
+      </div>
+    </div>
+
+    <div class="card tint">
+      <h3>Step 4 — The flip test</h3>
+      <p>Paragraph 3 must name one specific condition that would flip your recommendation. Write it here first:</p>
+      <p><em>"My advice would change if ____________, because then ____________."</em></p>
+      <p>Possible flips to consider: she packs fewer boxes than the breakeven each week; the warehouse caps
+        the box bonus; her hours drop below 20 a week. Also name what your math doesn't capture at all —
+        how tiring the work is, or which job she would simply enjoy.</p>
+    </div>
+
+    <div class="card">
+      <h3>Draft your three paragraphs</h3>
+      <p>Write your first draft entirely on your own. Paragraph 1: your decision and claim. Paragraph 2:
+        the mathematical evidence. Paragraph 3: implications, limitations, and what would change your mind.</p>
+      <label class="flabel" for="para1">Paragraph 1 — Your decision and claim</label>
+      <textarea class="essay" id="para1" placeholder="My cousin should take the … job, because …"></textarea>
+      <label class="flabel" for="para2">Paragraph 2 — Mathematical evidence</label>
+      <textarea class="essay" id="para2" placeholder="The warehouse pays 11.50h + 1.25b, while City Scoops pays …"></textarea>
+      <label class="flabel" for="para3">Paragraph 3 — Implications, limitations, and what would change your mind</label>
+      <textarea class="essay" id="para3" placeholder="My advice would change if …, because then …"></textarea>
+      <p style="margin-top:14px">Total: <span class="wc num" id="essay-wc">0 words</span>
+        <span class="wc-note out" id="essay-wc-note">— target is 200–300 words.</span></p>
+      <p class="attempts">Drafts stay in this browser tab's memory on this page — copy your finished essay somewhere safe before you close it.</p>
+    </div>
+  </section>
+
+  <!-- ================= PROGRESS ================= -->
+  <section class="block" id="progress">
+    <div class="sec-head">
+      <h2>My Progress</h2>
+      <p>Your practice record on this device. It is saved in this browser so you can pick up where you left off.</p>
+    </div>
+    <div class="card">
+      <p style="margin:0"><strong class="num" id="prog-solved">0</strong> of <strong>41</strong> questions correct ·
+        <strong class="num" id="prog-attempts">0</strong> total attempts ·
+        Essay compute-first: <strong id="prog-essay">not checked yet</strong></p>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+      <div class="row no-print" style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" class="btn ghost small" id="prog-reset">Reset my progress</button>
+      </div>
+    </div>
+    <h3 style="margin:22px 0 8px">Coming later in Algebra 1</h3>
+    <p style="color:var(--muted);margin-top:0">Chapter 1 is fully open. The rest of the book unlocks as each chapter is released.</p>
+    <div class="lock-grid" id="lock-grid"></div>
+  </section>
+
+  <!-- ================= TEACHER ================= -->
+  <section class="block" id="teacher">
+    <div class="sec-head">
+      <h2>Teacher Corner</h2>
+      <p>Worked solutions, decision answers, the essay grading guide, and the assignment builder live here —
+        behind the teacher passcode, so students working in Student mode never see them on screen.</p>
+    </div>
+
+    <div class="card" id="teacher-login-card">
+      <h3>Teacher sign in</h3>
+      <p>Enter the teacher passcode to open the Teacher Corner on this device.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;max-width:520px">
+        <div style="flex:1;min-width:220px">
+          <label class="sr-only" for="passcode">Teacher passcode</label>
+          <input type="password" id="passcode" autocomplete="off" placeholder="Passcode" />
+        </div>
+        <button type="button" class="btn amber" id="teacher-login">Sign in</button>
+      </div>
+      <p class="status" id="login-status" role="status"></p>
+    </div>
+
+    <div id="teacher-zone" aria-live="polite"></div>
+  </section>
+
+  <!-- ================= HOSTING ================= -->
+  <section class="block" id="hosting">
+    <div class="sec-head">
+      <h2>Host this page on GitHub Pages</h2>
+      <p>This site is a single self-contained HTML file — no server, no build step — so it runs as-is on GitHub Pages.</p>
+    </div>
+    <div class="card tint">
+      <ol style="margin:.2rem 0 .2rem 1.2rem;padding:0">
+        <li style="margin:.35rem 0">Create a repository (for a personal site, name it <strong>choi0003.github.io</strong>) at <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>.</li>
+        <li style="margin:.35rem 0">Upload this file as <strong>index.html</strong> in the repository root.</li>
+        <li style="margin:.35rem 0">In the repo, open <strong>Settings → Pages</strong> and publish from the main branch — see the <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages guide</a>.</li>
+        <li style="margin:.35rem 0">Your class link is your Pages address (for a user site: <strong>https://choi0003.github.io/</strong>). Students open it in any browser — nothing to install.</li>
+      </ol>
+      <p style="margin-top:10px">One honest note for the teacher: on a static page the passcode gate is a courtesy lock, not a vault —
+        the fully enforced version, where answer data never reaches a student's browser at all, runs on the
+        DecideMath server app. Use this page for practice and exploration; keep graded answer keys on the server version.</p>
+    </div>
+  </section>
+
+  <footer>
+    DecideMath Interactive · Algebra 1, Chapter 1: The Language of Algebra — Variables and Expressions.
+    Student work is checked on this device only; nothing is sent anywhere.
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   DecideMath Interactive — Chapter 1 (static, GitHub Pages)
+   Student-side logic. Teacher-only material lives in a separate
+   data block further down and is rendered only after sign-in.
+   ============================================================ */
+
+/* ---------- tiny expression engine ----------
+   Evaluates an algebraic expression string at given variable
+   values, so equivalent forms (3n + 11 vs 11 + 3n) both pass,
+   while order-sensitive forms (y - 6 vs 6 - y) do not.        */
+function normalizeExpr(s){
+  return String(s)
+    .replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-").replace(/–/g,"-").replace(/—/g,"-")
+    .replace(/²/g,"^2").replace(/³/g,"^3").replace(/\*\*/g,"^")
+    .replace(/\$/g,"").replace(/,/g,"").trim().toLowerCase();
+}
+function tokenize(s){
+  var toks=[], i=0, n=s.length;
+  while(i<n){
+    var c=s[i];
+    if(c===" "||c==="\t"){ i++; continue; }
+    if(/[0-9.]/.test(c)){
+      var j=i, dot=false;
+      while(j<n && /[0-9.]/.test(s[j])){ if(s[j]==="."){ if(dot) break; dot=true; } j++; }
+      toks.push({t:"num", v:parseFloat(s.slice(i,j))}); i=j; continue;
+    }
+    if(/[a-z]/.test(c)){ toks.push({t:"var", v:c}); i++; continue; }
+    if("+-*/^()".indexOf(c)>=0){ toks.push({t:c}); i++; continue; }
+    throw new Error("bad char");
+  }
+  /* implicit multiplication: 3n, 2(n+4), (a)(b), n3 */
+  var out=[];
+  for(var k=0;k<toks.length;k++){
+    if(k>0){
+      var prev=toks[k-1], cur=toks[k];
+      var prevVal=(prev.t==="num"||prev.t==="var"||prev.t===")");
+      var curVal=(cur.t==="num"||cur.t==="var"||cur.t==="(");
+      if(prevVal&&curVal) out.push({t:"*"});
+    }
+    out.push(toks[k]);
+  }
+  return out;
+}
+function evalTokens(toks, env){
+  var pos=0;
+  function peek(){ return pos<toks.length ? toks[pos] : null; }
+  function parseExpr(){
+    var v=parseTerm();
+    while(peek()&&(peek().t==="+"||peek().t==="-")){
+      var op=toks[pos++].t; var r=parseTerm();
+      v = (op==="+") ? v+r : v-r;
+    }
+    return v;
+  }
+  function parseTerm(){
+    var v=parseFactor();
+    while(peek()&&(peek().t==="*"||peek().t==="/")){
+      var op=toks[pos++].t; var r=parseFactor();
+      v = (op==="*") ? v*r : v/r;
+    }
+    return v;
+  }
+  function parseFactor(){
+    var base=parseUnary();
+    if(peek()&&peek().t==="^"){ pos++; var e=parseFactor(); return Math.pow(base,e); }
+    return base;
+  }
+  function parseUnary(){
+    if(peek()&&peek().t==="-"){ pos++; return -parseUnary(); }
+    if(peek()&&peek().t==="+"){ pos++; return parseUnary(); }
+    return parseAtom();
+  }
+  function parseAtom(){
+    var tk=peek();
+    if(!tk) throw new Error("empty");
+    if(tk.t==="num"){ pos++; return tk.v; }
+    if(tk.t==="var"){ pos++; if(!(tk.v in env)) throw new Error("unknown var"); return env[tk.v]; }
+    if(tk.t==="("){ pos++; var v=parseExpr(); if(!peek()||peek().t!==")") throw new Error("paren"); pos++; return v; }
+    throw new Error("atom");
+  }
+  var result=parseExpr();
+  if(pos!==toks.length) throw new Error("trailing");
+  return result;
+}
+function evalExpr(s, env){
+  return evalTokens(tokenize(normalizeExpr(s)), env);
+}
+/* Equivalence: compare at several test assignments. */
+function exprsEquivalent(student, expected, vars){
+  var tests=[];
+  var pools=[[3,7],[5,11],[2,9],[8,4],[6,13]];
+  for(var i=0;i<pools.length;i++){
+    var env={};
+    for(var j=0;j<vars.length;j++){ env[vars[j]]=pools[i][j%pools[i].length]+j*3; }
+    tests.push(env);
+  }
+  for(var t=0;t<tests.length;t++){
+    var a,b;
+    try{ a=evalExpr(student, tests[t]); }catch(e){ return false; }
+    try{ b=evalExpr(expected, tests[t]); }catch(e){ return false; }
+    if(!isFinite(a)||!isFinite(b)) return false;
+    if(Math.abs(a-b) > 1e-6*Math.max(1,Math.abs(b))) return false;
+  }
+  return true;
+}
+function parseNumber(s){
+  var v=parseFloat(String(s).replace(/[$,\s]/g,""));
+  return isNaN(v) ? null : v;
+}
+
+/* ---------- practice question data (student-safe: prompts + checkers) ----------
+   Field types: expr (vars, expected), num (value, tol), terms (tokens).        */
+var SECTIONS=[
+  {id:"s11qf", title:"§1.1 Quick Fluency", note:"Warm up your computation before the decision."},
+  {id:"s11qc", title:"§1.1 Quick Check", note:""},
+  {id:"s11p",  title:"Practice Problems 1.1", note:""},
+  {id:"s12qf", title:"§1.2 Quick Fluency", note:"Warm up your computation before the decision."},
+  {id:"s12qc", title:"§1.2 Quick Check", note:""},
+  {id:"s12p",  title:"Practice Problems 1.2", note:""},
+  {id:"rev",   title:"Review Problems — Chapter 1", note:""}
+];
+function E(vars, expected){ return {type:"expr", vars:vars, expected:expected}; }
+function N(value, tol){ return {type:"num", value:value, tol:(tol==null?0.011:tol)}; }
+function T(tokens){ return {type:"terms", tokens:tokens}; }
+
+var QUESTIONS=[
+ /* §1.1 Quick Fluency */
+ {id:"11qf1", sec:"s11qf", n:"1", prompt:"Write \u201C11 more than three times a number n\u201D as an expression.",
+  fields:[{label:"Expression", check:E(["n"],"3n+11")}]},
+ {id:"11qf2", sec:"s11qf", n:"2", prompt:"Write \u201C6 less than a number y\u201D as an expression.",
+  fields:[{label:"Expression", check:E(["y"],"y-6")}]},
+ {id:"11qf3", sec:"s11qf", n:"3", prompt:"A game costs g dollars. You pay with a $60 gift card. Write the remaining balance on the card as an expression.",
+  fields:[{label:"Expression", check:E(["g"],"60-g")}]},
+ {id:"11qf4", sec:"s11qf", n:"4", prompt:"In the expression 7k + 3, name the terms, the coefficient of k, and the constant.",
+  fields:[{label:"Terms (e.g. 7k and 3)", check:T(["7k","3"])},{label:"Coefficient of k", check:N(7,0)},{label:"Constant", check:N(3,0)}]},
+ {id:"11qf5", sec:"s11qf", n:"5", prompt:"In 9x + 4x \u2212 2, which terms are like terms? Combine them into one expression.",
+  fields:[{label:"Combined expression", check:E(["x"],"13x-2")}]},
+ {id:"11qf6", sec:"s11qf", n:"6", prompt:"Two subs cost $9 each, plus a $3.50 delivery fee. Write the total as an expression and evaluate it.",
+  fields:[{label:"Total ($)", check:N(21.50)}]},
+ {id:"11qf7", sec:"s11qf", n:"7", prompt:"Write \u201Ctwice the sum of n and 4\u201D as an expression.",
+  fields:[{label:"Expression", check:E(["n"],"2(n+4)")}]},
+ {id:"11qf8", sec:"s11qf", n:"8", prompt:"Evaluate 4x + 7 when x = 5.",
+  fields:[{label:"Value", check:N(27,0)}]},
+ /* §1.1 Quick Check */
+ {id:"11qc1", sec:"s11qc", n:"1", prompt:"Priya's ingredient cost rises to $2.00 a cup, but she keeps her $5.50 price. Write her new Saturday profit expression (use n for cups sold).",
+  fields:[{label:"Expression", check:E(["n"],"3.50n")}]},
+ {id:"11qc2", sec:"s11qc", n:"2", prompt:"Devon's phone plan is $30 plus $8 for each extra gigabyte. Write the expression for his bill (use g for extra gigabytes), and name the coefficient and the constant in your expression.",
+  fields:[{label:"Expression", check:E(["g"],"30+8g")},{label:"Coefficient of g", check:N(8,0)},{label:"Constant", check:N(30,0)}]},
+ {id:"11qc3", sec:"s11qc", n:"3", prompt:"You pay for a $12 movie ticket with a $20 bill. Write your change as an expression using m for the ticket price.",
+  fields:[{label:"Expression", check:E(["m"],"20-m")}]},
+ {id:"11qc4", sec:"s11qc", n:"4", prompt:"A parking garage charges $3 per hour plus a $2 entry fee. Write the expression for parking h hours.",
+  fields:[{label:"Expression", check:E(["h"],"3h+2")}]},
+ /* §1.1 Practice */
+ {id:"11p1", sec:"s11p", n:"1", prompt:"Four concert tickets cost $t each, and the ticket site adds a $12 service fee per order. Write an algebraic expression for the total cost of the order.",
+  fields:[{label:"Expression", check:E(["t"],"4t+12")}]},
+ {id:"11p2", sec:"s11p", n:"2", prompt:"A pair of shoes costs p dollars, and the store is running a \u201C$5 off\u201D sale. Write an expression for the sale price. If the shoes are priced at $45, what do you pay?",
+  fields:[{label:"Sale price expression", check:E(["p"],"p-5")},{label:"You pay at $45 ($)", check:N(40,0)}]},
+ {id:"11p3", sec:"s11p", n:"3", prompt:"A bakery sells muffins for $2.50 each and charges a $5 delivery fee per order. In the expression 2.50m + 5, give the coefficient of m and name the constant.",
+  fields:[{label:"Coefficient of m", check:N(2.50,0)},{label:"Constant", check:N(5,0)}]},
+ {id:"11p4", sec:"s11p", n:"4", prompt:"A babysitter earns $12 per hour on Saturday and $12 per hour on Sunday, but spends $10 on gas driving to the jobs. Her net pay is described by 12s + 12s \u2212 10, where s is hours worked each day. Which terms are like terms, and what single term do they combine into?",
+  fields:[{label:"Combined term", check:E(["s"],"24s")}]},
+ {id:"11p5", sec:"s11p", n:"5", prompt:"You are n years old. Your sister is 8 years younger than you. Write an expression for her age.",
+  fields:[{label:"Expression", check:E(["n"],"n-8")}]},
+ {id:"11p6", sec:"s11p", n:"6", prompt:"Back to the two job offers. Write the warehouse job's weekly pay as an expression with h for hours and b for boxes. Then substitute h = 20 and simplify as far as you can without an equation \u2014 this is the expression the decision comes down to.",
+  fields:[{label:"Warehouse pay (h and b)", check:E(["h","b"],"11.50h+1.25b")},{label:"With h = 20 substituted", check:E(["b"],"230+1.25b")}]},
+ /* §1.2 Quick Fluency */
+ {id:"12qf1", sec:"s12qf", n:"1", prompt:"Evaluate 6 + 2 \u00D7 3.", fields:[{label:"Value", check:N(12,0)}]},
+ {id:"12qf2", sec:"s12qf", n:"2", prompt:"Evaluate (6 + 2) \u00D7 3.", fields:[{label:"Value", check:N(24,0)}]},
+ {id:"12qf3", sec:"s12qf", n:"3", prompt:"Evaluate 20 \u2212 8 \u00F7 4.", fields:[{label:"Value", check:N(18,0)}]},
+ {id:"12qf4", sec:"s12qf", n:"4", prompt:"Evaluate (20 \u2212 8) \u00F7 4.", fields:[{label:"Value", check:N(3,0)}]},
+ {id:"12qf5", sec:"s12qf", n:"5", prompt:"Evaluate 2\u00B3 + 5.", fields:[{label:"Value", check:N(13,0)}]},
+ {id:"12qf6", sec:"s12qf", n:"6", prompt:"Evaluate (\u22123)\u00B2 \u2212 10.", fields:[{label:"Value", check:N(-1,0)}]},
+ {id:"12qf7", sec:"s12qf", n:"7", prompt:"Evaluate 5 + 3(4).", fields:[{label:"Value", check:N(17,0)}]},
+ {id:"12qf8", sec:"s12qf", n:"8", prompt:"Evaluate 2(5 \u2212 2)\u00B2.", fields:[{label:"Value", check:N(18,0)}]},
+ /* §1.2 Quick Check */
+ {id:"12qc1", sec:"s12qc", n:"1", prompt:"Priya's Saturday profit is 3.75n dollars for n cups sold. She sells 48 cups this Saturday. What is her profit?",
+  fields:[{label:"Profit ($)", check:N(180)}]},
+ {id:"12qc2", sec:"s12qc", n:"2", prompt:"You buy 3 notebooks at $2.50 each and a $4 pen. Write the total as an expression and evaluate it.",
+  fields:[{label:"Total ($)", check:N(11.50)}]},
+ {id:"12qc3", sec:"s12qc", n:"3", prompt:"A drone's warehouse is at (0, 0) and the drop point is at (\u22125, 12). Evaluate the squared-trip expression x\u00B2 + y\u00B2 for this drop.",
+  fields:[{label:"Value", check:N(169,0)}]},
+ {id:"12qc4", sec:"s12qc", n:"4", prompt:"Your quiz scores are 8, 9, and 7. Write your average as a single fraction and evaluate it.",
+  fields:[{label:"Average", check:N(8,0)}]},
+ /* §1.2 Practice */
+ {id:"12p1", sec:"s12p", n:"1", prompt:"A dog-walking service charges $12 per visit plus $3 per dog. Write an expression for the cost of a visit with d dogs, then evaluate it for 4 dogs.",
+  fields:[{label:"Expression", check:E(["d"],"12+3d")},{label:"Cost for 4 dogs ($)", check:N(24,0)}]},
+ {id:"12p2", sec:"s12p", n:"2", prompt:"A pizzeria offers two 12-inch pizzas for the price of one 18-inch pizza. Which deal gives you more pizza? Use A = 3.14r\u00B2, where r is half the diameter, and compare the total areas.",
+  fields:[{label:"Better deal", check:{type:"select", options:["Two 12-inch pizzas","One 18-inch pizza"], value:"One 18-inch pizza"}}]},
+ {id:"12p3", sec:"s12p", n:"3", prompt:"The formula C = (F \u2212 32) \u00D7 5/9 converts Fahrenheit to Celsius. What is \u221213\u00B0F in Celsius? (Write (\u221213) with its parentheses when you substitute.)",
+  fields:[{label:"Celsius", check:N(-25,0)}]},
+ {id:"12p4", sec:"s12p", n:"4", prompt:"Maya's fall grades: a 4-credit A (16 grade points), a 3-credit B (9 points), and a 2-credit C (4 points). Her GPA is total grade points \u00F7 total credits. Compute it as a single fraction, then give the decimal.",
+  fields:[{label:"GPA (decimal)", check:N(3.22,0.02)}]},
+ {id:"12p5", sec:"s12p", n:"5", prompt:"You order sod for two square flower beds \u2014 one 10 feet on each side, one 6 feet on each side \u2014 at $1.50 per square foot. The cost is 1.50(10\u00B2 + 6\u00B2). How much do you pay?",
+  fields:[{label:"Cost ($)", check:N(204,0)}]},
+ {id:"12p6", sec:"s12p", n:"6", prompt:"FitZone costs 40 + 25m and FlexGym costs 10 + 35m, where m is months. Evaluate both expressions for m = 4.",
+  fields:[{label:"FitZone at m = 4 ($)", check:N(140,0)},{label:"FlexGym at m = 4 ($)", check:N(150,0)}]},
+ /* Review */
+ {id:"r1", sec:"rev", n:"1", prompt:"A grocery store sells apples for $1.20 per pound. You hand the cashier a $10 bill and buy p pounds of apples. Write an algebraic expression for your change.",
+  fields:[{label:"Expression", check:E(["p"],"10-1.20p")}]},
+ {id:"r2", sec:"rev", n:"2", prompt:"A catering company charges 8.75m + 150 dollars for an order, where m is the number of guests. Give the coefficient of m and name the constant.",
+  fields:[{label:"Coefficient of m", check:N(8.75,0)},{label:"Constant", check:N(150,0)}]},
+ {id:"r3", sec:"rev", n:"3", prompt:"Priya's smoothie stand (from \u00A71.1): her Saturday profit is 3.75n dollars, where n is the number of cups sold. Last Saturday she sold 55 cups. What was her profit? Show the computation.",
+  fields:[{label:"Profit ($)", check:N(206.25)}]},
+ {id:"r4", sec:"rev", n:"4", prompt:"A square patio with side length s meters is tiled at $15 per square meter. The total cost is 15s\u00B2 dollars. Evaluate the cost when s = 8. (Watch the order of operations: the exponent comes before the multiplication.)",
+  fields:[{label:"Cost ($)", check:N(960,0)}]},
+ {id:"r5", sec:"rev", n:"5", prompt:"A city bike-share charges a $3 unlock fee plus $2.50 for each hour of riding. (a) Write an expression for the total cost of a ride of h hours. (b) Evaluate your expression for a 6-hour ride.",
+  fields:[{label:"(a) Expression", check:E(["h"],"3+2.50h")},{label:"(b) Cost of a 6-hour ride ($)", check:N(18,0)}]}
+];
+
+function checkField(field, raw){
+  var c=field.check;
+  if(raw==null || String(raw).trim()==="") return false;
+  if(c.type==="expr") return exprsEquivalent(raw, c.expected, c.vars);
+  if(c.type==="num"){ var v=parseNumber(raw); return v!==null && Math.abs(v-c.value)<=c.tol; }
+  if(c.type==="terms"){
+    var norm=normalizeExpr(raw).replace(/\s+/g,"");
+    return c.tokens.every(function(tok){ return norm.indexOf(normalizeExpr(tok).replace(/\s+/g,""))>=0; });
+  }
+  if(c.type==="select") return raw===c.value;
+  return false;
+}
+
+/* ---------- progress state (this browser only) ---------- */
+var LS_KEY="decidemath-gh-ch1-progress";
+var state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:""};
+try{
+  var saved=localStorage.getItem(LS_KEY);
+  if(saved){ var parsed=JSON.parse(saved); if(parsed&&typeof parsed==="object") state=Object.assign(state,parsed); }
+}catch(e){}
+function saveState(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
+
+/* ---------- render practice ---------- */
+function el(tag, cls, text){
+  var d=document.createElement(tag);
+  if(cls) d.className=cls;
+  if(text!=null) d.textContent=text;
+  return d;
+}
+function renderQuestions(){
+  var host=document.getElementById("question-list");
+  SECTIONS.forEach(function(sec){
+    var head=el("div","sec-title");
+    head.appendChild(el("h3",null,sec.title));
+    if(sec.note) head.appendChild(el("span",null,sec.note));
+    host.appendChild(head);
+    QUESTIONS.filter(function(q){return q.sec===sec.id;}).forEach(function(q){
+      var card=el("div","q"+(state.solved[q.id]?" solved":""));
+      card.id="q-"+q.id;
+      var p=el("p","prompt");
+      p.appendChild(el("span","qn",q.n+"."));
+      p.appendChild(document.createTextNode(q.prompt));
+      card.appendChild(p);
+      var fields=el("div","fields");
+      q.fields.forEach(function(f, fi){
+        var wrap=el("div");
+        var lab=el("label","flabel",f.label);
+        lab.setAttribute("for","in-"+q.id+"-"+fi);
+        wrap.appendChild(lab);
+        var input;
+        if(f.check.type==="select"){
+          input=document.createElement("select");
+          input.appendChild(el("option",null,"Choose…")); input.options[0].value="";
+          f.check.options.forEach(function(o){ var op=el("option",null,o); op.value=o; input.appendChild(op); });
+        }else{
+          input=document.createElement("input");
+          input.type="text"; input.setAttribute("autocomplete","off");
+          input.setAttribute("autocapitalize","off"); input.setAttribute("spellcheck","false");
+          if(f.check.type==="num") input.setAttribute("inputmode","decimal");
+        }
+        input.id="in-"+q.id+"-"+fi;
+        wrap.appendChild(input);
+        fields.appendChild(wrap);
+      });
+      card.appendChild(fields);
+      var row=el("div","row");
+      var btn=el("button","btn small","Check"); btn.type="button";
+      var status=el("span","status",""); status.setAttribute("role","status");
+      var att=el("span","attempts","");
+      function paintAtt(){
+        var a=state.attempts[q.id]||0;
+        att.textContent = a? ("Attempts: "+a) : "";
+        if(state.solved[q.id]){ status.textContent="Correct ✓"; status.className="status ok"; }
+      }
+      btn.addEventListener("click",function(){
+        state.attempts[q.id]=(state.attempts[q.id]||0)+1;
+        var ok=q.fields.every(function(f, fi){
+          var inp=document.getElementById("in-"+q.id+"-"+fi);
+          return checkField(f, inp.value);
+        });
+        if(ok){ state.solved[q.id]=true; card.classList.add("solved"); status.textContent="Correct ✓"; status.className="status ok"; }
+        else{ status.textContent="Not yet — try again"; status.className="status no"; }
+        paintAtt(); saveState(); paintProgress();
+      });
+      row.appendChild(btn); row.appendChild(status); row.appendChild(att);
+      card.appendChild(row);
+      paintAtt();
+      host.appendChild(card);
+    });
+  });
+}
+
+/* ---------- explorers ---------- */
+function money(v){ return "$"+v.toFixed(2); }
+function paintJobs(){
+  var h=parseFloat(document.getElementById("job-hours").value);
+  var b=parseFloat(document.getElementById("job-boxes").value);
+  document.getElementById("job-hours-val").textContent=h;
+  document.getElementById("job-boxes-val").textContent=b;
+  var w=11.50*h+1.25*b, s=14*h;
+  document.getElementById("pay-warehouse").innerHTML=money(w)+" <small>per week</small>";
+  document.getElementById("pay-scoops").innerHTML=money(s)+" <small>per week</small>";
+  var scale=Math.max(w,s,1);
+  /* scale bars against the larger paycheck, with headroom */
+  var full=Math.max(600, scale*1.15);
+  document.getElementById("bar-warehouse").style.width=Math.max(2,(w/full*100))+"%";
+  document.getElementById("bar-scoops").style.width=Math.max(2,(s/full*100))+"%";
+}
+var gymMonths=9;
+function paintGym(){
+  var f=40+25*gymMonths, g=10+35*gymMonths;
+  document.getElementById("cost-fitzone").innerHTML=money(f)+" <small>total</small>";
+  document.getElementById("cost-flexgym").innerHTML=money(g)+" <small>total</small>";
+  var full=Math.max(f,g,1)*1.15;
+  document.getElementById("bar-fitzone").style.width=Math.max(2,(f/full*100))+"%";
+  document.getElementById("bar-flexgym").style.width=Math.max(2,(g/full*100))+"%";
+  document.querySelectorAll(".month-btns button").forEach(function(btn){
+    btn.setAttribute("aria-pressed", String(parseInt(btn.getAttribute("data-months"),10)===gymMonths));
+  });
+}
+function wirePick(btnId, otherId, noteId, key, label){
+  var btn=document.getElementById(btnId), other=document.getElementById(otherId);
+  function paint(){
+    btn.setAttribute("aria-pressed", String(state[key]===label));
+    other.setAttribute("aria-pressed", String(state[key]!==label && state[key]!==""));
+    document.getElementById(noteId).textContent = state[key]
+      ? ("Your pick: "+state[key]+". Keep exploring — check whether your pick still holds when the numbers change.")
+      : document.getElementById(noteId).getAttribute("data-default");
+  }
+  btn.addEventListener("click",function(){ state[key]=label; saveState(); paint(); });
+  other.addEventListener("click",function(){ /* handled by its own wirePick */ });
+  return paint;
+}
+
+/* ---------- essay studio ---------- */
+var CF_ANSWERS=[["cf-w60",305],["cf-s60",280],["cf-w200",480],["cf-be",40]];
+function checkComputeFirst(){
+  var results=CF_ANSWERS.map(function(pair){
+    var v=parseNumber(document.getElementById(pair[0]).value);
+    return {id:pair[0], ok:(v!==null && Math.abs(v-pair[1])<=0.011)};
+  });
+  var status=document.getElementById("cf-status");
+  var detail=document.getElementById("cf-detail");
+  var allOk=results.every(function(r){return r.ok;});
+  var matched=results.filter(function(r){return r.ok;}).length;
+  if(allOk){
+    status.textContent="All four match ✓"; status.className="status ok";
+    detail.textContent="Your computation checks out. These numbers are the backbone of Paragraph 2.";
+    state.essayCF=true;
+  }else{
+    status.textContent="No match yet"; status.className="status no";
+    detail.textContent=matched+" of 4 entries match so far. For any that don't: recheck the substitution — hours first, then boxes — and try again. (The studio never reveals the numbers; they're yours to find.)";
+    state.essayCF=false;
+  }
+  saveState(); paintProgress();
+}
+function countWords(t){ var m=String(t).trim().match(/\S+/g); return m? m.length : 0; }
+function paintEssayWC(){
+  var total=["para1","para2","para3"].reduce(function(sum,id){ return sum+countWords(document.getElementById(id).value); },0);
+  document.getElementById("essay-wc").textContent=total+" words";
+  var note=document.getElementById("essay-wc-note");
+  if(total>=200&&total<=300){ note.textContent="— in the 200–300 word target. ✓"; note.className="wc-note in"; }
+  else if(total<200){ note.textContent="— under the 200-word minimum by "+(200-total)+"."; note.className="wc-note out"; }
+  else{ note.textContent="— over the 300-word maximum by "+(total-300)+"."; note.className="wc-note out"; }
+  if(total===0) note.textContent="— target is 200–300 words.";
+}
+
+/* ---------- progress + locked chapters ---------- */
+var LATER_CHAPTERS=[
+  ["Chapter 2","Solving Linear Equations and Inequalities","One-variable equations, literal equations, and compound and absolute-value inequalities."],
+  ["Chapter 3","Functions: Domain, Range, and Notation","What makes a relation a function, function notation f(x), and domain and range."],
+  ["Chapter 4","Linear Functions: Slope, Graphs, and Models","Slope-intercept and standard form, graphing lines, and modeling real data."],
+  ["Chapter 5","Systems of Equations and Inequalities","Graphing, substitution, and elimination; systems of inequalities and feasible regions."],
+  ["Chapter 6","Exponentials: Growth, Decay, and Sequences","Exponent rules, geometric sequences, and exponential functions."],
+  ["Chapter 7","Polynomials and Factoring","Operations on polynomials; GCF, trinomials, and special products."],
+  ["Chapter 8","Quadratics: Graphs, Solving, and Modeling","Parabolas; factoring, completing the square, and the quadratic formula."],
+  ["Chapter 9","Data and Association","Statistics, box plots, two-way tables, scatter plots, and correlation."]
+];
+function paintProgress(){
+  var solved=Object.keys(state.solved).filter(function(k){return state.solved[k];}).length;
+  var attempts=Object.keys(state.attempts).reduce(function(s,k){return s+(state.attempts[k]||0);},0);
+  document.getElementById("prog-solved").textContent=solved;
+  document.getElementById("prog-attempts").textContent=attempts;
+  document.getElementById("prog-essay").textContent=state.essayCF? "all numbers match ✓" : "not fully matched yet";
+  document.getElementById("prog-fill").style.width=(solved/QUESTIONS.length*100)+"%";
+}
+function renderLocked(){
+  var grid=document.getElementById("lock-grid");
+  LATER_CHAPTERS.forEach(function(c){
+    var card=el("div","lock-card locked");
+    card.appendChild(el("h3",null,c[0]+" — "+c[1]));
+    card.appendChild(el("p",null,c[2]));
+    card.appendChild(el("p",null,"🔒 Opens when the chapter is released."));
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- wire up student side ---------- */
+document.getElementById("job-hours").addEventListener("input",paintJobs);
+document.getElementById("job-boxes").addEventListener("input",paintJobs);
+document.querySelectorAll(".month-btns button").forEach(function(btn){
+  btn.addEventListener("click",function(){ gymMonths=parseInt(btn.getAttribute("data-months"),10); paintGym(); });
+});
+document.getElementById("pick-note").setAttribute("data-default","Pick the job you would take. You will defend this choice in the essay at the end of the chapter.");
+document.getElementById("gym-pick-note").setAttribute("data-default","Pick the gym you would join for about 9 months.");
+var paintJobPick=wirePick("pick-warehouse","pick-scoops","pick-note","jobPick","Build-a-Box Warehouse");
+document.getElementById("pick-scoops").addEventListener("click",function(){
+  state.jobPick="City Scoops Ice Cream"; saveState(); paintJobPick();
+  document.getElementById("pick-note").textContent="Your pick: City Scoops Ice Cream. Keep exploring — check whether your pick still holds when the numbers change.";
+});
+document.getElementById("pick-warehouse").addEventListener("click",function(){ paintJobPick(); });
+var gymFitBtn=document.getElementById("pick-fitzone"), gymFlexBtn=document.getElementById("pick-flexgym");
+function paintGymPick(){
+  gymFitBtn.setAttribute("aria-pressed",String(state.gymPick==="FitZone"));
+  gymFlexBtn.setAttribute("aria-pressed",String(state.gymPick==="FlexGym"));
+  if(state.gymPick) document.getElementById("gym-pick-note").textContent="Your pick for the school year: "+state.gymPick+".";
+}
+gymFitBtn.addEventListener("click",function(){ state.gymPick="FitZone"; saveState(); paintGymPick(); });
+gymFlexBtn.addEventListener("click",function(){ state.gymPick="FlexGym"; saveState(); paintGymPick(); });
+document.getElementById("cf-check").addEventListener("click",checkComputeFirst);
+["para1","para2","para3"].forEach(function(id){ document.getElementById(id).addEventListener("input",paintEssayWC); });
+document.getElementById("prog-reset").addEventListener("click",function(){
+  state={solved:{}, attempts:{}, essayCF:false, jobPick:"", gymPick:""};
+  saveState();
+  QUESTIONS.forEach(function(q){
+    var c=document.getElementById("q-"+q.id);
+    if(c){ c.classList.remove("solved"); var st=c.querySelector(".status"); if(st){st.textContent=""; st.className="status";} var at=c.querySelector(".attempts"); if(at) at.textContent=""; }
+  });
+  paintProgress(); paintGymPick();
+  document.getElementById("pick-warehouse").setAttribute("aria-pressed","false");
+  document.getElementById("pick-scoops").setAttribute("aria-pressed","false");
+  document.getElementById("pick-note").textContent=document.getElementById("pick-note").getAttribute("data-default");
+});
+renderQuestions();
+renderLocked();
+paintJobs(); paintGym(); paintGymPick(); paintProgress(); paintEssayWC();
+if(state.jobPick){ paintJobPick(); }
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   TEACHER-ONLY DATA BLOCK
+   Nothing in this block is rendered into the page until the
+   teacher passcode succeeds. (On a static page this is a
+   courtesy gate; server-side enforcement lives in the
+   DecideMath server app.)
+   ============================================================ */
+var TEACHER_PASSCODE="RIVER-TEACHER-1";
+
+var TEACHER_SOLUTIONS=[
+ {group:"§1.1 Quick Fluency — worked solutions", items:[
+  ["1. 3n + 11","“11 more than three times a number n.” Three times a number is 3n; “11 more than” adds 11. Answer: 3n + 11."],
+  ["2. y − 6","“6 less than a number y.” Start from y and take away 6: y − 6. (Writing 6 − y is the classic reversal.)"],
+  ["3. 60 − g","The balance is what is left of the $60 after the game costs g dollars: 60 − g."],
+  ["4. Parts of 7k + 3","Terms are 7k and 3; the coefficient of k is 7; the constant is 3."],
+  ["5. 13x − 2","In 9x + 4x − 2, the like terms are 9x and 4x — same variable, same power. 9x + 4x = 13x, so the expression becomes 13x − 2. The −2 has no partner and stays."],
+  ["6. $21.50","Two subs at $9 each plus a $3.50 fee: 2(9) + 3.50 = 18 + 3.50 = $21.50."],
+  ["7. 2(n + 4)","“Twice the sum of n and 4.” The sum comes first — n + 4 — and the whole sum is doubled, so the parentheses are required: 2(n + 4). Without them, 2n + 4 doubles only the n."],
+  ["8. 27","Evaluate 4x + 7 when x = 5: substitute first, then multiply, then add. 4(5) + 7 = 20 + 7 = 27."]
+ ]},
+ {group:"§1.1 Quick Check — worked solutions", items:[
+  ["1. 3.50n","Priya's price stays $5.50 and her ingredient cost rises to $2.00 a cup. Profit per cup is 5.50 − 2.00 = 3.50, so the new profit expression is 3.50n (that is, (5.50 − 2.00)n)."],
+  ["2. 30 + 8g","Devon's bill: a $30 monthly charge plus $8 per extra gigabyte gives 30 + 8g. Terms: 30 and 8g; coefficient of g: 8; constant: 30."],
+  ["3. 20 − m","Change from a $20 bill for a ticket costing m dollars: 20 − m. The expression m − 20 would be wrong because it starts from the ticket price and subtracts the bill — for a $12 ticket it gives 12 − 20 = −8, and change cannot be negative when the bill covers the ticket."],
+  ["4. 3h + 2","Parking: $3 per hour plus a $2 entry fee gives 3h + 2. The coefficient 3 is the rate — $3 charged for each hour parked. The constant 2 is the one-time $2 entry fee, charged once no matter how long the car stays."]
+ ]},
+ {group:"§1.1 Practice — worked solutions", items:[
+  ["1. 4t + 12","Four tickets at $t each is 4t, plus the $12 service fee for the order: 4t + 12."],
+  ["2. p − 5; $40","Sale price: p − 5. At p = 45: 45 − 5 = $40."],
+  ["3. Parts of 2.50m + 5","Terms are 2.50m and 5; the coefficient of m is 2.50; the constant is 5."],
+  ["4. 24s","In 12s + 12s − 10, the like terms are 12s and 12s — same variable s (hours each day, the same both days). They combine into the single term 24s. (The −10 for gas is a constant and does not combine with them.)"],
+  ["5. n − 8","Your sister's age: n − 8. Check at n = 20: her age is 20 − 8 = 12. The wrong translation, 8 − n, gives 8 − 20 = −12 — a negative age, which is impossible. That test is how you know “8 years younger” must start from your age."],
+  ["6. 230 + 1.25b","Warehouse weekly pay: 11.50h + 1.25b. Substitute h = 20: 11.50(20) + 1.25b = 230 + 1.25b. This is as far as the expression simplifies without knowing b — it is the expression the whole job decision comes down to."]
+ ]},
+ {group:"§1.1 Story hooks", items:[
+  ["Smoothie price rise: 4.25n","Priya raises her price to $6.00 a cup with the same $1.75 ingredient cost. Profit per cup: 6.00 − 1.75 = 4.25, so the new profit expression is 4.25n."],
+  ["Four pizzas: $46.99","Only the pizza part changes: 4(12) + 4.99 − 6 = 48 + 4.99 − 6 = $46.99. The delivery fee and the coupon stay the same."],
+  ["Marcus's week: $202","Substitute l = 6 and h = 4 into 25l + 10h + 12: 25(6) + 10(4) + 12 = 150 + 40 + 12 = $202."]
+ ]},
+ {group:"§1.2 Quick Fluency — worked solutions", items:[
+  ["1. 12","6 + 2 × 3. Multiply before adding: 6 + 6 = 12."],
+  ["2. 24","(6 + 2) × 3. Parentheses first: 8 × 3 = 24."],
+  ["3. 18","20 − 8 ÷ 4. Divide before subtracting: 20 − 2 = 18."],
+  ["4. 3","(20 − 8) ÷ 4. Parentheses first: 12 ÷ 4 = 3."],
+  ["5. 13","2³ + 5. Exponent first: 8 + 5 = 13."],
+  ["6. −1","(−3)² − 10. The parentheses make the base −3, so (−3)² = 9. Then 9 − 10 = −1."],
+  ["7. 17","5 + 3(4). Multiply first: 5 + 12 = 17."],
+  ["8. 18","2(5 − 2)². Parentheses: 5 − 2 = 3. Exponent: 3² = 9. Multiply: 2 × 9 = 18."]
+ ]},
+ {group:"§1.2 Quick Check — worked solutions", items:[
+  ["1. $180.00","Priya's profit at 48 cups: 3.75 × 48 = $180.00."],
+  ["2. $11.50","Three notebooks at $2.50 plus a $4 pen: 3(2.50) + 4 = 7.50 + 4 = $11.50."],
+  ["3. 169","Squared-trip expression at (−5, 12): (−5)² + 12² = 25 + 144 = 169. The parentheses around −5 matter — the negative is part of the base."],
+  ["4. 8","Average of 8, 9, and 7 as one fraction: (8 + 9 + 7)/3 = 24/3 = 8. The fraction bar groups the top, so add all three scores before dividing."]
+ ]},
+ {group:"§1.2 Practice — worked solutions", items:[
+  ["1. 12 + 3d; $24","Dog-walking visit with d dogs: 12 + 3d (the $12 visit charge plus $3 per dog). For 4 dogs: 12 + 3(4) = 12 + 12 = $24."],
+  ["2. The 18-inch pizza","Area of one pizza: A = 3.14r², with r half the diameter. Two 12-inch pizzas: each has r = 6, so each area is 3.14 × 36 = 113.04 sq in, and two give 226.08 sq in. One 18-inch pizza: r = 9, so 3.14 × 81 = 254.34 sq in. The single 18-inch pizza gives more pizza — about 28 sq in more. The trap is comparing diameters (18 vs. 12 + 12) instead of areas."],
+  ["3. −25°C","Convert −13°F: C = (−13 − 32) × 5/9. Parentheses first: −13 − 32 = −45. Then −45 × 5/9 = −225/9 = −25°C."],
+  ["4. ≈ 3.22","Maya's GPA as one fraction: total grade points over total credits, (16 + 9 + 4)/(4 + 3 + 2) = 29/9 ≈ 3.22. The fraction bar groups both the top and the bottom — adding only the points, or only the credits, first is the usual slip."],
+  ["5. $204","Sod for two beds: 1.50(10² + 6²). Exponents inside the parentheses first: 100 + 36 = 136. Then 1.50 × 136 = $204."],
+  ["6. FitZone $140 · FlexGym $150","At m = 4: FitZone 40 + 25(4) = 40 + 100 = $140; FlexGym 10 + 35(4) = 10 + 140 = $150. FitZone is already cheaper at 4 months, which fits the breakeven at 3 months."]
+ ]},
+ {group:"§1.2 Story hooks", items:[
+  ["Phone bill under $50: at most 2 extra GB","Devon needs 30 + 8g < 50. Subtract 30: 8g < 20. Divide by 8: g < 2.5. Gigabytes come in whole numbers, so he can use at most 2 extra gigabytes — that bill is 30 + 8(2) = $46, while 3 gigabytes would give $54 and break the limit."],
+  ["Tip first or coupon first?","Coupon first: (48 − 10) × 1.15 = 38 × 1.15 = $43.70. Tip first: 48 × 1.15 − 10 = 55.20 − 10 = $45.20. The $1.50 difference is the tip on the $10 the coupon removed — most restaurants tip on the discounted total, which is the coupon-first way."]
+ ]},
+ {group:"Review Problems — worked solutions", items:[
+  ["1. 10 − 1.20p","The apples cost 1.20p dollars, and change is the $10 bill minus that cost: 10 − 1.20p."],
+  ["2. Parts of 8.75m + 150","Terms are 8.75m and 150; the coefficient of m is 8.75; the constant is 150. In the story, the $8.75 is the food cost for each guest, and the $150 is the flat setup charge that does not depend on how many guests come."],
+  ["3. $206.25","Priya's profit at 55 cups: 3.75 × 55 = 3.75 × 50 + 3.75 × 5 = 187.50 + 18.75 = $206.25."],
+  ["4. $960","Tiling cost at s = 8: 15 × 8². Exponent before multiplication: 8² = 64, then 15 × 64 = $960. (Squaring 15 × 8 first would give the wrong base entirely.)"],
+  ["5. 3 + 2.50h; $18","(a) Bike-share cost for h hours: 3 + 2.50h — the $3 unlock fee once, plus $2.50 for each hour. (b) At h = 6: 3 + 2.50(6) = 3 + 15 = $18."]
+ ]},
+ {group:"Decision answers — the two chapter decisions", items:[
+  ["§1.1 Jobs: breakeven at 40 boxes/week","Warehouse pay: 11.50h + 1.25b; City Scoops: 14h. Lock in h = 20: warehouse becomes 230 + 1.25b, Scoops becomes a flat $280. At 60 boxes: warehouse 230 + 75 = $305 vs. $280 — warehouse by $25. At 200 boxes: 230 + 250 = $480 vs. $280 — warehouse by $200. Breakeven: 230 + 1.25b = 280 → 1.25b = 50 → b = 40 boxes per week. Below 40 boxes a week, City Scoops pays more; above 40, the warehouse pays more."],
+  ["§1.2 Gyms: tie at m = 3, both $115","FitZone: 40 + 25m; FlexGym: 10 + 35m. At 2 months: $90 vs. $80 — FlexGym. At 3 months: $115 vs. $115 — the tie, the breakeven. At 6 months: $190 vs. $220 — FitZone. At 9 months (the school year): $265 vs. $325 — FitZone wins by $60. At 12 months: $340 vs. $430 — FitZone again. Staying 3 months or fewer? FlexGym. Longer? FitZone."]
+ ]}
+];
+
+var TEACHER_KEY={
+ "11qf1":"3n + 11","11qf2":"y − 6","11qf3":"60 − g","11qf4":"Terms 7k, 3 · coefficient 7 · constant 3",
+ "11qf5":"13x − 2","11qf6":"$21.50","11qf7":"2(n + 4)","11qf8":"27",
+ "11qc1":"3.50n","11qc2":"30 + 8g · coefficient 8 · constant 30","11qc3":"20 − m","11qc4":"3h + 2",
+ "11p1":"4t + 12","11p2":"p − 5; at $45, pays $40","11p3":"Coefficient 2.50 · constant 5",
+ "11p4":"24s","11p5":"n − 8","11p6":"11.50h + 1.25b; with h = 20: 230 + 1.25b",
+ "12qf1":"12","12qf2":"24","12qf3":"18","12qf4":"3","12qf5":"13","12qf6":"−1","12qf7":"17","12qf8":"18",
+ "12qc1":"$180.00","12qc2":"$11.50","12qc3":"169","12qc4":"8",
+ "12p1":"12 + 3d; for 4 dogs, $24","12p2":"One 18-inch pizza (254.34 sq in vs. 226.08 sq in)",
+ "12p3":"−25°C","12p4":"29/9 ≈ 3.22","12p5":"$204","12p6":"FitZone $140 · FlexGym $150",
+ "r1":"10 − 1.20p","r2":"Coefficient 8.75 · constant 150","r3":"$206.25","r4":"$960","r5":"(a) 3 + 2.50h (b) $18"
+};
+
+var RUBRIC=[
+ {name:"(1) Decision & claim", scores:{
+   3:"A precise, qualified claim — one job named and defended with a condition attached, e.g. recommending the warehouse because the breakeven is only 40 boxes a week. The essay never switches sides.",
+   2:"One clear recommendation stated (typically in the first sentence) and held throughout, with correct support — but the claim is plain (“the warehouse is better”) rather than qualified.",
+   1:"A recommendation is present but vague, buried, or stated so loosely it could mean either job.",
+   0:"No recommendation, or the essay switches sides."}},
+ {name:"(2) Mathematical evidence", scores:{
+   3:"Both pay expressions written correctly (11.50h + 1.25b and 14h), two correct evaluations at different box counts, and the breakeven of 40 boxes/week stated with a sentence saying what it means (above it the warehouse wins, below it Scoops wins). A different second box count (e.g. 300 boxes: $605 vs. $280) can earn full credit if the arithmetic is right and the comparison is clear.",
+   2:"The numbers are present but unexplained, or the breakeven appears with no meaning attached.",
+   1:"Only one evaluation, a missing expression, or arithmetic errors that change the comparison.",
+   0:"No usable mathematical evidence."}},
+ {name:"(3) Implications & limits", scores:{
+   3:"A specific limit of the recommendation (her real packing speed is unknown, her hours could change, the box bonus could be capped) plus one concrete condition that would flip the choice — and a trade-off is weighed (certain pay vs. a higher ceiling, money vs. how tiring the work is).",
+   2:"A specific limitation is named and a flip condition is present, but the trade-off is not weighed.",
+   1:"A vague closing line such as “this might not always work,” with no named condition.",
+   0:"No limitation or flip condition at all."}},
+ {name:"(4) Structure & language", scores:{
+   3:"Exactly three paragraphs, each doing its own job (decision → evidence → implications), 200–300 words in total, and sentences that are clear and precise on a first read.",
+   2:"The three-paragraph shape and word range are essentially right, with minor slips in paragraph jobs or clarity.",
+   1:"Paragraphs swap jobs, or the essay runs far over or under the word count, or the writing forces re-reading — even if the math is correct.",
+   0:"Not in essay shape: wrong paragraph count and unclear throughout."}}
+];
+
+var COMMON_ERRORS=[
+ ["The bonus disappears.","The student writes the warehouse pay as 11.50h and forgets the 1.25b term, or adds a bonus to City Scoops. Check the two expressions first — every later number depends on them."],
+ ["$230 treated as the warehouse total.","After substituting h = 20, some students stop at 230 and compare it with $280 at every box count. Check that 1.25b was actually evaluated: at 60 boxes the bonus adds $75, not $0."],
+ ["The breakeven stated backward.","The student finds b = 40 correctly, then writes that the warehouse wins below 40 boxes. Check the direction sentence against one evaluation: at 60 boxes the warehouse already leads, so “above 40, warehouse” is the only direction that fits."],
+ ["One evaluation only.","The essay compares the jobs at a single box count (often 60) and never shows how the gap grows, or never finds the breakeven at all. The prompt says the box count could be 30 or 300 — an essay that tests only one point has not answered it."],
+ ["A flip test with no condition.","Paragraph 3 ends with “my advice might change if things change.” Look for a named, checkable condition — a box average, an hours change, a capped bonus — and a reason it would flip the winner."]
+];
+
+var SAMPLES=[
+ {name:"Sample 1 — Beginner", total:6, parts:[2,2,1,1],
+  note:"The recommendation is stated in the first sentence and never wavers, and every number is correct — both expressions, $305 vs. $280 at 60 boxes, $605 vs. $280 at 300 boxes, and the breakeven of 40 boxes a week — so decision and evidence earn solid 2s. What holds it at the top of the Beginning band is depth: paragraph 2 lists the numbers in order without drawing out the pattern (each extra box is worth exactly $1.25 of lead), and the limitation stays with the hours assumption instead of weighing what the job is actually like to do."},
+ {name:"Sample 2 — Intermediate", total:9, parts:[2,3,2,2],
+  note:"The math is the same correct math as Sample 1, but paragraph 2 is organized as a head-to-head comparison — Scoops frozen at $280 while the warehouse climbs $1.25 at a time — and it names that pattern, which earns the 3 for evidence. The limitation is sharper too: the bonus could be capped or cut, which moves the breakeven, and the flip test is a measurable two-week trial. What keeps it at the top of the Proficient band is that everything is still tied to 20 hours a week; it never steps back to a rule that survives a schedule change, and the opening claim rests on an assumed “normal pace.”"},
+ {name:"Sample 3 — Advanced", total:12, parts:[3,3,3,3],
+  note:"Every number is correct, and the essay generalizes the breakeven into a rule that outlives the given numbers — setting 11.50h + 1.25b = 14h gives 1.25b = 2.50h, so b = 2h, pack twice as many boxes as hours worked — then checks the rule against the $305 and $605 evaluations instead of just reciting them. The limitation is weighed like a decision: the model prices only money, warehouse work is physically draining, and the bonus rate is a promise no manager has to keep. The flip test is stated as evidence — an average under 2 boxes per hour in her first two weeks — and the essay is exactly three paragraphs and 286 words with a precise, qualified claim."}
+];
+
+/* ---------- teacher zone rendering (only after sign-in) ---------- */
+var graderScores=[null,null,null,null];
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderTeacherZone(){
+  var zone=document.getElementById("teacher-zone");
+  zone.innerHTML="";
+  zone.style.display="block";
+
+  /* sign-out row */
+  var topBar=document.createElement("div");
+  topBar.className="card amber";
+  topBar.innerHTML="<strong>Teacher mode is on.</strong> Worked solutions, decision answers, the essay grader, and the assignment builder are below. "+
+    "<button type='button' class='btn ghost small' id='teacher-logout' style='margin-left:10px'>Sign out</button>";
+  zone.appendChild(topBar);
+  document.getElementById("teacher-logout").addEventListener("click",function(){
+    zone.style.display="none"; zone.innerHTML="";
+    document.getElementById("mode-pill").textContent="Student mode";
+    document.getElementById("mode-pill").className="mode-pill";
+    document.getElementById("passcode").value="";
+    document.getElementById("login-status").textContent="";
+    document.getElementById("teacher-login-card").style.display="block";
+  });
+
+  /* key numbers */
+  var kn=document.createElement("div"); kn.className="card";
+  kn.innerHTML="<h3>Key numbers — Chapter 1 decisions (verified)</h3><div class='keynums' style='margin-top:12px'>"+
+    "<div class='keynum'><div>Jobs breakeven (§1.1)</div><div class='big'>40 boxes / week</div><div>230 + 1.25b = 280 → b = 40. Below 40: City Scoops. Above 40: Warehouse.</div></div>"+
+    "<div class='keynum'><div>Jobs at 20 hrs (§1.1)</div><div class='big'>$305 · $480 vs. $280</div><div>Warehouse at 60 boxes: $305 (wins by $25). At 200 boxes: $480 (wins by $200). Scoops is $280 at any box count.</div></div>"+
+    "<div class='keynum'><div>Gym tie (§1.2)</div><div class='big'>m = 3 · $115 each</div><div>FitZone 40 + 25(3) = $115; FlexGym 10 + 35(3) = $115.</div></div>"+
+    "<div class='keynum'><div>Gym, school year (§1.2)</div><div class='big'>$265 vs. $325</div><div>At 9 months FitZone wins by $60. At 2 months FlexGym wins ($80 vs. $90); at 12 months FitZone wins ($340 vs. $430).</div></div>"+
+    "</div>";
+  zone.appendChild(kn);
+
+  /* worked solutions */
+  var solCard=document.createElement("div"); solCard.className="card";
+  solCard.innerHTML="<h3>Worked solutions &amp; answer key — all 41 questions, story hooks, and both decisions</h3>"+
+    "<p style='color:var(--muted)'>From the Chapter 1 Teacher Guide. Open a set to see the full working, not just the final answer.</p>";
+  TEACHER_SOLUTIONS.forEach(function(g){
+    var d=document.createElement("details"); d.className="sol";
+    var s=document.createElement("summary"); s.textContent=g.group; d.appendChild(s);
+    var body=document.createElement("div"); body.className="body";
+    g.items.forEach(function(it){
+      var p=document.createElement("p");
+      p.innerHTML="<strong>"+esc(it[0])+"</strong> — "+esc(it[1]);
+      body.appendChild(p);
+    });
+    d.appendChild(body); solCard.appendChild(d);
+  });
+  zone.appendChild(solCard);
+
+  /* essay grader */
+  var gr=document.createElement("div"); gr.className="card"; gr.id="grader-card";
+  var grHTML="<h3>Essay grader — Summative: the 3-paragraph decision essay</h3>"+
+    "<p style='color:var(--muted)'>Paste a student essay, then score the four Teacher Guide criteria (0–3 each, 12 total). "+
+    "The guide's calibration samples are scored below the grader. Note: the guide records each sample's scores and rationale, not the full sample text.</p>"+
+    "<label class='flabel' for='grader-text'>Student essay</label>"+
+    "<textarea class='essay' id='grader-text' placeholder='Paste the student essay here…'></textarea>"+
+    "<p>Word count: <span class='wc num' id='grader-wc'>0</span> <span class='attempts'>(target 200–300 words, exactly three paragraphs)</span></p>";
+  RUBRIC.forEach(function(crit, ci){
+    grHTML+="<div style='border-top:1px solid var(--line);padding-top:10px;margin-top:10px'>"+
+      "<strong>"+esc(crit.name)+"</strong>"+
+      "<div class='rubric-btns' role='group' aria-label='"+esc(crit.name)+" score'>"+
+      [0,1,2,3].map(function(v){ return "<button type='button' data-crit='"+ci+"' data-val='"+v+"' aria-pressed='false'>"+v+"</button>"; }).join("")+
+      "</div><p class='attempts' id='rubric-desc-"+ci+"'>Pick a score to see the guide's descriptor.</p></div>";
+  });
+  grHTML+="<p style='font-size:1.15rem;margin-top:16px'>Total: <strong class='num' id='grader-total'>— / 12</strong></p>";
+  gr.innerHTML=grHTML;
+  zone.appendChild(gr);
+
+  var gt=document.getElementById("grader-text");
+  gt.addEventListener("input",function(){
+    document.getElementById("grader-wc").textContent=countWords(gt.value)+" words";
+  });
+  gr.querySelectorAll(".rubric-btns button").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var ci=parseInt(btn.getAttribute("data-crit"),10), v=parseInt(btn.getAttribute("data-val"),10);
+      graderScores[ci]=v;
+      gr.querySelectorAll("button[data-crit='"+ci+"']").forEach(function(b){ b.setAttribute("aria-pressed",String(b===btn)); });
+      document.getElementById("rubric-desc-"+ci).textContent="Score "+v+": "+RUBRIC[ci].scores[v];
+      var picked=graderScores.filter(function(x){return x!==null;});
+      document.getElementById("grader-total").textContent = picked.length===4
+        ? (graderScores.reduce(function(a,b){return a+b;},0)+" / 12")
+        : "— / 12 ("+picked.length+" of 4 criteria scored)";
+    });
+  });
+
+  /* common errors */
+  var ce=document.createElement("div"); ce.className="card tint";
+  var ceHTML="<h3>Common errors to watch for</h3>";
+  COMMON_ERRORS.forEach(function(e){
+    ceHTML+="<div class='checkline'><span class='box' aria-hidden='true'></span><span><strong>"+esc(e[0])+"</strong> "+esc(e[1])+"</span></div>";
+  });
+  ce.innerHTML=ceHTML;
+  zone.appendChild(ce);
+
+  /* calibration samples */
+  var sc=document.createElement("div"); sc.className="card";
+  var scHTML="<h3>Calibration samples — official scores from the Teacher Guide</h3>"+
+    "<p style='color:var(--muted)'>Score a student essay, then compare your four numbers with these. The guide publishes each sample's scores and rationale (not the full essay text).</p>"+
+    "<div style='overflow-x:auto'><table class='scores'><tr><th>Sample</th><th class='n'>(1) Decision</th><th class='n'>(2) Evidence</th><th class='n'>(3) Implications</th><th class='n'>(4) Structure</th><th class='n'>Total</th></tr>"+
+    SAMPLES.map(function(s){
+      return "<tr><td><strong>"+esc(s.name)+"</strong></td><td class='n'>"+s.parts[0]+"</td><td class='n'>"+s.parts[1]+"</td><td class='n'>"+s.parts[2]+"</td><td class='n'>"+s.parts[3]+"</td><td class='n'><strong>"+s.total+"/12</strong></td></tr>";
+    }).join("")+"</table></div>";
+  SAMPLES.forEach(function(s){
+    scHTML+="<p><strong>"+esc(s.name)+": "+s.total+"/12.</strong> "+esc(s.note)+"</p>";
+  });
+  sc.innerHTML=scHTML;
+  zone.appendChild(sc);
+
+  /* assignment builder */
+  var ab=document.createElement("div"); ab.className="card"; ab.id="builder-card";
+  var abHTML="<h3>Assignment builder</h3>"+
+    "<p style='color:var(--muted)'>Tick the questions to include, then download a clean, printable assignment sheet with name / date / class lines. The answer key is a separate teacher copy — leave it off for the student handout.</p>"+
+    "<label class='flabel' for='sheet-title'>Assignment title</label>"+
+    "<input type='text' id='sheet-title' value='Algebra 1 · Chapter 1 Assignment' />"+
+    "<div class='builder-item'><label><input type='checkbox' id='sheet-key' /> <span><strong>Include the answer key</strong> (teacher copy — default off)</span></label></div>"+
+    "<div id='builder-list'></div>"+
+    "<div style='display:flex;gap:10px;flex-wrap:wrap;margin-top:14px'>"+
+    "<button type='button' class='btn' id='sheet-preview-btn'>Preview sheet</button>"+
+    "<button type='button' class='btn amber' id='sheet-download'>Download printable sheet (.html)</button></div>"+
+    "<p class='attempts' id='sheet-count'></p><div id='sheet-preview' style='margin-top:14px'></div>";
+  ab.innerHTML=abHTML;
+  zone.appendChild(ab);
+
+  var list=ab.querySelector("#builder-list");
+  SECTIONS.forEach(function(sec){
+    var h=document.createElement("p");
+    h.innerHTML="<strong>"+esc(sec.title)+"</strong>";
+    h.style.margin="14px 0 2px";
+    list.appendChild(h);
+    QUESTIONS.filter(function(q){return q.sec===sec.id;}).forEach(function(q){
+      var row=document.createElement("div"); row.className="builder-item";
+      var lab=document.createElement("label");
+      var cb=document.createElement("input"); cb.type="checkbox"; cb.className="sheet-pick"; cb.value=q.id;
+      var span=document.createElement("span"); span.textContent=q.n+". "+q.prompt;
+      lab.appendChild(cb); lab.appendChild(span); row.appendChild(lab);
+      list.appendChild(row);
+    });
+  });
+  function pickedQuestions(){
+    return Array.prototype.slice.call(ab.querySelectorAll(".sheet-pick:checked"))
+      .map(function(cb){ return QUESTIONS.filter(function(q){return q.id===cb.value;})[0]; });
+  }
+  function buildSheetHTML(){
+    var picked=pickedQuestions();
+    var withKey=document.getElementById("sheet-key").checked;
+    var title=document.getElementById("sheet-title").value||"Chapter 1 Assignment";
+    var items=picked.map(function(q,i){
+      return "<li><p style='margin:0 0 4px'><strong>"+(i+1)+".</strong> "+esc(q.prompt)+"</p>"+
+        "<div style='border-bottom:1px solid #c9d6e4;height:52px'></div>"+
+        (withKey? "<p style='margin:6px 0 0;color:#8a5a00'><strong>Answer:</strong> "+esc(TEACHER_KEY[q.id]||"")+"</p>" : "")+
+        "</li>";
+    }).join("");
+    return "<div class='sheet'><h3 style='margin-bottom:4px'>"+esc(title)+(withKey?" — Answer Key (teacher copy)":"")+"</h3>"+
+      "<div class='lines'><span>Name:</span><span>Date:</span><span>Class:</span></div>"+
+      (picked.length? "<ol style='list-style:none;margin-left:0'>"+items+"</ol>" : "<p>No questions selected yet — tick at least one above.</p>")+
+      "</div>";
+  }
+  function paintSheetCount(){
+    document.getElementById("sheet-count").textContent=pickedQuestions().length+" question(s) selected.";
+  }
+  ab.addEventListener("change",function(e){
+    if(e.target.classList.contains("sheet-pick")||e.target.id==="sheet-key") paintSheetCount();
+  });
+  document.getElementById("sheet-title").addEventListener("input",paintSheetCount);
+  paintSheetCount();
+  document.getElementById("sheet-preview-btn").addEventListener("click",function(){
+    document.getElementById("sheet-preview").innerHTML=buildSheetHTML();
+  });
+  document.getElementById("sheet-download").addEventListener("click",function(){
+    var picked=pickedQuestions();
+    if(!picked.length){ document.getElementById("sheet-count").textContent="Select at least one question first."; return; }
+    var docHtml="<!doctype html><html lang='en'><head><meta charset='utf-8'><title>"+esc(document.getElementById("sheet-title").value)+"</title>"+
+      "<style>body{font-family:Georgia,serif;color:#16324f;max-width:760px;margin:32px auto;padding:0 20px;line-height:1.5}"+
+      ".lines{display:flex;gap:22px;border-bottom:2px solid #16324f;padding-bottom:12px;margin-bottom:14px}"+
+      ".lines span{flex:1;border-bottom:1px solid #93a7bb;padding-bottom:3px;font-size:.88rem;color:#555}"+
+      "ol{list-style:none;margin:0;padding:0}li{margin:0 0 20px}</style></head><body>"+
+      buildSheetHTML().replace("class='sheet'","")+"</body></html>";
+    var blob=new Blob([docHtml],{type:"text/html"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="decidemath-ch1-assignment.html";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },400);
+  });
+}
+
+/* ---------- sign-in ---------- */
+document.getElementById("teacher-login").addEventListener("click",function(){
+  var entered=document.getElementById("passcode").value.trim();
+  var status=document.getElementById("login-status");
+  if(entered===TEACHER_PASSCODE){
+    status.textContent="Welcome — Teacher Corner is open below."; status.className="status ok";
+    document.getElementById("mode-pill").textContent="Teacher mode";
+    document.getElementById("mode-pill").className="mode-pill teacher";
+    document.getElementById("teacher-login-card").style.display="none";
+    graderScores=[null,null,null,null];
+    renderTeacherZone();
+    document.getElementById("teacher-zone").scrollIntoView({behavior:"smooth",block:"start"});
+  }else{
+    status.textContent="That passcode doesn't match. Check with your teacher guide and try again."; status.className="status no";
+  }
+});
+document.getElementById("passcode").addEventListener("keydown",function(e){
+  if(e.key==="Enter"){ e.preventDefault(); document.getElementById("teacher-login").click(); }
+});
+</script>
+</body>
+</html>
