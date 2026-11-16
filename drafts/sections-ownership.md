@@ -10,7 +10,7 @@
 - **소유자: 꽃순이 (영어 소설 담당)** — 이 섹션의 페이지 추가·갱신은 꽃순이의 소설 루틴이 맡는다.
 - 경로: `~/workspace/github-site/denmark-nights/` → 게시 뒤 `https://choi0003.github.io/denmark-nights/`
 - 상세 기록: [ownership-denmark-nights.md](ownership-denmark-nights.md)
-- 핵심 원칙: 전문 공개는 권당 확정된 편만 (Volume 1은 Ep.1·Ep.2), 나머지는 소개+발췌(첫 600~800단어). Ep.3 이후 전문을 어떤 파일에도 넣지 않는다. 구입 링크(Google Play Books)는 출간 뒤 소유자가 채운다.
+- 핵심 원칙: 각 소설은 첫 두 편까지만 게시한다 (2026-11-16 선생님 확정 — 모든 소설 공통). 첫 두 편은 전문, 세 번째 편부터는 페이지를 만들지 않고 입구 목록에 제목+한 줄 소개만 둔다. Ep.3 이후 본문을 어떤 파일에도 넣지 않는다. 구입 링크(Google Play Books)는 출간 뒤 소유자가 채운다.
 
 ## 섹션 2 — 네줄이 방송국
 
