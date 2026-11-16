@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 네줄이 방송국 피드 틀 (2026-11-15 껍데기 → 2026-11-16 한글 사이트 섹션으로 편입).
+     껍데기 상태: 회차 0개, 공개 이메일 미정(PUBLIC_EMAIL_NOT_SET)이 정상값이다.
+     최종 피드는 build_feed.py가 episodes.json에서 생성한다. 이 파일을 손으로 고쳐 게시하지 않는다. -->
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>네줄이 방송국</title>
+    <link>https://choi0003.github.io/four-strings-broadcast/</link>
+    <atom:link href="https://choi0003.github.io/four-strings-broadcast/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>네 명이 돌아가며 이야기를 나누는 작은 방송국. 오디오 드라마와 사연, 짧은 코너가 회차마다 이어집니다.</description>
+    <language>ko</language>
+    <itunes:author>네줄이 방송국</itunes:author>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:type>serial</itunes:type>
+    <itunes:category text="Fiction">
+      <itunes:category text="Drama"/>
+    </itunes:category>
+    <itunes:image href="https://choi0003.github.io/four-strings-broadcast/assets/cover.jpg"/>
+    <itunes:owner>
+      <itunes:name>네줄이 방송국</itunes:name>
+      <itunes:email>PUBLIC_EMAIL_NOT_SET</itunes:email>
+    </itunes:owner>
+    <managingEditor>PUBLIC_EMAIL_NOT_SET</managingEditor>
+  </channel>
+</rss>

@@ -1,0 +1,38 @@
+/* 네줄이 방송국 섹션 전용 스타일 — 공용 ../style.css 위에 얹는 보충분만 둔다. */
+
+.bc-hero { text-align: center; padding: 56px 0 8px; }
+.bc-hero h1 { font-size: 30px; font-weight: 400; letter-spacing: 0.14em; margin: 0 0 6px; }
+.bc-hero .tagline { color: var(--ink-soft); margin-top: 20px; }
+
+.status, .pending {
+  background: #fff8e1;
+  border: 1px solid #e2c96a;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-align: left;
+  font-size: 15px;
+}
+.status { max-width: 640px; margin: 24px auto 0; }
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 24px 26px 28px;
+  margin: 12px 0;
+  text-align: left;
+}
+.card h3 { font-size: 20px; font-weight: 400; letter-spacing: 0.04em; margin: 6px 0 10px; }
+.badge {
+  font-family: sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin: 0;
+}
+.facts { padding-left: 20px; font-size: 15.5px; }
+.card audio { width: 100%; margin: 14px 0 6px; }
+.pending { margin-top: 12px; }
+
+.empty { color: var(--ink-soft); text-align: center; }
+code { word-break: break-all; }
