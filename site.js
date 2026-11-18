@@ -265,10 +265,13 @@
       });
     }
 
-    fetch(GB_API)
-      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-      .then(render)
-      .catch(setClosedNote);
+    function loadList() {
+      fetch(GB_API)
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(render)
+        .catch(setClosedNote);
+    }
+    loadList();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -290,8 +293,9 @@
       })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function () {
-          status.textContent = '글이 접수됐어요. 확인 뒤에 올라갑니다.';
+          status.textContent = '글이 올라갔어요.';
           form.reset();
+          loadList();
         })
         .catch(function () {
           status.textContent = '지금은 글을 보낼 수 없어요. 잠시 뒤에 다시 시도해 주세요.';
