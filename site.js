@@ -150,6 +150,7 @@
     window.scrollTo(0, 0);
     bindSongButtons(document);
     resetDisqusIfNeeded();
+    initGuestbook();
   }
 
   function navigate(url) {
@@ -197,9 +198,112 @@
     }
   }
 
+  /* ---------- 사람들의 방 (자체 방명록) ---------- */
+  var GB_API = 'https://yoons-mac-mini.tail24550d.ts.net/guestbook/comments';
+
+  function gbFormatDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+
+  function initGuestbook() {
+    var list = document.getElementById('gb-list');
+    var form = document.getElementById('gb-form');
+    if (!list || !form) return;
+    if (form.getAttribute('data-gb-bound')) return;
+    form.setAttribute('data-gb-bound', '1');
+
+    var status = document.getElementById('gb-status');
+
+    function setNote(text) {
+      list.textContent = '';
+      var p = document.createElement('p');
+      p.className = 'gb-note';
+      p.textContent = text;
+      list.appendChild(p);
+    }
+
+    function setClosedNote() {
+      list.textContent = '';
+      var p = document.createElement('p');
+      p.className = 'gb-note';
+      p.appendChild(document.createTextNode('지금은 방이 잠시 닫혀 있어요. 이메일('));
+      var a = document.createElement('a');
+      a.href = 'mailto:domichoi2026@gmail.com';
+      a.textContent = 'domichoi2026@gmail.com';
+      p.appendChild(a);
+      p.appendChild(document.createTextNode(')로 보내 주셔도 됩니다.'));
+      list.appendChild(p);
+    }
+
+    function render(comments) {
+      if (!comments.length) {
+        setNote('아직 글이 없어요. 첫 한 줄을 남겨 주세요.');
+        return;
+      }
+      list.textContent = '';
+      comments.forEach(function (c) {
+        var item = document.createElement('div');
+        item.className = 'gb-item';
+        var head = document.createElement('div');
+        var name = document.createElement('span');
+        name.className = 'gb-name';
+        name.textContent = c.name;
+        head.appendChild(name);
+        var date = document.createElement('span');
+        date.className = 'gb-date';
+        date.textContent = gbFormatDate(c.created_at);
+        head.appendChild(date);
+        var msg = document.createElement('p');
+        msg.className = 'gb-msg';
+        msg.textContent = c.message;
+        item.appendChild(head);
+        item.appendChild(msg);
+        list.appendChild(item);
+      });
+    }
+
+    fetch(GB_API)
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(render)
+      .catch(setClosedNote);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nameEl = document.getElementById('gb-name');
+      var msgEl = document.getElementById('gb-message');
+      var btn = document.getElementById('gb-submit');
+      var name = nameEl.value.trim();
+      var message = msgEl.value.trim();
+      if (!name || !message) {
+        status.textContent = '이름과 글을 모두 적어 주세요.';
+        return;
+      }
+      btn.disabled = true;
+      status.textContent = '보내는 중입니다…';
+      fetch(GB_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, message: message })
+      })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function () {
+          status.textContent = '글이 접수됐어요. 확인 뒤에 올라갑니다.';
+          form.reset();
+        })
+        .catch(function () {
+          status.textContent = '지금은 글을 보낼 수 없어요. 잠시 뒤에 다시 시도해 주세요.';
+        })
+        .then(function () { btn.disabled = false; });
+    });
+  }
+
   /* ---------- 초기화 ---------- */
   bindSongButtons(document);
   resetDisqusIfNeeded();
+  initGuestbook();
   // 첫 페이지 상태를 히스토리에 기록 (뒤로가기 대응)
   if (!history.state) history.replaceState({ url: location.pathname.split('/').pop() || 'index.html' }, '', location.href);
 })();

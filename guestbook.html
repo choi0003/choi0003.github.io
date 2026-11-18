@@ -7,6 +7,28 @@
 <meta name="description" content="독자들이 작가 최도미에게 메시지를 남기는 곳. Reader messages for author Choi Domi.">
 <meta name="naver-site-verification" content="5101e28679647bf81fcbaee3c3bbc3e504f623d1" />
 <link rel="stylesheet" href="style.css">
+<style>
+  .gb-form { max-width: 640px; margin: 0 auto 40px; text-align: left; }
+  .gb-form label { display: block; font-size: 14px; color: var(--ink-soft); margin: 16px 0 6px; font-family: sans-serif; letter-spacing: 0.05em; }
+  .gb-form input, .gb-form textarea {
+    width: 100%; padding: 10px 12px; font: inherit; font-size: 16px;
+    color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 4px;
+  }
+  .gb-form textarea { min-height: 96px; resize: vertical; line-height: 1.7; }
+  .gb-form input:focus, .gb-form textarea:focus { outline: none; border-color: var(--accent); }
+  .gb-form button {
+    margin-top: 16px; padding: 10px 28px; font: inherit; font-size: 15px;
+    color: #fff; background: var(--accent); border: none; border-radius: 4px; cursor: pointer;
+  }
+  .gb-form button:disabled { opacity: 0.6; cursor: default; }
+  .gb-status { min-height: 1.5em; font-size: 15px; color: var(--accent); margin: 12px 0 0; }
+  .gb-list { max-width: 640px; margin: 0 auto; text-align: left; }
+  .gb-item { border-top: 1px solid var(--line); padding: 16px 4px; }
+  .gb-name { font-weight: bold; }
+  .gb-date { font-size: 13px; color: var(--ink-soft); font-family: sans-serif; margin-left: 8px; }
+  .gb-msg { margin: 6px 0 0; white-space: pre-wrap; word-break: break-word; }
+  .gb-note { text-align: center; color: var(--ink-soft); }
+</style>
 </head>
 <body>
 
@@ -36,14 +58,31 @@
       여기는 사람들의 방입니다.<br>
       책을 읽고, 에세이를 읽고, 남기고 싶은 말이 있으면 여기에 적어 주세요.<br>
       짧은 한 줄이면 됩니다. 길게 쓰실 필요 없어요.<br>
-      남겨 주신 글은 작가가 직접 읽고 답합니다.<br>
+      계정이 필요 없어요. 이름(별명도 좋아요)만 적으면 바로 남길 수 있어요. 남기신 글은 확인 뒤에 올라갑니다.<br>
+      남겨 주신 글은 작가가 직접 읽고, 하루 안에 작가가 직접 답합니다.<br>
       글로 남기기 어려우면 이메일(<a href="mailto:domichoi2026@gmail.com">domichoi2026@gmail.com</a>)로 한 줄 보내셔도 됩니다.<br>
       <span class="en">Leave a message here — even a short line is welcome. The author reads and replies to every message.</span>
     </p>
 
+    <div class="quote" style="text-align:center;max-width:640px;margin-left:auto;margin-right:auto;">
+      이번 주의 한 줄
+      <p style="font-size:20px;margin:10px 0 4px;">"오늘 당신의 하루에서 가장 조용했던 순간은 언제였나요?"</p>
+      <small>한 줄로 답해 주세요. 매주 질문이 바뀝니다.</small>
+    </div>
+
     <div class="comments">
       <h2>메시지 남기기</h2>
-      <div id="disqus_thread"></div>
+      <form class="gb-form" id="gb-form">
+        <label for="gb-name">이름</label>
+        <input id="gb-name" type="text" maxlength="30" autocomplete="name" placeholder="별명도 좋아요">
+        <label for="gb-message">글</label>
+        <textarea id="gb-message" maxlength="500" placeholder="짧은 한 줄이면 됩니다."></textarea>
+        <button type="submit" id="gb-submit">남기기</button>
+        <p class="gb-status" id="gb-status"></p>
+      </form>
+      <div class="gb-list" id="gb-list">
+        <p class="gb-note">글을 불러오는 중입니다…</p>
+      </div>
       <noscript>메시지를 보려면 자바스크립트를 켜주세요.</noscript>
     </div>
   </div>
